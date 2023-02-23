@@ -16,27 +16,27 @@
         <a href="contacto.html">CONTACTO</a>
     </p>
     <h1>Formulario de contacto</h1>
-    <form  method = "post" action="mailto:dpelli01@ucm.es?subject=Nueva consulta" enctype="text/plain"
+    <form  method="post" action="mailto:dpelli01@ucm.es?subject=Nueva%20consulta" enctype="text/plain"
      name="EmailForm" accept-charset="UTF-8">
         <p> 
-            <label for = "nombre"> Nombre: <input type = "text" id = "nombre" name = "nombre" required/> </label>
+            <label for = "nombre"> Nombre: <input type = "text" id = "nombre" name = "nombre" required> </label>
         </p>
         <p>
-            <label for="email">Email: <input type = "email" id = "email" name = "email" size="30" required/></label>  
+            <label for="email">Email: <input type = "email" id = "email" name = "email" size="30" required></label>  
         </p>
         <p>Motivo de consulta</p>
-        <label for="motivo"><input type="radio" name="motivo" value="Evaluación" checked/>
+        <label for="Evaluación"><input type="radio" name="motivo" value="Evaluación" id="Evaluación" checked>
         Evaluación</label>
-        <label for="motivo"><input type="radio" name="motivo" value="Sugerencia" />
+        <label for="Sugerencia"><input type="radio" name="motivo" value="Sugerencia " id="Sugerencia">
         Sugerencias</label>
-        <label for="motivo"><input type="radio" name="motivo" value="Crítica" />
+        <label for="Crítica"><input type="radio" name="motivo" value="Crítica" id="Crítica">
         Críticas</label>
         <p>
             <label for="checkbox"> Marque esta casilla para verificar que ha leído nuestros 
-            términos y condiciones del servicio <input type = "checkbox" id = "check" required/></label>
+            términos y condiciones del servicio <input type = "checkbox" id = "checkbox" required></label>
         </p>
-        <p> <label for="consulta">Escriba aquí su consulta: </p>
-        <textarea type = "text" name = "consulta" rows="20" cols="40"></textarea>></textarea></label> 
+        <p> <label for="consulta">Escriba aquí su consulta:</label> </p>
+        <textarea name = "consulta" rows="20" cols="40" id="consulta"></textarea>
         <div>
             <input type="submit" value="Enviar"> 
         </div>
