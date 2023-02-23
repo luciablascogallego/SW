@@ -16,7 +16,7 @@
         <a href="contacto.html">CONTACTO</a>
     </p>
     <h1>Formulario de contacto</h1>
-    <form  method = "post" action="mailto:dpelli01@ucm.es" enctype="text/plain"
+    <form  method = "post" action="mailto:dpelli01@ucm.es?subject=Nueva consulta" enctype="text/plain"
      name="EmailForm" accept-charset="UTF-8">
         <p> 
             <label for = "nombre"> Nombre: <input type = "text" id = "nombre" name = "nombre" required/> </label>
@@ -25,18 +25,18 @@
             <label for="email">Email: <input type = "email" id = "email" name = "email" size="30" required/></label>  
         </p>
         <p>Motivo de consulta</p>
-        <label for="motivo"><input type="radio" name="motivo" value="Evaluacion" checked/>
+        <label for="motivo"><input type="radio" name="motivo" value="Evaluación" checked/>
         Evaluación</label>
-        <label for="motivo"><input type="radio" name="motivo" value="Sugerencias" />
+        <label for="motivo"><input type="radio" name="motivo" value="Sugerencia" />
         Sugerencias</label>
-        <label for="motivo"><input type="radio" name="motivo" value="Criticas" />
+        <label for="motivo"><input type="radio" name="motivo" value="Crítica" />
         Críticas</label>
         <p>
             <label for="checkbox"> Marque esta casilla para verificar que ha leído nuestros 
             términos y condiciones del servicio <input type = "checkbox" id = "check" required/></label>
         </p>
         <p> <label for="consulta">Escriba aquí su consulta: </p>
-        <textarea type = "text" name = "consulta" rows="10" cols="35"></textarea>></textarea></label> 
+        <textarea type = "text" name = "consulta" rows="20" cols="40"></textarea>></textarea></label> 
         <div>
             <input type="submit" value="Enviar"> 
         </div>
