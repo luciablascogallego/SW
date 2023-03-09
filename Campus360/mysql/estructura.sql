@@ -13,7 +13,7 @@ DROP TABLE IF EXISTS `Usuarios`;
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 09, 2023 at 08:08 PM
+-- Generation Time: Mar 09, 2023 at 08:26 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -69,6 +69,17 @@ CREATE TABLE `Calificaciones` (
   `Nota` decimal(10,0) DEFAULT NULL,
   `IdEntrega` int(11) NOT NULL,
   `Porcentaje` decimal(10,0) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `EstudianAsignaturas`
+--
+
+CREATE TABLE `EstudianAsignaturas` (
+  `IdAsignatura` int(11) NOT NULL,
+  `IdAlumno_Profesor` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -144,6 +155,12 @@ ALTER TABLE `Asignaturas`
 --
 ALTER TABLE `Calificaciones`
   ADD PRIMARY KEY (`IdEntrega`,`IdAlumno`) USING BTREE;
+
+--
+-- Indexes for table `EstudianAsignaturas`
+--
+ALTER TABLE `EstudianAsignaturas`
+  ADD PRIMARY KEY (`IdAsignatura`,`IdAlumno_Profesor`);
 
 --
 -- Indexes for table `Eventos_Tareas`
