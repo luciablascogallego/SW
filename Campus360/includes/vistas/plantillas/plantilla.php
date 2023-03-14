@@ -15,6 +15,12 @@ $mensajes = mensajesPeticionAnterior();
 $params['app']->doInclude('/vistas/comun/cabecera.php');
 $params['app']->doInclude('/vistas/comun/sidebarIzq.php');
 ?>
+	<header>
+    <h1> Campus 360 </h1>
+    <div class="icono">
+        
+    </div>
+	</header>
 	<main>
 		<article>
 			<?= $params['contenidoPrincipal'] ?>

@@ -1,5 +1,4 @@
 <?php
-
 namespace es\ucm\fdi\aw;
 
 use Exception;
@@ -116,7 +115,7 @@ class Aplicacion
      *                               aplicación.
      *
      */
-    public function init($bdDatosConexion, $rutaApp = '/', $dirInstalacion = __DIR__)
+    public function init($bdDatosConexion, $rutaApp = 'SW/Campus360', $dirInstalacion = __DIR__)
     {
         if (!$this->inicializada) {
             $this->bdDatosConexion = $bdDatosConexion;

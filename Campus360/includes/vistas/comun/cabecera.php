@@ -5,7 +5,7 @@ use es\ucm\fdi\aw\usuarios\FormularioLogout;
 
 function mostrarSaludo()
 {
-    $html = '';
+    //$html = '';
     $app = Aplicacion::getInstance();
     if ($app->usuarioLogueado()) {
         $nombreUsuario = $app->nombreUsuario();
@@ -26,7 +26,7 @@ function mostrarSaludo()
 
 ?>
 <header>
-    <h1>Mi gran página web</h1>
+    <h1> Campus 360 </h1>
     <div class="saludo">
         <?= mostrarSaludo(); ?>
     </div>

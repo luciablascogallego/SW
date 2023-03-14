@@ -13,4 +13,4 @@ $contenidoPrincipal=<<<EOF
 EOF;
 
 $params = ['tituloPagina' => $tituloPagina, 'contenidoPrincipal' => $contenidoPrincipal];
-$app->generaVista('/plantillas/plantilla.php', $params);
+$app->generaVista('/plantillas/plantillaLogin.php', $params);
