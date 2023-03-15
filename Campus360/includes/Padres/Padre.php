@@ -7,16 +7,16 @@ use es\ucm\fdi\aw\MagicProperties;
 class Alumno {
     use MagicProperties;
 
-    public static function buscaPorId($idAlumno)
+    public static function buscaPorId($idPadre)
     {
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("SELECT * FROM Alumnos WHERE IdAlumno=%d", $idAlumno);
+        $query = sprintf("SELECT * FROM Padres WHERE IdPadre=%d", $idPadre);
         $rs = $conn->query($query);
         $result = false;
         if ($rs) {
             $fila = $rs->fetch_assoc();
             if ($fila) {
-                $result = new Alumno($fila['IdAlumno'], $fila['IdPadre']);
+                $result = new Padre($fila['IdPadre']);
             }
             $rs->free();
         } else {
@@ -29,9 +29,8 @@ class Alumno {
     {
         $result = false;
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query=sprintf("INSERT INTO Alumnos(IdAlumno, IdPadre) VALUES ('%d', '%d')"
+        $query=sprintf("INSERT INTO Padres(IdPadre) VALUES ('%d')"
             , $conn->real_escape_string($alumno->getId())
-            , $conn->real_escape_string($alumno->getIdPadre())
         );
         if ( $conn->query($query) ) {
             $result = $alumno;
@@ -43,20 +42,20 @@ class Alumno {
    
     
 
-    private static function asignaturasAlumno($alumno){
-        $asignaturas=[];
+    private static function hijos($padre){
+        $hijos=[];
             
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("SELECT RU.IdAsignatura FROM EstudianAsignaturas RU WHERE RU.IdAlumno=%d"
-            , $alumno->getId()
+        $query = sprintf("SELECT RU.IdAlumno FROM Alumnos RU WHERE RU.IdPadre=%d"
+            , $padre->getId()
         );
         $rs = $conn->query($query);
         if ($rs) {
-            $asignaturas = $rs->fetch_all(MYSQLI_ASSOC);
+            $hijos = $rs->fetch_all(MYSQLI_ASSOC);
             $rs->free();
 
-            $alumno->setAsignaturas($asignaturas);
-            return $alumno;
+            $padre->setHijos($hijos);
+            return $padre;
 
         } else {
             error_log("Error BD ({$conn->errno}): {$conn->error}");
@@ -65,30 +64,24 @@ class Alumno {
     }
     
     private $id;
-    private $idPadre;
-    private $idAsignaturas = [];
+    private $idHijos = [];
 
-    private function __construct($id, $idPadre){
+    private function __construct($id){
         $this->id = $id;
-        $this->idPadre = $idPadre;
-        self::asignaturasAlumno($this);
+        self::hijos($this);
     }
 
     public function getId(){
         return $this->id;
     }
 
-    public function getIdPadre(){
-        return $this->idPadre;
+    public function getHijos(){
+        return $this->idHijos;
     }
 
-    public function getIdAsignaturas(){
-        return $this->idAsignaturas;
-    }
-
-    public function setAsignaturas($asignaturas){
-        foreach($asignaturas as $asignatura){
-            $this->asignaturasAlumno[] = $asignatura['IdAsignatura'];
+    public function setHijos($hijos){
+        foreach($hijos as $hijo){
+            $this->idHijos[] = $hijos['IdAlumno'];
         }
     }
 

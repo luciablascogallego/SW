@@ -97,12 +97,12 @@ class Usuario
         return false;
     }
    
-    private static function inserta($usuario)
+    private static function inserta($usuario, $rol)
     {
         $result = false;
         $conn = Aplicacion::getInstance()->getConexionBd();
         $query=sprintf("INSERT INTO Usuarios(emailUsuario, nombre, Contraseña, Telefono,
-        NIF, Direccion, Apellidos) VALUES ('%s', '%s', '%s')"
+        NIF, Direccion, Apellidos) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')"
             , $conn->real_escape_string($usuario->getemailUsuario())
             , $conn->real_escape_string($usuario->getNombre())
             , $conn->real_escape_string($usuario->getPassword())
@@ -113,25 +113,23 @@ class Usuario
         );
         if ( $conn->query($query) ) {
             $usuario->id = $conn->insert_id;
-            $result = self::insertaRoles($usuario);
+            $result = self::insertaRoles($usuario, $rol);
         } else {
             error_log("Error BD ({$conn->errno}): {$conn->error}");
         }
         return $result;
     }
    
-    private static function insertaRoles($usuario)
+    private static function insertaRoles($usuario, $rol)
     {
         $conn = Aplicacion::getInstance()->getConexionBd();
-        foreach($usuario->roles as $rol) {
-            $query = sprintf("INSERT INTO RolesUsuario(usuario, rol) VALUES (%d, %d)"
-                , $usuario->id
-                , $rol
-            );
-            if ( ! $conn->query($query) ) {
-                error_log("Error BD ({$conn->errno}): {$conn->error}");
-                return false;
-            }
+        $query = sprintf("INSERT INTO RolesUsuario(usuario, rol) VALUES (%d, %d)"
+            , $usuario->id
+            , $rol
+        );
+        if ( ! $conn->query($query) ) {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+            return false;
         }
         return $usuario;
     }
@@ -241,11 +239,6 @@ class Usuario
 
     public function getPassword(){
         return $this->password;
-    }
-
-    public function setPassword($password){
-        $this->password = $password;
-        return $this;
     }
 
     public function getNombre()

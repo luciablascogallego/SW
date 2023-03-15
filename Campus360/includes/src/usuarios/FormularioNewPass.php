@@ -49,7 +49,6 @@ class FormularioNewPass extends Formulario
     protected function procesaFormulario(&$datos)
     {
         $this->errores = [];
-        $result = $app->resuelve('/index.php');
 
         $emailUsuario = trim($datos['emailUsuario'] ?? '');
         $emailUsuario = filter_var($emailUsuario, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -75,10 +74,11 @@ class FormularioNewPass extends Formulario
             if (!$usuario) {
                 $this->errores[] = "El email no existe";
             } else {
-                $usuario = $usuario->setPassword($datos['password']);
+                $usuario = $usuario->cambiaPassword($datos['password']);
                 $usuario = Usuario::actualiza($usuario);
                 $app = Aplicacion::getInstance();
                 $app->login($usuario);
+                $result = $app->resuelve('/login.php');
                 return $result;
             }
         }
