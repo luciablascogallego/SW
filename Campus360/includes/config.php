@@ -4,18 +4,21 @@
  * Parámetros de conexión a la BD
  */
 define('BD_HOST', 'localhost');
-define('BD_NAME', 'aw');
+define('BD_NAME', 'campus360');
 define('BD_USER', 'aw');
 define('BD_PASS', 'aw');
 
 /**
  * Parámetros de configuración utilizados para generar las URLs y las rutas a ficheros en la aplicación
- */
+ */ 
 define('RAIZ_APP', __DIR__);
-define('RUTA_APP', '/estructura-proyecto');
+define('RUTA_APP', '/Proyecto/Campus360');
 define('RUTA_IMGS', RUTA_APP.'img/');
 define('RUTA_CSS', RUTA_APP.'css/');
 define('RUTA_JS', RUTA_APP.'js/');
+
+define('RUTA_RECURSOS', '/Proyecto/Campus360/recursos');
+define('RUTA_ENTREGAS', implode(DIRECTORY_SEPARATOR, [__DIR__, 'entregas']));
 
 /**
  * Configuración del soporte de UTF-8, localización (idioma y país) y zona horaria
@@ -61,7 +64,7 @@ spl_autoload_register(function ($class) {
 /* Inicialización de la aplicación */
 /* */
 
-define('INSTALADA', false);
+define('INSTALADA', true);
 
 $app = \es\ucm\fdi\aw\Aplicacion::getInstance();
 $app->init(array('host'=>BD_HOST, 'bd'=>BD_NAME, 'user'=>BD_USER, 'pass'=>BD_PASS), RUTA_APP, RAIZ_APP);
