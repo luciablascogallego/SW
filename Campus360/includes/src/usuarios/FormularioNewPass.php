@@ -74,11 +74,10 @@ class FormularioNewPass extends Formulario
             if (!$usuario) {
                 $this->errores[] = "El email no existe";
             } else {
-                $usuario = $usuario->cambiaPassword($datos['password']);
+                $usuario->cambiaPassword($datos['password']);
                 $usuario = Usuario::actualiza($usuario);
                 $app = Aplicacion::getInstance();
-                $app->login($usuario);
-                $result = $app->resuelve('/login.php');
+                $result = $app->resuelve('login.php');
                 return $result;
             }
         }

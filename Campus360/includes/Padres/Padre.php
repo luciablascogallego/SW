@@ -40,7 +40,24 @@ class Alumno {
         return $result;
     }
    
-    
+    private static function borraPorId($idUsuario)
+    {
+        if (!$idUsuario) {
+            return false;
+        } 
+        /* Los roles se borran en cascada por la FK
+         * $result = self::borraRoles($usuario) !== false;
+         */
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query = sprintf("DELETE FROM Profesores  WHERE IdPadre = %d"
+            , $idUsuario
+        );
+        if ( ! $conn->query($query) ) {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+            return false;
+        }
+        return true;
+    }
 
     private static function hijos($padre){
         $hijos=[];

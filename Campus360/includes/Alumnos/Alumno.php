@@ -25,6 +25,25 @@ class Alumno {
         return $result;
     }
 
+    public static function listaAlumnos(){
+        $alumnos = [];
+
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query = sprintf("SELECT IdAlumno FROM Alumnos"
+        );
+        $rs = $rs = $conn->query($query);
+        if ($rs) {
+            $profesores = $rs->fetch_all(MYSQLI_ASSOC);
+            $rs->free();
+
+            return $profesores;
+
+        } else {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+        }
+        return false;
+    }
+
     private static function inserta($alumno)
     {
         $result = false;
@@ -40,9 +59,26 @@ class Alumno {
         }
         return $result;
     }
-   
-    
 
+    private static function borraPorId($idUsuario)
+    {
+        if (!$idUsuario) {
+            return false;
+        } 
+        /* Los roles se borran en cascada por la FK
+         * $result = self::borraRoles($usuario) !== false;
+         */
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query = sprintf("DELETE FROM Alumnos  WHERE IdAlumno = %d"
+            , $idUsuario
+        );
+        if ( ! $conn->query($query) ) {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+            return false;
+        }
+        return true;
+    }
+   
     private static function asignaturasAlumno($alumno){
         $asignaturas=[];
             

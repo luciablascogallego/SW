@@ -249,8 +249,12 @@ class Aplicacion
         $this->compruebaInstanciaInicializada();
         $_SESSION['login'] = true;
         $_SESSION['nombre'] = $user->getNombre();
+        $_SESSION['apellidos'] = $user->getApellidos();
+        $_SESSION['NIF'] = $user->getNIF();
+        $_SESSION['Telefono'] = $user->getTelefono();
+        $_SESSION['Direccion'] = $user->getDir();
         $_SESSION['idUsuario'] = $user->getId();
-        $_SESSION['roles'] = $user->getRoles();
+        $_SESSION['rol'] = $user->getRol();
     }
 
     public function logout()
@@ -260,7 +264,11 @@ class Aplicacion
         unset($_SESSION['login']);
         unset($_SESSION['nombre']);
         unset($_SESSION['idUsuario']);
-        unset($_SESSION['roles']);
+        unset($_SESSION['rol']);
+        unset($_SESSION['apellidos']);
+        unset($_SESSION['NIF']);
+        unset($_SESSION['Telefono']);
+        unset($_SESSION['Direccion']);
 
 
         session_destroy();
@@ -279,6 +287,30 @@ class Aplicacion
         return $_SESSION['nombre'] ?? '';
     }
 
+    public function apellidosUsuario()
+    {
+        $this->compruebaInstanciaInicializada();
+        return $_SESSION['apellidos'] ?? '';
+    }
+
+    public function NIFUsuario()
+    {
+        $this->compruebaInstanciaInicializada();
+        return $_SESSION['NIF'] ?? '';
+    }
+
+    public function telefonoUsuario()
+    {
+        $this->compruebaInstanciaInicializada();
+        return $_SESSION['Telefeno'] ?? '';
+    }
+
+    public function direccionUsuario()
+    {
+        $this->compruebaInstanciaInicializada();
+        return $_SESSION['direccion'] ?? '';
+    }
+
     public function idUsuario()
     {
         $this->compruebaInstanciaInicializada();
@@ -288,13 +320,13 @@ class Aplicacion
     public function esAdmin()
     {
         $this->compruebaInstanciaInicializada();
-        return $this->usuarioLogueado() && (array_search(Usuario::ADMIN_ROLE, $_SESSION['roles']) !== false);
+        return $this->usuarioLogueado() && $_SESSION['rol'] !== Usuario::ADMIN_ROLE;
     }
 
     public function tieneRol($rol)
     {
         $this->compruebaInstanciaInicializada();
-        return $this->usuarioLogueado() && (array_search($rol, $_SESSION['roles']) !== false);
+        return $this->usuarioLogueado() && $_SESSION['rol'] !== $rol;
     }
 
     public function paginaError($codigoRespuesta, $tituloPagina, $mensajeError, $explicacion = '')

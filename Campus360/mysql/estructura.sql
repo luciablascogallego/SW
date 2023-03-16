@@ -10,12 +10,14 @@ DROP TABLE IF EXISTS `Profesores`;
 DROP TABLE IF EXISTS `Usuarios`;
 DROP TABLE IF EXISTS `EstudianAsignaturas`;
 DROP TABLE IF EXISTS `RolesUsuario`;
+DROP TABLE IF EXISTS `EntregasUsuario`;
+DROP TABLE IF EXISTS `Recursos`;
 -- phpMyAdmin SQL Dump
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 14, 2023 at 06:13 PM
+-- Generation Time: Mar 16, 2023 at 10:24 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -76,12 +78,25 @@ CREATE TABLE `Calificaciones` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `EntregasAlumno`
+--
+
+CREATE TABLE `EntregasAlumno` (
+  `Id` int(11) NOT NULL,
+  `IdAsignatura` int(11) NOT NULL,
+  `IdAlumno` int(11) NOT NULL,
+  `Ruta` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `EstudianAsignaturas`
 --
 
 CREATE TABLE `EstudianAsignaturas` (
   `IdAsignatura` int(11) NOT NULL,
-  `IdAlumno_Profesor` int(11) NOT NULL
+  `IdAlumno` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -121,6 +136,18 @@ CREATE TABLE `Profesores` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `Recursos`
+--
+
+CREATE TABLE `Recursos` (
+  `Id` int(11) NOT NULL,
+  `IdAsignatura` int(11) NOT NULL,
+  `Ruta` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `RolesUsuarios`
 --
 
@@ -134,7 +161,7 @@ CREATE TABLE `RolesUsuarios` (
 --
 
 INSERT INTO `RolesUsuarios` (`idUsuario`, `rol`) VALUES
-(1, 2);
+(1, 0);
 
 -- --------------------------------------------------------
 
@@ -147,18 +174,18 @@ CREATE TABLE `Usuarios` (
   `NIF` varchar(12) NOT NULL,
   `Telefono` varchar(13) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `dirección` varchar(120) NOT NULL,
+  `direccion` varchar(120) NOT NULL,
   `Nombre` varchar(25) NOT NULL,
   `Apellidos` varchar(60) NOT NULL,
-  `Contraseña` varchar(150) NOT NULL
+  `password` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `Usuarios`
 --
 
-INSERT INTO `Usuarios` (`Id`, `NIF`, `Telefono`, `email`, `dirección`, `Nombre`, `Apellidos`, `Contraseña`) VALUES
-(1, '45427899H', '+34 651764387', 'user@campus.es', 'Calle Imaginaria 3a', 'Pepe', 'Pepito Pulgoso', '$2y$10$uM6NtF.f6e.1Ffu2rMWYV.j.X8lhWq9l8PwJcs9/ioVKTGqink6DG');
+INSERT INTO `Usuarios` (`Id`, `NIF`, `Telefono`, `email`, `direccion`, `Nombre`, `Apellidos`, `password`) VALUES
+(1, '45427899H', '+34 651764387', 'user@campus.es', 'Calle Imaginaria 3a', 'Pepe', 'Pepito Pulgoso', '$2y$10$jhhPNs2Nf5JYLVa4hW2jI.j/qA3pdI.lOqTV.5Ra1ZD9VKsP3rbbK');
 
 --
 -- Indexes for dumped tables
@@ -187,11 +214,19 @@ ALTER TABLE `Calificaciones`
   ADD KEY `IdAsignatura` (`IdAsignatura`);
 
 --
+-- Indexes for table `EntregasAlumno`
+--
+ALTER TABLE `EntregasAlumno`
+  ADD PRIMARY KEY (`Id`),
+  ADD KEY `IdAlumno` (`IdAlumno`),
+  ADD KEY `EntregasAlumno_ibfk_2` (`IdAsignatura`);
+
+--
 -- Indexes for table `EstudianAsignaturas`
 --
 ALTER TABLE `EstudianAsignaturas`
-  ADD PRIMARY KEY (`IdAsignatura`,`IdAlumno_Profesor`),
-  ADD KEY `IdAlumno_Profesor` (`IdAlumno_Profesor`);
+  ADD PRIMARY KEY (`IdAsignatura`,`IdAlumno`),
+  ADD KEY `IdAlumno` (`IdAlumno`);
 
 --
 -- Indexes for table `Eventos_Tareas`
@@ -211,6 +246,13 @@ ALTER TABLE `Padres`
 --
 ALTER TABLE `Profesores`
   ADD PRIMARY KEY (`IdProfesor`);
+
+--
+-- Indexes for table `Recursos`
+--
+ALTER TABLE `Recursos`
+  ADD PRIMARY KEY (`Id`),
+  ADD KEY `IdAsignatura` (`IdAsignatura`);
 
 --
 -- Indexes for table `RolesUsuarios`
@@ -237,9 +279,21 @@ ALTER TABLE `Asignaturas`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `EntregasAlumno`
+--
+ALTER TABLE `EntregasAlumno`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `Eventos_Tareas`
 --
 ALTER TABLE `Eventos_Tareas`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `Recursos`
+--
+ALTER TABLE `Recursos`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -274,10 +328,17 @@ ALTER TABLE `Calificaciones`
   ADD CONSTRAINT `Calificaciones_ibfk_3` FOREIGN KEY (`IdEntrega`) REFERENCES `Eventos_Tareas` (`Id`);
 
 --
+-- Constraints for table `EntregasAlumno`
+--
+ALTER TABLE `EntregasAlumno`
+  ADD CONSTRAINT `EntregasAlumno_ibfk_1` FOREIGN KEY (`IdAlumno`) REFERENCES `Alumnos` (`IdAlumno`),
+  ADD CONSTRAINT `EntregasAlumno_ibfk_2` FOREIGN KEY (`IdAsignatura`) REFERENCES `Asignaturas` (`Id`);
+
+--
 -- Constraints for table `EstudianAsignaturas`
 --
 ALTER TABLE `EstudianAsignaturas`
-  ADD CONSTRAINT `EstudianAsignaturas_ibfk_1` FOREIGN KEY (`IdAlumno_Profesor`) REFERENCES `Alumnos` (`IdAlumno`),
+  ADD CONSTRAINT `EstudianAsignaturas_ibfk_1` FOREIGN KEY (`IdAlumno`) REFERENCES `Alumnos` (`IdAlumno`),
   ADD CONSTRAINT `EstudianAsignaturas_ibfk_2` FOREIGN KEY (`IdAsignatura`) REFERENCES `Asignaturas` (`Id`);
 
 --
@@ -297,6 +358,12 @@ ALTER TABLE `Padres`
 --
 ALTER TABLE `Profesores`
   ADD CONSTRAINT `Profesores_ibfk_1` FOREIGN KEY (`IdProfesor`) REFERENCES `Usuarios` (`Id`);
+
+--
+-- Constraints for table `Recursos`
+--
+ALTER TABLE `Recursos`
+  ADD CONSTRAINT `Recursos_ibfk_1` FOREIGN KEY (`IdAsignatura`) REFERENCES `Asignaturas` (`Id`);
 
 --
 -- Constraints for table `RolesUsuarios`

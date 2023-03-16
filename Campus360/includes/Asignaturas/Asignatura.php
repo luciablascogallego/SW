@@ -84,6 +84,24 @@ class Asignatura {
         return $result;
     }
 
+    public static function buscaPorNombre($nombre)
+    {
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query = sprintf("SELECT * FROM Asignaturas WHERE Nombre=%s", $nombre);
+        $rs = $conn->query($query);
+        $result = false;
+        if ($rs) {
+            $fila = $rs->fetch_assoc();
+            if ($fila) {
+                $result = new Asignatura($fila['Curso'], $fila['Grupo'], $fila['Ciclo'], $fila['Nombre'], $fila['id'], $fila['Profesor']);
+            }
+            $rs->free();
+        } else {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+        }
+        return $result;
+    }
+
     private static function inserta($asignatura)
     {
         $result = false;
@@ -117,7 +135,7 @@ class Asignatura {
          * $result = self::borraRoles($usuario) !== false;
          */
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("DELETE FROM Asignaturas U WHERE U.id = %d"
+        $query = sprintf("DELETE FROM Asignaturas WHERE Id = %d"
             , $idAsignatura
         );
         if ( ! $conn->query($query) ) {
