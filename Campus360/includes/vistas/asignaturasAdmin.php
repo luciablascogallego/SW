@@ -1,12 +1,23 @@
 <?php
 require_once __DIR__.'/includes/config.php';
 $contenidoPrincipal = '<h1>Asignaturas disponibles</h1>';
+if (isset($_POST['accion'])) {
+    $accion = $_POST['accion'];
+    if ($accion === 'eliminar' && isset($_POST['id'])) {
+        // Aquí deberías agregar el código para eliminar el ciclo con el ID indicado desde la base de datos
+        $id = $_POST['id'];
+        eliminarAsignatura($id);
+    } else if ($accion === 'editar' && isset($_POST['id'])) {
+        // Aquí deberías redirigir al usuario a la página de edición del ciclo con el ID indicado
+        $id = $_POST['id'];
+        header('Location: editar-ciclo.php?id='.$id);
+        exit;
+    }
+}
 
 if (isset($_GET['curso'])) {
-    $cicloId = $_GET['curso'];
-    $ciclo = obtenerCicloPorId($cursoId);
-    if ($ciclo) {
-        $asignaturas = obtenerAsignaturasPorCurso($cicloId);
+    $cursoId = $_GET['curso'];
+        $asignaturas = obtenerAsignaturasPorCurso($cursoId);
         if ($asignaturas) {
             $contenidoPrincipal .= '<ul>';
             foreach ($asignaturas as $asignatura) {
@@ -16,12 +27,8 @@ if (isset($_GET['curso'])) {
         } else {
             $contenidoPrincipal .= '<p>No se encontraron asignaturas disponibles para el curso '.$curso['nombre'].'.</p>';
         }
-    } else {
-        $contenidoPrincipal .= '<p>No se encontró el curso indicado.</p>';
-    }
-} else {
-    $contenidoPrincipal .= '<p>No se indicó un curso para mostrar.</p>';
-}
+ 
+} 
 
 $contenidoPrincipal .= '<a href="crear-asignatura.php">Crear nueva asigantura</a>';
 
