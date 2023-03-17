@@ -8,6 +8,7 @@ $app = Aplicacion::getInstance();
 	<ul>
 		<li><a href="<?= $app->resuelve('/index.php')?>">Inicio</a></li>
 		<li><a href="<?= $app->resuelve('/contenido.php')?>">Ver contenido</a></li>
+		<li><a href="<?= $app->resuelve('/vistaCalificaciones.php')?>">Calificaciones</a></li>
 		<li><a href="<?= $app->resuelve('/admin.php')?>">Administrar</a></li>
 	</ul>
 </nav>

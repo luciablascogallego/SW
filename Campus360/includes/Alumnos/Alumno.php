@@ -78,6 +78,24 @@ class Alumno {
         }
         return true;
     }
+
+    public static function borraAlumnoAsignatura($idAlumno, $idAsignatura){
+        if (!$idUsuario) {
+            return false;
+        } 
+        /* Los roles se borran en cascada por la FK
+         * $result = self::borraRoles($usuario) !== false;
+         */
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query = sprintf("DELETE FROM EstudianAsignaturas  WHERE IdAlumno = %d AND IdAsignatura=%d"
+            , $idAlumno, $idAsignatura
+        );
+        if ( ! $conn->query($query) ) {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+            return false;
+        }
+        return true; 
+    }
    
     private static function asignaturasAlumno($alumno){
         $asignaturas=[];

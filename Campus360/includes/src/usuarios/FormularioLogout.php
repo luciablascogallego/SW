@@ -10,7 +10,7 @@ class FormularioLogout extends Formulario
     public function __construct() {
         parent::__construct('formLogout', [
             'action' =>  Aplicacion::getInstance()->resuelve('/logout.php'),
-            'urlRedireccion' => Aplicacion::getInstance()->resuelve('/index.php')]);
+            'urlRedireccion' => Aplicacion::getInstance()->resuelve('/login.php')]);
     }
 
     protected function generaCamposFormulario(&$datos)
@@ -29,9 +29,9 @@ class FormularioLogout extends Formulario
         $app = Aplicacion::getInstance();
 
         $app->logout();
-        $mensajes = ['Hasta pronto !'];
-        $app->putAtributoPeticion('mensajes', $mensajes);
-        $result = $app->resuelve('/index.php');
+        //$mensajes = ['Hasta pronto !'];
+        //$app->putAtributoPeticion('mensajes', $mensajes);
+        $result = $app->resuelve('/login.php');
 
         return $result;
     }

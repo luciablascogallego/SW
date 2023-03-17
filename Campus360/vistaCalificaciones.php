@@ -3,8 +3,8 @@ require_once __DIR__.'/includes/config.php';
 $contenidoPrincipal = '<h1>Asignaturas disponibles para calificaciones</h1>';
 
 if (isset($_GET['alumnoId'])) {
-    $padreId = $_GET['alumnoId'];
-    $asignaturas = obtenerAsignaturasPorAlumno($alumnohId);
+    $alumnoId = $_GET['alumnoId'];
+    $asignaturas = obtenerAsignaturasPorAlumno($alumnoId);
     if ($asignaturas) {
         $contenidoPrincipal .= '<ul>';
         foreach ($asignaturas as $asignatura) {
