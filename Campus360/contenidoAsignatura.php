@@ -16,7 +16,7 @@ $contenidoPrincipal='';
 //PARA MOSTRAR TODAS LOS CONTENIDOS DE UNA ASIGNATURA
 
 
-$archivos = getRecursosAsignatura($id_asignatura);
+$archivos = es\ucm\fdi\aw\Recurso\Recursos::getRecursosAsignatura($id_asignatura);
 
 // Se muestran los archivos en la página
 if (!empty($archivos)) {
@@ -29,10 +29,9 @@ if (!empty($archivos)) {
 } else {
   $contenidoPrincipal.='<p>No se encontraron archivos para esta asignatura.</p>';
 }
-*/
 
 //PARA MOSTRAR TODAS LAS ENTREGAS DE LA ASIGNATURA
-$entregas = getEntregasAsignatura($id_asignatura);
+$entregas = es\ucm\fdi\aw\EntregasAlumno\EntregasAlumno::getEntregasAsignatura($id_asignatura);
 
 if(!empty($entregas)){
   $contenidoPrincipal.= "<ul>";
