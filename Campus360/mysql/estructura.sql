@@ -17,7 +17,7 @@ DROP TABLE IF EXISTS `Recursos`;
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 16, 2023 at 10:24 PM
+-- Generation Time: Mar 17, 2023 at 09:37 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -161,7 +161,7 @@ CREATE TABLE `RolesUsuarios` (
 --
 
 INSERT INTO `RolesUsuarios` (`idUsuario`, `rol`) VALUES
-(1, 0);
+(1, 2);
 
 -- --------------------------------------------------------
 
@@ -180,14 +180,6 @@ CREATE TABLE `Usuarios` (
   `password` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `Usuarios`
---
-
-INSERT INTO `Usuarios` (`Id`, `NIF`, `Telefono`, `email`, `direccion`, `Nombre`, `Apellidos`, `password`) VALUES
-(1, '45427899H', '+34 651764387', 'user@campus.es', 'Calle Imaginaria 3a', 'Pepe', 'Pepito Pulgoso', '$2y$10$jhhPNs2Nf5JYLVa4hW2jI.j/qA3pdI.lOqTV.5Ra1ZD9VKsP3rbbK');
-
---
 -- Indexes for dumped tables
 --
 
@@ -226,7 +218,7 @@ ALTER TABLE `EntregasAlumno`
 --
 ALTER TABLE `EstudianAsignaturas`
   ADD PRIMARY KEY (`IdAsignatura`,`IdAlumno`),
-  ADD KEY `IdAlumno` (`IdAlumno`);
+  ADD KEY `IdAlumno_Profesor` (`IdAlumno`);
 
 --
 -- Indexes for table `Eventos_Tareas`
@@ -325,7 +317,7 @@ ALTER TABLE `Asignaturas`
 ALTER TABLE `Calificaciones`
   ADD CONSTRAINT `Calificaciones_ibfk_1` FOREIGN KEY (`IdAlumno`) REFERENCES `Alumnos` (`IdAlumno`),
   ADD CONSTRAINT `Calificaciones_ibfk_2` FOREIGN KEY (`IdAsignatura`) REFERENCES `Asignaturas` (`Id`),
-  ADD CONSTRAINT `Calificaciones_ibfk_3` FOREIGN KEY (`IdEntrega`) REFERENCES `Eventos_Tareas` (`Id`);
+  ADD CONSTRAINT `Calificaciones_ibfk_3` FOREIGN KEY (`IdEntrega`) REFERENCES `EntregasAlumno` (`Id`);
 
 --
 -- Constraints for table `EntregasAlumno`

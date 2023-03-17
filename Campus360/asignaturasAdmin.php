@@ -1,6 +1,9 @@
 <?php
 require_once __DIR__.'/includes/config.php';
+
+$tituloPagina = 'Asignaturas admin';
 $contenidoPrincipal = '<h1>Asignaturas disponibles</h1>';
+
 if (isset($_POST['accion'])) {
     $accion = $_POST['accion'];
     if ($accion === 'eliminar' && isset($_POST['id'])) {

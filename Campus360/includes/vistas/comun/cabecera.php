@@ -27,7 +27,9 @@ function mostrarSaludo()
 
 ?>
 <header>
-    <h1> Campus 360 </h1>
+    <h1> 
+        Campus 360 
+    </h1>
     <div class="saludo">
         <?= mostrarSaludo(); ?>
     </div>
