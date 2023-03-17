@@ -1,10 +1,10 @@
 <?php
-namespace es\ucm\fdi\aw\alumno;
+namespace es\ucm\fdi\aw\padre;
 
 use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\MagicProperties;
 
-class Alumno {
+class Padre {
     use MagicProperties;
 
     public static function buscaPorId($idPadre)
