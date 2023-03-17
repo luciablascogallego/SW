@@ -9,7 +9,7 @@ define('BD_USER', 'aw');
 define('BD_PASS', 'aw');
 
 /**
- * Parámetros de configuración utilizados para generar las URLs y las rutas a ficheros en la aplicación
+ * Parámetros de configuración utilizados para generar las URLs y las rutas a ficheros en la aplicación dasdadasdas
  */
 define('RAIZ_APP', __DIR__);
 define('RUTA_APP', '/SW/Campus360');
