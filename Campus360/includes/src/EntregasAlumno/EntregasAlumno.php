@@ -1,5 +1,5 @@
 <?php
-namespace es\ucm\fdi\aw\entregasAlumno;
+namespace es\ucm\fdi\aw\EntregasAlumno;
 
 use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\MagicProperties;
@@ -36,11 +36,11 @@ class EntregasAlumno {
         return $result;
     }
 
-    public static getEntregasAsignatura($asignatura){
+    public static function getEntregasAsignatura($asignatura){
         $archivos=[];
             
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("SELECT * FROM EntregasAlumno WHERE IdAsignatura=%i"
+        $query = sprintf("SELECT * FROM EntregasAlumno WHERE IdAsignatura=%d"
             , $asignatura
         );
         $rs = $conn->query($query);
@@ -56,7 +56,7 @@ class EntregasAlumno {
         return false;
     }
 
-    public static getEntrega($entrega){
+    public static function getEntrega($entrega){
         $archivos=[];
             
         $conn = Aplicacion::getInstance()->getConexionBd();
@@ -85,7 +85,7 @@ class EntregasAlumno {
     }
 
     public function setRuta($nuevaRuta){
-        this->ruta = $nuevaRuta;
+        $this->ruta = $nuevaRuta;
     }
 
     public function getIdAlumno(){

@@ -249,6 +249,7 @@ class Aplicacion
         $this->compruebaInstanciaInicializada();
         $_SESSION['login'] = true;
         $_SESSION['nombre'] = $user->getNombre();
+        $_SESSION['email'] = $user->getEmail();
         $_SESSION['apellidos'] = $user->getApellidos();
         $_SESSION['NIF'] = $user->getNIF();
         $_SESSION['Telefono'] = $user->getTelefono();
@@ -269,6 +270,7 @@ class Aplicacion
         unset($_SESSION['NIF']);
         unset($_SESSION['Telefono']);
         unset($_SESSION['Direccion']);
+        unset($_SESSION['email']);
 
 
         session_destroy();
@@ -287,6 +289,11 @@ class Aplicacion
         return $_SESSION['nombre'] ?? '';
     }
 
+    public function emailUsuario(){
+        $this->compruebaInstanciaInicializada();
+        return $_SESSION['email'] ?? '';
+    }
+
     public function apellidosUsuario()
     {
         $this->compruebaInstanciaInicializada();
@@ -302,13 +309,13 @@ class Aplicacion
     public function telefonoUsuario()
     {
         $this->compruebaInstanciaInicializada();
-        return $_SESSION['Telefeno'] ?? '';
+        return $_SESSION['Telefono'] ?? '';
     }
 
     public function direccionUsuario()
     {
         $this->compruebaInstanciaInicializada();
-        return $_SESSION['direccion'] ?? '';
+        return $_SESSION['Direccion'] ?? '';
     }
 
     public function idUsuario()
@@ -320,13 +327,17 @@ class Aplicacion
     public function esAdmin()
     {
         $this->compruebaInstanciaInicializada();
-        return $this->usuarioLogueado() && $_SESSION['rol'] !== Usuario::ADMIN_ROLE;
+        return $this->usuarioLogueado() && $_SESSION['rol'] == Usuario::ADMIN_ROLE;
+    }
+
+    public function rolUsuario(){
+        return $_SESSION['rol'];
     }
 
     public function tieneRol($rol)
     {
         $this->compruebaInstanciaInicializada();
-        return $this->usuarioLogueado() && $_SESSION['rol'] !== $rol;
+        return $this->usuarioLogueado() && $_SESSION['rol'] == $rol;
     }
 
     public function paginaError($codigoRespuesta, $tituloPagina, $mensajeError, $explicacion = '')

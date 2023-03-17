@@ -1,5 +1,5 @@
 <?php
-namespace es\ucm\fdi\aw\recurso;
+namespace es\ucm\fdi\aw\Recurso;
 
 use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\MagicProperties;
@@ -35,11 +35,11 @@ class Recursos {
         return $result;
     }
 
-    public static getRecursosAsignatura($asignatura){
+    public static function getRecursosAsignatura($asignatura){
         $archivos=[];
             
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("SELECT * FROM Recursos WHERE IdAsignatura=%i"
+        $query = sprintf("SELECT * FROM Recursos WHERE IdAsignatura=%d"
             , $asignatura
         );
         $rs = $conn->query($query);
@@ -77,7 +77,7 @@ class Recursos {
     }
 
     public function setRuta($nuevaRuta){
-        this->ruta = $nuevaRuta;
+        $this->ruta = $nuevaRuta;
     }
 
     public function getIdAsignatura(){

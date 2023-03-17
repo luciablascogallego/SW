@@ -31,4 +31,4 @@ $contenidoPrincipal=<<<EOS
 EOS;
 
 $params = ['tituloPagina' => $tituloPagina, 'contenidoPrincipal' => $contenidoPrincipal];
-$app->generaVista('/plantillas/plantillaChat.php', $params);
+$app->generaVista('/plantillas/plantilla.php', $params);

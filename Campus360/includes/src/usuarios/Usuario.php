@@ -100,15 +100,15 @@ class Usuario
         $rol;
             
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("SELECT RU.rol FROM RolesUsuarios RU WHERE RU.IdUsuario=%d"
-            , $usuario->id
+        $query = sprintf("SELECT * FROM RolesUsuarios RU WHERE RU.idUsuario=%d"
+            , $usuario->getId()
         );
         $rs = $conn->query($query);
         if ($rs) {
             $rol = $rs->fetch_assoc();
             $rs->free();
 
-            $usuario->CambiaRol($rol);
+            $usuario->CambiaRol($rol['rol']);
             return $usuario;
 
         } else {
@@ -121,7 +121,7 @@ class Usuario
     {
         $result = false;
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query=sprintf("INSERT INTO Usuarios(emailUsuario, nombre, password, Telefono,
+        $query=sprintf("INSERT INTO Usuarios(email, nombre, password, Telefono,
         NIF, direccion, Apellidos) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')"
             , $conn->real_escape_string($usuario->getemailUsuario())
             , $conn->real_escape_string($usuario->getNombre())
@@ -220,7 +220,7 @@ class Usuario
 
     private $id;
 
-    private $emailUsuario;
+    private $email;
 
     private $password;
 
@@ -236,10 +236,10 @@ class Usuario
 
     private $rol;
 
-    private function __construct($emailUsuario, $password, $nombre, $id = null, $dir, $NIF, $apellidos, $telefono)
+    private function __construct($email, $password, $nombre, $id = null, $dir, $NIF, $apellidos, $telefono)
     {
         $this->id = $id;
-        $this->emailUsuario = $emailUsuario;
+        $this->email = $email;
         $this->password = $password;
         $this->nombre = $nombre;
         $this->dir = $dir;
@@ -254,9 +254,9 @@ class Usuario
         return $this->id;
     }
 
-    public function getemailUsuario()
+    public function getEmail()
     {
-        return $this->emailUsuario;
+        return $this->email;
     }
 
     public function getPassword(){

@@ -11,8 +11,9 @@ if (($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::ALUMNO_ROLE))) {
     $asignaturas = es\ucm\fdi\aw\Alumnos\Alumno::asignaturasAlumno($alumnoId);
     if ($asignaturas) {
         $contenidoPrincipal .= '<ul>';
-        foreach ($asignaturas as $asignatura) {
-            $contenidoPrincipal .= '<li><a href="calificacionAsignatura.php?id='.$asignatura['id'].'">'.$asignatura['nombre'].'</a></li>';
+        foreach ($asignaturas as $Idasignatura) {
+            $asignatura = es\ucm\fdi\aw\Asignaturas\Asignatura::buscaPorId($Idasignatura);
+            $contenidoPrincipal .= '<li><a href="calificacionAsignatura.php?id='.$Idasignatura.'">'.$asignatura->getNombre().'</a></li>';
           }          
         $contenidoPrincipal .= '</ul>';
     } else {

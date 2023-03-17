@@ -15,10 +15,6 @@ $mensajes = mensajesPeticionAnterior();
 $params['app']->doInclude('/vistas/comun/cabecera.php');
 $params['app']->doInclude('/vistas/comun/sidebarIzq.php');
 ?>
-	<header>
-    <div class="icono">
-        
-    </div>
 	</header>
 	<main>
 		<article>

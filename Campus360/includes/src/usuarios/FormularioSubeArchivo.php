@@ -5,15 +5,10 @@ namespace es\ucm\fdi\aw\usuarios;
 use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\Formulario;
 use es\ucm\fdi\aw\recurso;
+use es\ucm\fdi\aw\EntregasAlumno;
 
 class FormularioSubeArchivo extends Formulario
 {
-
-    public function __construct()
-    {
-        parent::__construct('formSubir', ['enctype' => 'multipart/form-data', 'urlRedireccion' => 'contenidoAsignatura.php']);
-    }
-
     private $id_asignatura;
 
     public function __construct($asignatura)
@@ -83,9 +78,10 @@ class FormularioSubeArchivo extends Formulario
                 $this->errores['archivo'] = 'Error al mover el archivo';
             }
         }
-        elseif($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::ALUMNO_ROLE){
+        elseif($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::ALUMNO_ROLE)){
             //Crea un objeto entega
-            $archivo = EntregasAlumno::crea(null, $id_asignatura, $_SESSION['idUsuario'], '');
+            $idUsuario = $_SESSION['idUsuario'];
+            $archivo = EntregasAlumno::crea(null, $id_asignatura, $idUsuario, '');
 
             //Formo una ruta con el id del archivo y su extension
             $fichero = "{$archivo->id}.{$extension}";

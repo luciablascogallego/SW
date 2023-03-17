@@ -1,5 +1,7 @@
 <?php
 require_once __DIR__.'/includes/config.php';
+
+$tituloPagina = 'Asignaturas alumno';
 $contenidoPrincipal = '<h1>Asignaturas disponibles</h1>';
 
 if (isset($_GET['alumnoId'])) {
