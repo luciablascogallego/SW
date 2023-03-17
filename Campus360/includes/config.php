@@ -4,7 +4,7 @@
  * Parámetros de conexión a la BD
  */
 define('BD_HOST', 'localhost');
-define('BD_NAME', 'aw');
+define('BD_NAME', 'Campus360');
 define('BD_USER', 'aw');
 define('BD_PASS', 'aw');
 
@@ -12,7 +12,7 @@ define('BD_PASS', 'aw');
  * Parámetros de configuración utilizados para generar las URLs y las rutas a ficheros en la aplicación
  */
 define('RAIZ_APP', __DIR__);
-define('RUTA_APP', '/estructura-proyecto');
+define('RUTA_APP', '/SW/Campus360');
 define('RUTA_IMGS', RUTA_APP.'img/');
 define('RUTA_CSS', RUTA_APP.'css/');
 define('RUTA_JS', RUTA_APP.'js/');
