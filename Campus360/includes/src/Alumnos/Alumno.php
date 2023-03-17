@@ -1,5 +1,5 @@
 <?php
-namespace es\ucm\fdi\aw\alumno;
+namespace es\ucm\fdi\aw\Alumnos;
 
 use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\MagicProperties;
@@ -97,20 +97,23 @@ class Alumno {
         return true; 
     }
    
-    private static function asignaturasAlumno($alumno){
+    public static function asignaturasAlumno($idAlumno){
         $asignaturas=[];
             
         $conn = Aplicacion::getInstance()->getConexionBd();
         $query = sprintf("SELECT RU.IdAsignatura FROM EstudianAsignaturas RU WHERE RU.IdAlumno=%d"
-            , $alumno->getId()
+            , $idAlumno
         );
         $rs = $conn->query($query);
         if ($rs) {
             $asignaturas = $rs->fetch_all(MYSQLI_ASSOC);
             $rs->free();
-
-            $alumno->setAsignaturas($asignaturas);
-            return $alumno;
+            if($asignaturas){
+                $alumno->setAsignaturas($asignaturas);
+                return $alumno;
+            }
+            else
+                return false;
 
         } else {
             error_log("Error BD ({$conn->errno}): {$conn->error}");

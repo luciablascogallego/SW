@@ -1,5 +1,5 @@
 <?php
-namespace es\ucm\fdi\aw\profesor;
+namespace es\ucm\fdi\aw\Profesores;
 
 use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\MagicProperties;

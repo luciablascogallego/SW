@@ -1,5 +1,5 @@
 <?php
-namespace es\ucm\fdi\aw\padre;
+namespace es\ucm\fdi\aw\Padres;
 
 use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\MagicProperties;

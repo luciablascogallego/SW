@@ -1,5 +1,5 @@
 <?php
-namespace es\ucm\fdi\aw\entregas_eventos;
+namespace es\ucm\fdi\aw\Entregas_Eventos;
 
 use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\MagicProperties;
