@@ -4,18 +4,21 @@
  * Parámetros de conexión a la BD
  */
 define('BD_HOST', 'localhost');
-define('BD_NAME', 'Campus360');
+define('BD_NAME', 'aw');
 define('BD_USER', 'aw');
 define('BD_PASS', 'aw');
 
 /**
- * Parámetros de configuración utilizados para generar las URLs y las rutas a ficheros en la aplicación dasdadasdas
+ * Parámetros de configuración utilizados para generar las URLs y las rutas a ficheros en la aplicación
  */
 define('RAIZ_APP', __DIR__);
-define('RUTA_APP', '/SW/Campus360');
+define('RUTA_APP', '/estructura-proyecto');
 define('RUTA_IMGS', RUTA_APP.'img/');
 define('RUTA_CSS', RUTA_APP.'css/');
 define('RUTA_JS', RUTA_APP.'js/');
+
+define('RUTA_RECURSOS', '/Proyecto/Campus360/recursos');
+define('RUTA_ENTREGAS', implode(DIRECTORY_SEPARATOR, [__DIR__, 'entregas']));
 
 /**
  * Configuración del soporte de UTF-8, localización (idioma y país) y zona horaria
