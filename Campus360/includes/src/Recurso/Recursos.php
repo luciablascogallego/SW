@@ -35,7 +35,7 @@ class Recursos {
         return $result;
     }
 
-    public static getRecursosAsignatura($asignatura){
+    public static function getRecursosAsignatura($asignatura){
         $archivos=[];
             
         $conn = Aplicacion::getInstance()->getConexionBd();
@@ -77,7 +77,7 @@ class Recursos {
     }
 
     public function setRuta($nuevaRuta){
-        this->ruta = $nuevaRuta;
+        $this->ruta = $nuevaRuta;
     }
 
     public function getIdAsignatura(){
