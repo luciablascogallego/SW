@@ -1,5 +1,5 @@
 <?php
-namespace es\ucm\fdi\aw\recurso;
+namespace es\ucm\fdi\aw\Recurso;
 
 use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\MagicProperties;
@@ -39,7 +39,7 @@ class Recursos {
         $archivos=[];
             
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("SELECT * FROM Recursos WHERE IdAsignatura=%i"
+        $query = sprintf("SELECT * FROM Recursos WHERE IdAsignatura=%d"
             , $asignatura
         );
         $rs = $conn->query($query);
