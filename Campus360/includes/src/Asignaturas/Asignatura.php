@@ -21,7 +21,7 @@ class Asignatura {
         if ($rs) {
             $fila = $rs->fetch_assoc();
             if ($fila) {
-                $result = new Asignatura($fila['Curso'], $fila['Grupo'], $fila['Ciclo'], $fila['Nombre'], $fila['id'], $fila['Profesor']);
+                $result = new Asignatura($fila['Id'], $fila['Ciclo'], $fila['Curso'], $fila['Grupo'], $fila['Nombre'], $fila['Profesor']);
             }
             $rs->free();
         } else {
@@ -39,7 +39,7 @@ class Asignatura {
         if ($rs) {
             $fila = $rs->fetch_assoc();
             if ($fila) {
-                $result = new Asignatura($fila['Curso'], $fila['Grupo'], $fila['Ciclo'], $fila['Nombre'], $fila['id'], $fila['Profesor']);
+                $result = new Asignatura($fila['Id'], $fila['Ciclo'], $fila['Curso'], $fila['Grupo'], $fila['Nombre'], $fila['Profesor']);
             }
             $rs->free();
         } else {
@@ -57,7 +57,7 @@ class Asignatura {
         if ($rs) {
             $fila = $rs->fetch_assoc();
             if ($fila) {
-                $result = new Asignatura($fila['Curso'], $fila['Grupo'], $fila['Ciclo'], $fila['Nombre'], $fila['id'], $fila['Profesor']);
+                $result = new Asignatura($fila['Id'], $fila['Ciclo'], $fila['Curso'], $fila['Grupo'], $fila['Nombre'], $fila['Profesor']);
             }
             $rs->free();
         } else {
@@ -75,7 +75,7 @@ class Asignatura {
         if ($rs) {
             $fila = $rs->fetch_assoc();
             if ($fila) {
-                $result = new Asignatura($fila['Curso'], $fila['Grupo'], $fila['Ciclo'], $fila['Nombre'], $fila['id'], $fila['Profesor']);
+                $result = new Asignatura($fila['Id'], $fila['Ciclo'], $fila['Curso'], $fila['Grupo'], $fila['Nombre'], $fila['Profesor']);
             }
             $rs->free();
         } else {
@@ -93,7 +93,7 @@ class Asignatura {
         if ($rs) {
             $fila = $rs->fetch_assoc();
             if ($fila) {
-                $result = new Asignatura($fila['Curso'], $fila['Grupo'], $fila['Ciclo'], $fila['Nombre'], $fila['id'], $fila['Profesor']);
+                $result = new Asignatura($fila['Id'], $fila['Ciclo'], $fila['Curso'], $fila['Grupo'], $fila['Nombre'], $fila['Profesor']);
             }
             $rs->free();
         } else {

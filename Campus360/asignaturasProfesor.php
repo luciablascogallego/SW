@@ -10,7 +10,7 @@ if (isset($_GET['profesorId'])) {
     if ($asignaturas) {
         $contenidoPrincipal .= '<ul>';
         foreach ($asignaturas as $asignatura) {
-            $contenidoPrincipal .= '<li><a href="contenidoAsignatura.php?id='.$asignatura['id'].'">'.$asignatura['nombre'].'</a></li>';
+            $contenidoPrincipal .= '<li><a href="contenidoAsignatura.php?id='.$asignatura->getId().'">'.$asignatura->getNombre().'</a></li>';
           }          
         $contenidoPrincipal .= '</ul>';
     } else {

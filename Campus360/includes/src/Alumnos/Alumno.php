@@ -16,7 +16,9 @@ class Alumno {
         if ($rs) {
             $fila = $rs->fetch_assoc();
             if ($fila) {
-                $result = new Alumno($fila['IdAlumno'], $fila['IdPadre']);
+                $asiganturas = [];
+                $result = new Alumno($fila['IdAlumno'], $fila['IdPadre'], null);
+                $result = self::asignaturasAlumno($result);
             }
             $rs->free();
         } else {
@@ -97,19 +99,22 @@ class Alumno {
         return true; 
     }
    
-    public static function asignaturasAlumno($idAlumno){
+    public static function asignaturasAlumno($alumno){
         $asignaturas=[];
             
         $conn = Aplicacion::getInstance()->getConexionBd();
         $query = sprintf("SELECT RU.IdAsignatura FROM EstudianAsignaturas RU WHERE RU.IdAlumno=%d"
-            , $idAlumno
+            , $alumno->getId()
         );
         $rs = $conn->query($query);
         if ($rs) {
             $asignaturas = $rs->fetch_all(MYSQLI_ASSOC);
+            $alumno->idAsignaturas = [];
             $rs->free();
             if($asignaturas){
-                $alumno->setAsignaturas($asignaturas);
+                foreach($asignaturas as $asignatura) {
+                    $alumno->idAsignaturas[] = $asignatura['IdAsignatura'];  
+                }
                 return $alumno;
             }
             else
@@ -125,10 +130,10 @@ class Alumno {
     private $idPadre;
     private $idAsignaturas = [];
 
-    private function __construct($id, $idPadre){
+    private function __construct($id, $idPadre, $asignaturas){
         $this->id = $id;
         $this->idPadre = $idPadre;
-        self::asignaturasAlumno($this);
+        $this->idAsignaturas = $asignaturas;
     }
 
     public function getId(){
@@ -143,10 +148,8 @@ class Alumno {
         return $this->idAsignaturas;
     }
 
-    public function setAsignaturas($asignaturas){
-        foreach($asignaturas as $asignatura){
-            $this->asignaturasAlumno[] = $asignatura['IdAsignatura'];
-        }
-    }
+    //public function setAsignaturas($asignaturas){
+        //$this->asignaturasAlumno[] = $asignaturas;
+    //}
 
 }
