@@ -53,6 +53,7 @@ class Profesor {
             $fila = $rs->fetch_assoc();
             if ($fila) {
                 $result = new Profesor($fila['IdProfesor'], $fila['Despacho'], $fila['Tutorias']);
+                $result = self::asignaturasProfesor($result);
             }
             $rs->free();
         } else {
@@ -90,11 +91,16 @@ class Profesor {
         $rs = $conn->query($query);
         if ($rs) {
             $asignaturas = $rs->fetch_all(MYSQLI_ASSOC);
+            $profesor->idAsignaturas = [];
             $rs->free();
-
-            $profesor->setAsignaturas($asignaturas);
-            return $profesor;
-
+            if($asignaturas){
+                foreach($asignaturas as $asignatura) {
+                    $profesor->idAsignaturas[] = $asignatura['Id'];  
+                }
+                return $profesor;
+            }
+            else
+                return false;
         } else {
             error_log("Error BD ({$conn->errno}): {$conn->error}");
         }

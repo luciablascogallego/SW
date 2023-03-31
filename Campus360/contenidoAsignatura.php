@@ -5,7 +5,7 @@ require_once __DIR__.'/includes/config.php';
 $formEventos = new \es\ucm\fdi\aw\usuarios\FormularioCreaEvento();
 $formEventos = $formEventos->gestiona();
 
-$id_asignatura = $_GET['id_asignatura'];
+$id_asignatura = $_GET['id'];
 
 $formUpload = new \es\ucm\fdi\aw\usuarios\FormularioSubeArchivo($id_asignatura);
 $formUpload = $formUpload->gestiona();
@@ -23,7 +23,10 @@ if (!empty($archivos)) {
     $contenidoPrincipal .= "<ul>";
   foreach ($archivos as $archivo) {
     $ruta_archivo = RUTA_RECURSOS.$archivo['ruta'];
-    $contenidoPrincipal .= "<li><a href='$ruta_archivo'>Recurso</a></li>";
+    $nombre = $archivo['Nombre'];
+    $contenidoPrincipal .= <<<EOS
+        <li><a href="$ruta_archivo">$nombre</a> </li>
+    EOS;
   }
   $contenidoPrincipal .= "</ul>";
 } else {

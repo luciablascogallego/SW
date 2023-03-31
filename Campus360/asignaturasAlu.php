@@ -9,8 +9,8 @@ $contenidoPrincipal = '<h1>Asignaturas disponibles</h1>';
 
     $alumnoId = $app->idUsuario();
     $alumno = Alumno::buscaPorId($alumnoId);
-    if ($alumno) {
-        $asignaturas = $alumno->getIdAsignaturas();
+    $asignaturas = $alumno->getIdAsignaturas();
+    if ($asignaturas) {
         $contenidoPrincipal .= '<ul>';
         foreach ($asignaturas as $idAsignatura) {
             $asignatura = Asignatura::buscaPorId($idAsignatura);

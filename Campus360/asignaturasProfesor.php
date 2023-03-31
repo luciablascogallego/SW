@@ -1,22 +1,34 @@
 <?php
 require_once __DIR__.'/includes/config.php';
 
-$tituloPagina = 'Asignaturas padres';
-$contenidoPrincipal = '<h1>Asignaturas disponibles</h1>';
+use es\ucm\fdi\aw\Profesores\Profesor;
+use es\ucm\fdi\aw\Asignaturas\Asignatura;
 
-if (isset($_GET['profesorId'])) {
-    $profesorId = $_GET['profesorId'];
-    $asignaturas = obtenerAsignaturasPorProfesor($profesorId);
-    if ($asignaturas) {
-        $contenidoPrincipal .= '<ul>';
-        foreach ($asignaturas as $asignatura) {
-            $contenidoPrincipal .= '<li><a href="contenidoAsignatura.php?id='.$asignatura->getId().'">'.$asignatura->getNombre().'</a></li>';
-          }          
-        $contenidoPrincipal .= '</ul>';
-    } else {
-        $contenidoPrincipal .= '<p>No se encontraron asignaturas disponibles para el profesor </p>';
-    }
+$tituloPagina = 'Asignaturas profesor';
+$contenidoPrincipal = '<h1>Asignaturas impartidas</h1>';
 
-} 
+
+$profesorId = $app->idUsuario();
+$profesor = Profesor::buscaPorId($profesorId);
+$asignaturas = $profesor->getIdAsignaturas();
+if ($asignaturas) {
+    $contenidoPrincipal .= '<ul>';
+        foreach ($asignaturas as $idAsignatura) {
+            $asignatura = Asignatura::buscaPorId($idAsignatura);
+            $id = $asignatura->getId();
+            $nombre = $asignatura->getNombre();
+            $curso = $asignatura->getCurso();
+            $ciclo = $asignatura->getCiclo();
+            $grupo = $asignatura->getGrupo();
+            if($asignatura)
+                $contenidoPrincipal .= <<<EOS
+                    <li><a href="contenidoAsignatura.php?id=$id">$nombre $ciclo $curso º $grupo</a> </li>
+                EOS;  
+        } 
+    $contenidoPrincipal .= '</ul>';
+} else {
+    $contenidoPrincipal .= '<p>No se encontraron asignaturas impartidas para el profesor </p>';
+}
+
 $params = ['tituloPagina' => $tituloPagina, 'contenidoPrincipal' => $contenidoPrincipal];
 $app->generaVista('/plantillas/plantilla.php', $params);

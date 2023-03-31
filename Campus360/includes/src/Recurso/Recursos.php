@@ -7,8 +7,8 @@ use es\ucm\fdi\aw\MagicProperties;
 class Recursos {
     use MagicProperties;
 
-    public static function crea($id, $idAsignatura, $ruta){
-        $recurso = new Recursos($id, $idAsignatura, $ruta);
+    public static function crea($id, $idAsignatura, $ruta, $nombre){
+        $recurso = new Recursos($id, $idAsignatura, $ruta, $nombre);
         return $recurso->guarda();
     }
 
@@ -18,6 +18,16 @@ class Recursos {
 
     private $ruta;
 
+    private $nombre;
+
+    private function __construct($id, $idAsignatura, $ruta, $nombre){
+        $this->id = $id;
+        $this->idAsignatura = $idAsignatura;
+        $this->ruta = $ruta;
+        $this->nombre = $nombre;
+    }
+
+
     public static function inserta($recursoNuevo)
     {
         $result = false;
@@ -26,6 +36,7 @@ class Recursos {
             , $conn->real_escape_string($recurso->getId())
             , $conn->real_escape_string($recurso->getIdAsignatura())
             , $conn->real_escape_string($recurso->getRuta())
+            , $conn->real_escape_string($recurso->getNombre())
         );
         if ( $conn->query($query) ) {
             $recurso->id = $conn->insert_id;
@@ -74,6 +85,10 @@ class Recursos {
 
     public function getRuta(){
         return $this->ruta;
+    }
+
+    public function getNombre(){
+        return $this->nombre;
     }
 
     public function setRuta($nuevaRuta){
