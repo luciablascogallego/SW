@@ -17,7 +17,7 @@ define('RUTA_IMGS', RUTA_APP.'img/');
 define('RUTA_CSS', RUTA_APP.'css/');
 define('RUTA_JS', RUTA_APP.'js/');
 
-define('RUTA_RECURSOS', '/Proyecto/Campus360/recursos');
+define('RUTA_RECURSOS', implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), 'recursos/']));
 define('RUTA_ENTREGAS', implode(DIRECTORY_SEPARATOR, [__DIR__, 'entregas']));
 
 /**

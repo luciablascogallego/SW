@@ -1,5 +1,4 @@
 <?php
-
 require_once __DIR__.'/includes/config.php';
 
 $formEventos = new \es\ucm\fdi\aw\usuarios\FormularioCreaEvento();
@@ -14,7 +13,7 @@ $tituloPagina = 'Contenido';
 $contenidoPrincipal='';
 
 //PARA MOSTRAR TODAS LOS CONTENIDOS DE UNA ASIGNATURA
-
+$contenidoPrincipal .= "<h1>RECURSOS</h1>";
 
 $archivos = es\ucm\fdi\aw\Recurso\Recursos::getRecursosAsignatura($id_asignatura);
 
@@ -22,11 +21,20 @@ $archivos = es\ucm\fdi\aw\Recurso\Recursos::getRecursosAsignatura($id_asignatura
 if (!empty($archivos)) {
     $contenidoPrincipal .= "<ul>";
   foreach ($archivos as $archivo) {
-    $ruta_archivo = RUTA_RECURSOS.$archivo['ruta'];
-    $nombre = $archivo['Nombre'];
+    $ruta_archivo = 'recursos/'.$archivo['nombre'];
+    $nombre = $archivo['nombre'];
+    $idRecurso = $archivo['Id'];
     $contenidoPrincipal .= <<<EOS
-        <li><a href="$ruta_archivo">$nombre</a> </li>
+        <li><a href="$ruta_archivo" target="_blank">$nombre</a></li>
     EOS;
+    if($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::PROFE_ROLE)){
+      $contenidoPrincipal .= <<<EOS
+      <form method="POST" action="eliminarRecurso.php">
+      <input type="hidden" name="id" value=$idRecurso>
+      <button type="submit" name="eliminar">Eliminar</button>
+      </form>
+      EOS;
+    }
   }
   $contenidoPrincipal .= "</ul>";
 } else {
@@ -34,6 +42,8 @@ if (!empty($archivos)) {
 }
 
 //PARA MOSTRAR TODAS LAS ENTREGAS DE LA ASIGNATURA
+$contenidoPrincipal .= "<h1>ENTREGAS</h1>";
+
 $entregas = es\ucm\fdi\aw\EntregasAlumno\EntregasAlumno::getEntregasAsignatura($id_asignatura);
 
 if(!empty($entregas)){

@@ -4,7 +4,7 @@ namespace es\ucm\fdi\aw\usuarios;
 
 use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\Formulario;
-use es\ucm\fdi\aw\recurso;
+use es\ucm\fdi\aw\Recurso\Recursos;
 use es\ucm\fdi\aw\EntregasAlumno;
 
 class FormularioSubeArchivo extends Formulario
@@ -13,7 +13,7 @@ class FormularioSubeArchivo extends Formulario
 
     public function __construct($asignatura)
     {
-        parent::__construct('formSubir', ['enctype' => 'multipart/form-data', 'urlRedireccion' => 'contenidoAsignatura.php']);
+        parent::__construct('formSubir', ['enctype' => 'multipart/form-data', 'urlRedireccion' => 'contenidoAsignatura.php?id=' . $asignatura]);
         $this->id_asignatura = $asignatura;
     }
 
@@ -23,6 +23,7 @@ class FormularioSubeArchivo extends Formulario
         $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores);
         $erroresCampos = self::generaErroresCampos(['archivo', 'tipo'], $this->errores, 'span', array('class' => 'error'));
 
+        $id = $_GET['id'];
         $html = <<<EOS
         $htmlErroresGlobales
         <fieldset>
@@ -37,62 +38,79 @@ class FormularioSubeArchivo extends Formulario
 
     protected function procesaFormulario(&$datos)
     {
-        $this->errores = [];
-
-        // Verificamos que la subida ha sido correcta
-        $ok = $_FILES['archivo']['error'] == UPLOAD_ERR_OK && count($_FILES) == 1;
-        if (! $ok ) {
-            $this->errores['archivo'] = 'Error al subir el archivo';
-            return;
-        }  
-
-        $nombre = $_FILES['archivo']['name'];
-
-        /*Valida el nombre del archivo */
-        self::check_file_uploaded_name($nombre);
-
-        //Valida el tamaño del archivo
-        $this->check_file_uploaded_length($nombre);
-
-        //Sanitiza el nombre del archivo (elimina los caracteres que molestan)
-        self::sanitize_file_uploaded_name($nombre);
-       
-
         //el campo tmp_name es el lugar donde se ha subido el archivo
         $tmp_name = $_FILES['archivo']['tmp_name'];
-        $extension = pathinfo($nombre, PATHINFO_EXTENSION);
+        if (is_uploaded_file($tmp_name)) {
+            $this->errores = [];
+            // Verificamos que la subida ha sido correcta
+            $ok = $_FILES['archivo']['error'] == UPLOAD_ERR_OK && count($_FILES) == 1;
+            if (! $ok ) {
+                $this->errores['archivo'] = 'Error al subir el archivo';
+                exit();
+            }  
 
-        if ($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::PROFE_ROLE)) {
-            //Crea un objeto recursos
-            $contenido = Recursos::crea(null, $id_asignatura, '');
+            $nombre = $_FILES['archivo']['name'];
 
-            //Formo una ruta con el id del archivo y su extension
-            $rutaContenido = "{$contenido->id}.{$extension}";
-            //inicializo la ruta del archivo
-            $contenido->setRuta($rutaContenido);
-            //Guardo el archivo en la BD
-            $contenido->guarda();
-
-            $ruta = RUTA_RECURSOS.$rutaContenido;
-            if (!move_uploaded_file($tmp_name, $ruta)) {
-                $this->errores['archivo'] = 'Error al mover el archivo';
+            //Sanitiza el nombre del archivo (elimina los caracteres que molestan)
+            self::sanitize_file_uploaded_name($nombre);
+            /*Valida el nombre del archivo y el tamaño del nombre*/
+            $ok = self::check_file_uploaded_name($nombre);
+            if ($ok) {
+                $this->errores['nombre'] = 'El nombre del archivo no es correcto';
+                exit();
             }
-        }
-        elseif($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::ALUMNO_ROLE)){
-            //Crea un objeto entega
-            $idUsuario = $_SESSION['idUsuario'];
-            $archivo = EntregasAlumno::crea(null, $id_asignatura, $idUsuario, '');
+            $ok = $this->check_file_uploaded_length($nombre);
+            if (!$ok) {
+                $this->errores['nombre'] = 'El nombre del archivo es demasiado grande';
+                echo 'lon';
+                exit();
+            }
+            $ok = $this->tam100MB($_FILES['archivo']['size']);
+            if (!$ok) {
+                $this->errores['size'] = 'El archivo es demasiado grande';
+                echo 'tam';
+                return;
+            }
+            $extension = pathinfo($nombre, PATHINFO_EXTENSION);
 
-            //Formo una ruta con el id del archivo y su extension
-            $fichero = "{$archivo->id}.{$extension}";
-            //inicializo la ruta del archivo
-            $archivo->setRuta($fichero);
-            //Guardo el archivo en la BD
-            $archivo->inserta($archivo);
+            $app = Aplicacion::getInstance();
+            if ($_SESSION['rol'] == Usuario::PROFE_ROLE) {
+                //Crea un objeto recursos
+                $contenido = Recursos::crea(null, $this->id_asignatura, '', $nombre);
 
-            $ruta = RUTA_ENTREGAS.$fichero;
-            if (!move_uploaded_file($tmp_name, $ruta)) {
-                $this->errores['archivo'] = 'Error al mover el archivo';
+                //Formo una ruta con el id del archivo y su extension
+                $rutaContenido = RUTA_RECURSOS.$_FILES['archivo']['name'];
+                //inicializo la ruta del archivo
+                $contenido->setRuta($rutaContenido);
+                //Guardo el archivo en la BD
+                $contenido->guarda();
+
+                chmod(RUTA_RECURSOS, 0777);
+                $ruta = RUTA_RECURSOS.$rutaContenido;
+                if (!is_dir(RUTA_RECURSOS)) {
+                    mkdir(RUTA_RECURSOS, 0777, true);
+                }     
+                echo $ruta;
+                if (!move_uploaded_file($tmp_name, 'recursos/'.$_FILES['archivo']['name'])) {
+                    $this->errores['archivo'] = 'Error al mover el archivo';
+                }
+            }
+            elseif($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::ALUMNO_ROLE)){
+                //Crea un objeto entega
+                $idUsuario = $_SESSION['idUsuario'];
+                $archivo = EntregasAlumno::crea(null, $id_asignatura, $idUsuario, '');
+
+                //Formo una ruta con el id del archivo y su extension
+                $fichero = "{$archivo->id}.{$extension}";
+                //inicializo la ruta del archivo
+                $archivo->setRuta($fichero);
+                //Guardo el archivo en la BD
+                $archivo->inserta($archivo);
+
+                $ruta = RUTA_ENTREGAS.$fichero;
+                if (!move_uploaded_file($tmp_name, $ruta)) {
+                    $this->errores['archivo'] = 'Error al mover el archivo';
+                }
             }
         }
     }
@@ -136,15 +154,14 @@ class FormularioSubeArchivo extends Formulario
         return $newName;
     }
 
-    /**
-     * Check $_FILES[][name] length.
-     *
-     * @param (string) $filename - Uploaded file name.
-     * @author Yousef Ismaeil Cliprz.
-     * @See http://php.net/manual/es/function.move-uploaded-file.php#111412
-     */
     private function check_file_uploaded_length($filename)
     {
-        return (bool) ((mb_strlen($filename, 'UTF-8') < 250) ? true : false);
+        return (bool) ((mb_strlen($filename, 'UTF-8') < 50) ? true : false);
+    }
+
+    private function tam100MB($archivo)
+    {
+        $maxSize = 100 * 1024 * 1024; // 100 MB en bytes
+        return (bool)($archivo > $maxSize)? false : true;
     }
 }

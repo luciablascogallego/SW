@@ -123,7 +123,7 @@ class Usuario
         $conn = Aplicacion::getInstance()->getConexionBd();
         $query=sprintf("INSERT INTO Usuarios(email, nombre, password, Telefono,
         NIF, direccion, Apellidos) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')"
-            , $conn->real_escape_string($usuario->getemailUsuario())
+            , $conn->real_escape_string($usuario->getEmail())
             , $conn->real_escape_string($usuario->getNombre())
             , $conn->real_escape_string($usuario->getPassword())
             , $conn->real_escape_string($usuario->getTelefono())
@@ -160,7 +160,7 @@ class Usuario
         $conn = Aplicacion::getInstance()->getConexionBd();
         $query=sprintf("UPDATE Usuarios U SET email = '%s', Nombre='%s', password='%s' , 
         Telefono='%s', NIF='%s', direccion='%s', Apellidos='%s' WHERE U.id=%d"
-            , $conn->real_escape_string($usuario->getemailUsuario())
+            , $conn->real_escape_string($usuario->getEmail())
             , $conn->real_escape_string($usuario->getNombre())
             , $conn->real_escape_string($usuario->getPassword())
             , $conn->real_escape_string($usuario->getTelefono())

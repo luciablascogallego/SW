@@ -27,19 +27,61 @@ class Recursos {
         $this->nombre = $nombre;
     }
 
+    public static function buscaPorId($idRecurso)
+    {
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query = sprintf("SELECT * FROM Recursos WHERE id=%d", $idRecurso);
+        $rs = $conn->query($query);
+        $result = false;
+        if ($rs) {
+            $fila = $rs->fetch_assoc();
+            if ($fila) {
+                $result = new Recursos($fila['Id'], $fila['IdAsignatura'], $fila['Ruta'], $fila['nombre']);
+            }
+            $rs->free();
+        } else {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+        }
+        return $result;
+    }
+
+    private static function borra($recurso)
+    {
+        return self::borraPorId($recurso->Id);
+    }
+
+    private static function borraPorId($idRecurso)
+    {
+        if (!$idRecurso) {
+            return false;
+        } 
+        /* Los roles se borran en cascada por la FK
+         * $result = self::borraRoles($usuario) !== false;
+         */
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query = sprintf("DELETE FROM recursos WHERE Id = %d"
+            , $idRecurso
+        );
+        if ( ! $conn->query($query) ) {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+            return false;
+        }
+        return true;
+    }
 
     public static function inserta($recursoNuevo)
     {
         $result = false;
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query=sprintf("INSERT INTO Recursos(id, idAsignatura, ruta) VALUES ('%i', '%i', '%s')"
-            , $conn->real_escape_string($recurso->getId())
-            , $conn->real_escape_string($recurso->getIdAsignatura())
-            , $conn->real_escape_string($recurso->getRuta())
-            , $conn->real_escape_string($recurso->getNombre())
+        $query=sprintf("INSERT INTO Recursos(id, idAsignatura, ruta, nombre) VALUES ('%d', '%d', '%s', '%s')"
+            , $conn->real_escape_string($recursoNuevo->getId())
+            , $conn->real_escape_string($recursoNuevo->getIdAsignatura())
+            , $conn->real_escape_string($recursoNuevo->getRuta())
+            , $conn->real_escape_string($recursoNuevo->getNombre())
         );
         if ( $conn->query($query) ) {
-            $recurso->id = $conn->insert_id;
+            $recursoNuevo->id = $conn->insert_id;
+            $result = $recursoNuevo;
         } else {
             error_log("Error BD ({$conn->errno}): {$conn->error}");
         }
@@ -70,11 +112,15 @@ class Recursos {
     {
         $result = false;
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query=sprintf("UPDATE Recursos SET idAsignatura='%i', ruta='%s' WHERE U.id=%d"
+        $query=sprintf("UPDATE Recursos SET idAsignatura='%d', ruta='%s', nombre='%s' WHERE id=%d"
             , $conn->real_escape_string($recurso->getIdAsignatura())
             , $conn->real_escape_string($recurso->getRuta())
+            , $conn->real_escape_string($recurso->getNombre())
             , $recurso->id
         );
+        if ( !$conn->query($query) ) {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+        }
         
         return $result;
     }
