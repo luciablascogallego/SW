@@ -28,7 +28,9 @@ if (isset($_GET['curso'])) {
  
 } 
 
-$contenidoPrincipal .= '<a href="crear-asignatura.php">Crear nueva asigantura</a>';
+$contenidoPrincipal .= <<<EOS
+                <a href="crear-asignatura.php">Crear nueva asigantura</a>;
+                EOS;
 
 $params = ['tituloPagina' => $tituloPagina, 'contenidoPrincipal' => $contenidoPrincipal];
 $app->generaVista('/plantillas/plantilla.php', $params);

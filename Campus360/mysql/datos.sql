@@ -34,8 +34,10 @@ INSERT INTO `Alumnos` (`IdAlumno`, `IdPadre`) VALUES ('1', '5');
 
 INSERT INTO `Profesores` (`IdProfesor`, `Despacho`, `Tutorias`) VALUES ('4', '234', '11:29:00');
 
+INSERT INTO `Ciclos` (`Id`, `Nombre`) VALUES (NULL, 'ESO');
+
 INSERT INTO `Asignaturas` (`Nombre`, `Grupo`, `Profesor`, `Ciclo`, `Curso`, `Id`) 
-VALUES ('Lengua', 'A', '4', 'ESO', '3', NULL), ('Matematicas', 'A', '4', 'ESO', '3', NULL);
+VALUES ('Lengua', 'A', '4', 'ESO', '3', NULL), ('Matematicas', 'A', '4', '1', '3', NULL);
 
 INSERT INTO `EstudianAsignaturas` (`IdAsignatura`, `IdAlumno`) VALUES ('1', '1'), ('2', '1');
 

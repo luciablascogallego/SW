@@ -79,16 +79,19 @@ class FormularioSubeArchivo extends Formulario
                 $contenido = Recursos::crea(null, $this->id_asignatura, '', $nombre);
 
                 //Formo una ruta con el id del archivo y su extension
-                $rutaContenido = RUTA_RECURSOS.$_FILES['archivo']['name'];
+                $rutaContenido = $_FILES['archivo']['name'];
                 //inicializo la ruta del archivo
                 $contenido->setRuta($rutaContenido);
                 //Guardo el archivo en la BD
                 $contenido->guarda();
 
                 chmod(RUTA_RECURSOS, 0777);
+                //shell_exec('sudo chmod 777 '.RUTA_RECURSOS);
                 $ruta = RUTA_RECURSOS.$rutaContenido;
                 if (!is_dir(RUTA_RECURSOS)) {
                     mkdir(RUTA_RECURSOS, 0777, true);
+                    //shell_exec('sudo mkdir '.RUTA_RECURSOS);
+                    //shell_exec('sudo chmod 777 '.RUTA_RECURSOS);
                 }     
                 echo $ruta;
                 if (!move_uploaded_file($tmp_name, 'recursos/'.$_FILES['archivo']['name'])) {

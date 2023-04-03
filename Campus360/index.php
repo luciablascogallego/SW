@@ -9,7 +9,7 @@ if(isset($_SESSION['login']) && $_SESSION['login'] = true){
   if ($app->tieneRol(Usuario::ALUMNO_ROLE))
     Aplicacion::redirige('asignaturasAlu.php');
   else if ($app->tieneRol(Usuario::ADMIN_ROLE))
-    Aplicacion::redirige('asignaturasAdmin.php');
+    Aplicacion::redirige('admin.php');
   else if ($app->tieneRol(Usuario::PADRE_ROLE))
     Aplicacion::redirige('asignaturasPadre.php');
   else if ($app->tieneRol(Usuario::PROFE_ROLE))

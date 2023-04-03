@@ -21,11 +21,11 @@ $archivos = es\ucm\fdi\aw\Recurso\Recursos::getRecursosAsignatura($id_asignatura
 if (!empty($archivos)) {
     $contenidoPrincipal .= "<ul>";
   foreach ($archivos as $archivo) {
-    $ruta_archivo = 'recursos/'.$archivo['nombre'];
-    $nombre = $archivo['nombre'];
+    $ruta_archivo = __DIR__.'/recursos/'.$archivo['Nombre'];
+    $nombre = $archivo['Nombre'];
     $idRecurso = $archivo['Id'];
     $contenidoPrincipal .= <<<EOS
-        <li><a href="$ruta_archivo" target="_blank">$nombre</a></li>
+        <li><a href="file://///$ruta_archivo" target="_blank">$nombre</a></li>
     EOS;
     if($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::PROFE_ROLE)){
       $contenidoPrincipal .= <<<EOS

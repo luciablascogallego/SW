@@ -30,13 +30,13 @@ class Recursos {
     public static function buscaPorId($idRecurso)
     {
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("SELECT * FROM Recursos WHERE id=%d", $idRecurso);
+        $query = sprintf("SELECT * FROM Recursos WHERE Id=%d", $idRecurso);
         $rs = $conn->query($query);
         $result = false;
         if ($rs) {
             $fila = $rs->fetch_assoc();
             if ($fila) {
-                $result = new Recursos($fila['Id'], $fila['IdAsignatura'], $fila['Ruta'], $fila['nombre']);
+                $result = new Recursos($fila['Id'], $fila['IdAsignatura'], $fila['Ruta'], $fila['Nombre']);
             }
             $rs->free();
         } else {
@@ -59,7 +59,7 @@ class Recursos {
          * $result = self::borraRoles($usuario) !== false;
          */
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("DELETE FROM recursos WHERE Id = %d"
+        $query = sprintf("DELETE FROM Recursos WHERE Id = %d"
             , $idRecurso
         );
         if ( ! $conn->query($query) ) {
@@ -73,7 +73,7 @@ class Recursos {
     {
         $result = false;
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query=sprintf("INSERT INTO Recursos(id, idAsignatura, ruta, nombre) VALUES ('%d', '%d', '%s', '%s')"
+        $query=sprintf("INSERT INTO Recursos(Id, idAsignatura, Ruta, Nombre) VALUES ('%d', '%d', '%s', '%s')"
             , $conn->real_escape_string($recursoNuevo->getId())
             , $conn->real_escape_string($recursoNuevo->getIdAsignatura())
             , $conn->real_escape_string($recursoNuevo->getRuta())
@@ -112,7 +112,7 @@ class Recursos {
     {
         $result = false;
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query=sprintf("UPDATE Recursos SET idAsignatura='%d', ruta='%s', nombre='%s' WHERE id=%d"
+        $query=sprintf("UPDATE Recursos SET IdAsignatura='%d', Ruta='%s', Nombre='%s' WHERE id=%d"
             , $conn->real_escape_string($recurso->getIdAsignatura())
             , $conn->real_escape_string($recurso->getRuta())
             , $conn->real_escape_string($recurso->getNombre())

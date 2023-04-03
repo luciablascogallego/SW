@@ -49,7 +49,7 @@ class Padre {
          * $result = self::borraRoles($usuario) !== false;
          */
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("DELETE FROM Profesores  WHERE IdPadre = %d"
+        $query = sprintf("DELETE FROM Padres WHERE IdPadre = %d"
             , $idUsuario
         );
         if ( ! $conn->query($query) ) {
@@ -94,12 +94,6 @@ class Padre {
 
     public function getHijos(){
         return $this->idHijos;
-    }
-
-    public function setHijos($hijos){
-        foreach($hijos as $hijo){
-            $this->idHijos[] = $hijos['IdAlumno'];
-        }
     }
 
 }

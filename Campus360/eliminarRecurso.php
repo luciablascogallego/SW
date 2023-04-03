@@ -9,6 +9,6 @@ if (isset($_POST['eliminar'])) {
     unlink($ruta);
     $recurso->borrate();
     //Redirige a la pagina anterior
-    $url = "contenidoAsignatura.php?id=" . $asignatura;
-    header("Location:".$url);
+    $url = 'contenidoAsignatura.php?id='.$asignatura;
+    header('Location:'.$url);
   }
