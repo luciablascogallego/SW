@@ -10,7 +10,7 @@ TRUNCATE TABLE `Usuarios`;
   user: userpass
   admin: adminpass
 */
-INSERT INTO `Usuarios` (`Id`, `NIF`, `Telefono`, `email`, `dirección`, `Nombre`, `Apellidos`, `Contraseña`) 
+INSERT INTO `Usuarios` (`Id`, `NIF`, `Telefono`, `email`, `direccion`, `Nombre`, `Apellidos`, `password`) 
 VALUES (NULL, '45427899H', '+34 651764387', 'user@campus.es', 'Calle Imaginaria 3a', 'Pepe', 'Pepito Pulgoso', '$2y$10$uM6NtF.f6e.1Ffu2rMWYV.j.X8lhWq9l8PwJcs9/ioVKTGqink6DG');
 
 INSERT INTO `Usuarios` (`Id`, `NIF`, `Telefono`, `email`, `direccion`, `Nombre`, `Apellidos`, `password`) 

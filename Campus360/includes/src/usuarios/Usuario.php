@@ -27,8 +27,7 @@ class Usuario
     
     public static function crea($emailUsuario, $password, $nombre, $apellidos ,$rol, $telefono, $NIF, $dir)
     {
-        $user = new Usuario($emailUsuario, self::hashPassword($password), $nombre, null, $dir, $NIF, $apellidos, $telefono);
-        $user->añadeRol($rol);
+        $user = new Usuario($emailUsuario, self::hashPassword($password), $nombre, null, $dir, $NIF, $apellidos, $telefono, $rol);
         return $user->guarda();
     }
 
@@ -42,7 +41,28 @@ class Usuario
             $fila = $rs->fetch_assoc();
             if ($fila) {
                 $result = new Usuario($fila['email'], $fila['password'], $fila['Nombre'], $fila['Id'], $fila['direccion'],
-                $fila['NIF'], $fila['Apellidos'], $fila['Telefono']);
+                $fila['NIF'], $fila['Apellidos'], $fila['Telefono'], null);
+                $result=self::cargaRol($result);
+            }
+            $rs->free();
+        } else {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+        }
+        return $result;
+    }
+
+    public static function buscaUsuarioNIF($NIF)
+    {
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query = sprintf("SELECT * FROM Usuarios U WHERE U.NIF='%s'", $conn->real_escape_string($NIF));
+        $rs = $conn->query($query);
+        $result = false;
+        if ($rs) {
+            $fila = $rs->fetch_assoc();
+            if ($fila) {
+                $result = new Usuario($fila['email'], $fila['password'], $fila['Nombre'], $fila['Id'], $fila['direccion'],
+                $fila['NIF'], $fila['Apellidos'], $fila['Telefono'], null);
+                $result=self::cargaRol($result);
             }
             $rs->free();
         } else {
@@ -62,7 +82,8 @@ class Usuario
             $fila = $rs->fetch_assoc();
             if ($fila) {
                 $result = new Usuario($fila['email'], $fila['password'], $fila['Nombre'], $fila['Id'], $fila['direccion'],
-                $fila['NIF'], $fila['Apellidos'], $fila['Telefono']);
+                $fila['NIF'], $fila['Apellidos'], $fila['Telefono'], null);
+                $result=self::cargaRol($result);
             }
             $rs->free();
         } else {
@@ -81,7 +102,8 @@ class Usuario
             $fila = $rs->fetch_assoc();
             if ($fila) {
                 $result = new Usuario($fila['email'], $fila['password'], $fila['Nombre'], $fila['Id'], $fila['direccion'],
-                $fila['NIF'], $fila['Apellidos'], $fila['Telefono']);
+                $fila['NIF'], $fila['Apellidos'], $fila['Telefono'], null);
+                $result=self::cargaRol($result);
             }
             $rs->free();
         } else {
@@ -236,7 +258,7 @@ class Usuario
 
     private $rol;
 
-    private function __construct($email, $password, $nombre, $id = null, $dir, $NIF, $apellidos, $telefono)
+    private function __construct($email, $password, $nombre, $id = null, $dir, $NIF, $apellidos, $telefono, $rol)
     {
         $this->id = $id;
         $this->email = $email;
@@ -246,7 +268,7 @@ class Usuario
         $this->NIF = $NIF;
         $this->apellidos = $apellidos;
         $this->telefono = $telefono;
-        $this->rol = null;
+        $this->rol = $rol;
     }
 
     public function getId()
@@ -317,7 +339,7 @@ class Usuario
         if ($this->id !== null) {
             return self::actualiza($this);
         }
-        return self::inserta($this);
+        return self::inserta($this, $this->getRol());
     }
     
     public function borrate()

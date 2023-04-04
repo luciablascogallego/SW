@@ -69,7 +69,6 @@ class FormularioLogin extends Formulario
             } else {
                 $app = Aplicacion::getInstance();
                 $app->login($usuario);
-                $result = $app->resuelve('/index.php');
             }
         }
         return $result;

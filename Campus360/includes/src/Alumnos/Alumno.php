@@ -27,6 +27,12 @@ class Alumno {
         return $result;
     }
 
+    public static function crea ($idAlumno){
+        $result = new Alumno($idAlumno, null, null);
+        $result = self::asignaturasAlumno($result);
+        self::inserta($result);
+    }
+
     public static function listaAlumnos(){
         $alumnos = [];
 
