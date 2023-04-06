@@ -1,12 +1,11 @@
 <?php
 require_once __DIR__.'/includes/config.php';
 
-$formEventos = new \es\ucm\fdi\aw\usuarios\FormularioCreaEvento();
+$id_asignatura = $_GET['id'];
+$formEventos = new \es\ucm\fdi\aw\usuarios\FormularioCreaEvento($id_asignatura, null);
 $formEventos = $formEventos->gestiona();
 
-$id_asignatura = $_GET['id'];
-
-$formUpload = new \es\ucm\fdi\aw\usuarios\FormularioSubeArchivo($id_asignatura);
+$formUpload = new \es\ucm\fdi\aw\usuarios\FormularioSubeArchivo($id_asignatura, null);
 $formUpload = $formUpload->gestiona();
 
 $tituloPagina = 'Contenido';
@@ -44,15 +43,20 @@ if (!empty($archivos)) {
 //PARA MOSTRAR TODAS LAS ENTREGAS DE LA ASIGNATURA
 $contenidoPrincipal .= "<h1>ENTREGAS</h1>";
 
-$entregas = es\ucm\fdi\aw\EntregasAlumno\EntregasAlumno::getEntregasAsignatura($id_asignatura);
+$entregas = es\ucm\fdi\aw\Entregas_Eventos\Eventos_tareas::getEntregasAsignatura($id_asignatura);
 
 if(!empty($entregas)){
   $contenidoPrincipal.= "<ul>";
     
   foreach($entregas as $entrega) {
-    //Mostramos el nombre como enlace y si pulsamos vamos a un .php en el que se muestra la informacion de la entrega
-    //Pasamos en la url el id de la entrega 
-    $contenidoPrincipal.= "<li><a href='contenidoEntrega.php?id=" . $entrega['id_entrega'] . "&alumno=" . $_SESSION['idUsuario'] . "&id_asignatura=" . $id_asignatura . "'>" . "Entrega" . "</a></li>";
+    //Si somos alumno, el link mostrara el contenido de la entrega y nos dara la posibilidad de subir un archivo a la tarea
+    if($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::ALUMNO_ROLE)){
+        $contenidoPrincipal.= "<li><a href='contenidoEntrega.php?id=" . $entrega['Id'] . "&id_asignatura=" . $id_asignatura . "'>" . $entrega['nombre'] . "</a></li>";
+    }
+    //Si somos profesor, el link nos mostrara todas las entregas realizadas en la tarea, en un alista alumno por alumno
+    elseif($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::PROFE_ROLE)){
+      $contenidoPrincipal.= "<li><a href='listaEntregas.php?id=" . $entrega['Id'] . "&id_asignatura=" . $id_asignatura . "'>" . $entrega['nombre'] . "</a></li>";
+    }
   }
   
   $contenidoPrincipal.= "</ul>";

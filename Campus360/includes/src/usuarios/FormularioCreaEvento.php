@@ -3,29 +3,46 @@ namespace es\ucm\fdi\aw\usuarios;
 
 use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\Formulario;
+use es\ucm\fdi\aw\Entregas_Eventos\Eventos_tareas;
 
 class FormularioCreaEvento extends Formulario
 {
-
-    public function __construct()
+    private $id_asignatura;
+    public function __construct($asignatura)
     {
-        parent::__construct('formEvento', ['urlRedireccion' => 'contenidoAsignatura.php']);
+        parent::__construct('formEvento', ['urlRedireccion' => 'contenidoAsignatura.php?id=' . $asignatura]);
+        $this->id_asignatura = $asignatura;
     }
 
     protected function generaCamposFormulario(&$datos)
     {
         // Se generan los mensajes de error si existen.
         $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores);
-        $erroresCampos = self::generaErroresCampos(['nombre', 'fecha', 'hora'], $this->errores, 'span', array('class' => 'error'));
+        $erroresCampos = self::generaErroresCampos(['nombre', 'descripcion', 'opciones', 'fecha', 'hora'], $this->errores, 'span', array('class' => 'error'));
         
         $html = <<<EOS
         $htmlErroresGlobales
         <fieldset>
-            <legend>Nuevo evento</legend>
+            <legend>Nuevo evento/tarea</legend>
             <div>
-            <label>Nombre del evento:</label>
-            <input type="text" name="titulo" required>
+            <label>Nombre del evento/tarea:</label>
+            <input type="text" name="nombre" required>
             {$erroresCampos['nombre']}
+            </div>
+
+            <div>
+            <label>Descripcion del evento/tarea:</label>
+            <input type="text" name="descripcion" required>
+            {$erroresCampos['descripcion']}
+            </div>
+
+            <div>
+            <label for="opciones">¿Que deseas crear?</label>
+            <select id="opciones" name="opciones">
+                <option value="0">Evento</option>
+                <option value="1" selected>Tarea</option>
+            </select>
+            {$erroresCampos['opciones']}
             </div>
 
             <div>
@@ -64,19 +81,23 @@ class FormularioCreaEvento extends Formulario
         }
 
         $fecha = $_POST['fecha'];
-        $nombre = $_POST['nombre'];
-        $hora = $_POST['hora'];
-      
         // validar el formato de la fecha
         $fecha_valida = date_create_from_format('Y-m-d', $fecha);
         if (!$fecha_valida) {
             $this->errores['fecha'] = 'El formato de la fecha es incorrecto';
             return;
         }
+        $hora = $_POST['hora'];
+        $fechahora = date('Y-m-d H:i:s', strtotime("$fecha $hora"));
+        
+        $nombre = $_POST['nombre'];
+        $descrpicion = $_POST['descripcion'];
+        $opciones = $_POST['opciones'];
+      
 
         //Crea un objeto evento
-        $evento = Evento::crea($nombre, $fecha, $hora, '');
+        $evento = Eventos_tareas::crea(null, $fechahora, $this->id_asignatura, $opciones, $descrpicion, $nombre);
         //Guardo el archivo en la BD
-        $evento->guarda();
+        //$evento->guarda();
     }
 }

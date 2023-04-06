@@ -18,7 +18,7 @@ define('RUTA_CSS', RUTA_APP.'css/');
 define('RUTA_JS', RUTA_APP.'js/');
 
 define('RUTA_RECURSOS', implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), 'recursos/']));
-define('RUTA_ENTREGAS', implode(DIRECTORY_SEPARATOR, [__DIR__, 'entregas']));
+define('RUTA_ENTREGAS', implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), 'entregas/']));
 
 /**
  * Configuración del soporte de UTF-8, localización (idioma y país) y zona horaria

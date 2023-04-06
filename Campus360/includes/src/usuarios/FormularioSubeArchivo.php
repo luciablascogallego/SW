@@ -5,7 +5,7 @@ namespace es\ucm\fdi\aw\usuarios;
 use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\Formulario;
 use es\ucm\fdi\aw\Recurso\Recursos;
-use es\ucm\fdi\aw\EntregasAlumno;
+use es\ucm\fdi\aw\EntregasAlumno\EntregasAlumno;
 
 class FormularioSubeArchivo extends Formulario
 {
@@ -14,10 +14,13 @@ class FormularioSubeArchivo extends Formulario
                                                 'mp4', 'avi', 'mov', 'zip', 'rar', '7z');
     private $id_asignatura;
 
-    public function __construct($asignatura)
+    private $id_tarea;
+
+    public function __construct($asignatura, $entrega)
     {
         parent::__construct('formSubir', ['enctype' => 'multipart/form-data', 'urlRedireccion' => 'contenidoAsignatura.php?id=' . $asignatura]);
         $this->id_asignatura = $asignatura;
+        $this->id_entrega = $entrega;
     }
 
     protected function generaCamposFormulario(&$datos)
@@ -84,7 +87,7 @@ class FormularioSubeArchivo extends Formulario
                 //Crea un objeto recursos
                 $contenido = Recursos::crea(null, $this->id_asignatura, '', $nombre);
 
-                //Formo una ruta con el id del archivo y su extension
+                //Formo una ruta
                 $rutaContenido = RUTA_RECURSOS.$_FILES['archivo']['name'];
                 //inicializo la ruta del archivo
                 $contenido->setRuta($rutaContenido);
@@ -99,25 +102,31 @@ class FormularioSubeArchivo extends Formulario
                     //shell_exec('sudo mkdir '.RUTA_RECURSOS);
                     //shell_exec('sudo chmod 777 '.RUTA_RECURSOS);
                 }     
-                echo $ruta;
                 if (!move_uploaded_file($tmp_name, 'recursos/'.$_FILES['archivo']['name'])) {
                     $this->errores['archivo'] = 'Error al mover el archivo';
                 }
             }
-            elseif($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::ALUMNO_ROLE)){
+            elseif($_SESSION['rol'] == Usuario::ALUMNO_ROLE){
                 //Crea un objeto entega
                 $idUsuario = $_SESSION['idUsuario'];
-                $archivo = EntregasAlumno::crea(null, $id_asignatura, $idUsuario, '');
+                $archivo = EntregasAlumno::crea(null, $this->id_asignatura, $idUsuario, '', $nombre, $this->id_entrega);
 
-                //Formo una ruta con el id del archivo y su extension
-                $fichero = "{$archivo->id}.{$extension}";
+                //Formo una ruta
+                $fichero = RUTA_ENTREGAS.$_FILES['archivo']['name'];
                 //inicializo la ruta del archivo
                 $archivo->setRuta($fichero);
                 //Guardo el archivo en la BD
-                $archivo->inserta($archivo);
+                $archivo->guarda();
 
+                chmod(RUTA_RECURSOS, 0777);
+                //shell_exec('sudo chmod 777 '.RUTA_ENTREGAS);
                 $ruta = RUTA_ENTREGAS.$fichero;
-                if (!move_uploaded_file($tmp_name, $ruta)) {
+                if (!is_dir(RUTA_ENTREGAS)) {
+                    mkdir(RUTA_ENTREGAS, 0777, true);
+                    //shell_exec('sudo mkdir '.RUTA_ENTREGAS);
+                    //shell_exec('sudo chmod 777 '.RUTA_ENTREGAS);
+                } 
+                if (!move_uploaded_file($tmp_name, 'entregas/'.$_FILES['archivo']['name'])) {
                     $this->errores['archivo'] = 'Error al mover el archivo';
                 }
             }
