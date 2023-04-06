@@ -9,6 +9,9 @@ use es\ucm\fdi\aw\EntregasAlumno;
 
 class FormularioSubeArchivo extends Formulario
 {
+    const EXTENSIONES_PERMITIDAS = array    (   'gif', 'jpg', 'jpe', 'jpeg', 'png', 'webp', 'avif', 
+                                                'txt', 'docx', 'doc', 'pdf', 'xml', 'rtf',
+                                                'mp4', 'avi', 'mov', 'zip', 'rar', '7z');
     private $id_asignatura;
 
     public function __construct($asignatura)
@@ -53,25 +56,28 @@ class FormularioSubeArchivo extends Formulario
 
             //Sanitiza el nombre del archivo (elimina los caracteres que molestan)
             self::sanitize_file_uploaded_name($nombre);
-            /*Valida el nombre del archivo y el tamaño del nombre*/
+            /*Valida el nombre del archivo, la extension, su tamaño y el tamaño del nombre*/
+            $extension = pathinfo($nombre, PATHINFO_EXTENSION);
             $ok = self::check_file_uploaded_name($nombre);
             if ($ok) {
                 $this->errores['nombre'] = 'El nombre del archivo no es correcto';
-                exit();
+            }
+            $ok = in_array($extension, self::EXTENSIONES_PERMITIDAS);
+            if (!$ok) {
+                $this->errores['nombre'] = 'La extension del archivo no es correcta';
             }
             $ok = $this->check_file_uploaded_length($nombre);
             if (!$ok) {
                 $this->errores['nombre'] = 'El nombre del archivo es demasiado grande';
-                echo 'lon';
-                exit();
             }
             $ok = $this->tam100MB($_FILES['archivo']['size']);
             if (!$ok) {
                 $this->errores['size'] = 'El archivo es demasiado grande';
-                echo 'tam';
+            }
+
+            if (count($this->errores) > 0) {
                 return;
             }
-            $extension = pathinfo($nombre, PATHINFO_EXTENSION);
 
             $app = Aplicacion::getInstance();
             if ($_SESSION['rol'] == Usuario::PROFE_ROLE) {
@@ -79,7 +85,7 @@ class FormularioSubeArchivo extends Formulario
                 $contenido = Recursos::crea(null, $this->id_asignatura, '', $nombre);
 
                 //Formo una ruta con el id del archivo y su extension
-                $rutaContenido = $_FILES['archivo']['name'];
+                $rutaContenido = RUTA_RECURSOS.$_FILES['archivo']['name'];
                 //inicializo la ruta del archivo
                 $contenido->setRuta($rutaContenido);
                 //Guardo el archivo en la BD
