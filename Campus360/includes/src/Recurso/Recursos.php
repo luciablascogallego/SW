@@ -47,7 +47,7 @@ class Recursos {
 
     private static function borra($recurso)
     {
-        return self::borraPorId($recurso->Id);
+        return self::borraPorId($recurso->getId());
     }
 
     private static function borraPorId($idRecurso)
@@ -59,7 +59,7 @@ class Recursos {
          * $result = self::borraRoles($usuario) !== false;
          */
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("DELETE FROM Recursos WHERE Id = %d"
+        $query = sprintf("DELETE FROM Recursos WHERE Id=%d"
             , $idRecurso
         );
         if ( ! $conn->query($query) ) {
@@ -155,7 +155,7 @@ class Recursos {
     
     public function borrate()
     {
-        if ($this->id !== null) {
+        if ($this->getId()) {
             return self::borra($this);
         }
         return false;

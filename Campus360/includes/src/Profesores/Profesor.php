@@ -11,7 +11,7 @@ class Profesor {
     {
         $result = false;
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query=sprintf("INSERT INTO Profesores(IdProfesor, Despacho, Tutorias) VALUES ('%d', '%d', %s)"
+        $query=sprintf("INSERT INTO Profesores(IdProfesor, Despacho, Tutorias) VALUES ('%d', '%d', '%s')"
             , $conn->real_escape_string($profesor->getId())
             , $conn->real_escape_string($profesor->getDespacho())
             , $conn->real_escape_string($profesor->getTutorias())
@@ -22,6 +22,32 @@ class Profesor {
             error_log("Error BD ({$conn->errno}): {$conn->error}");
         }
         return $result;
+    }
+
+    public static function crea($id, $tutorias, $despacho){
+        $profesor = new Profesor($id, $despacho, $tutorias);
+        $profesor = self::inserta($profesor);
+
+        return $profesor;
+    }
+
+    public static function profesCampus(){
+        $profesores=[];
+            
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query = sprintf("SELECT * FROM Profesores"
+        );
+        $rs = $conn->query($query);
+        if ($rs) {
+            $profesores = $rs->fetch_all(MYSQLI_ASSOC);
+            $rs->free();
+
+            return $profesores;
+
+        } else {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+        }
+        return false;
     }
 
     private static function borraPorId($idUsuario)
@@ -53,7 +79,9 @@ class Profesor {
             $fila = $rs->fetch_assoc();
             if ($fila) {
                 $result = new Profesor($fila['IdProfesor'], $fila['Despacho'], $fila['Tutorias']);
-                $result = self::asignaturasProfesor($result);
+                $profesor = self::asignaturasProfesor($result);
+                if($profesor)
+                    $result = $profesor;
             }
             $rs->free();
         } else {

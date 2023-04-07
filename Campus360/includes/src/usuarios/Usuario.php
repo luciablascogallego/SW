@@ -74,7 +74,7 @@ class Usuario
     public static function buscaporNombre($nombre, $apellidos)
     {
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("SELECT * FROM Usuarios U WHERE U.Nombre='%s' AND U.Apellidos='%s", $conn->real_escape_string($nombre),
+        $query = sprintf("SELECT * FROM Usuarios U WHERE U.Nombre='%s' AND U.Apellidos='%s'", $conn->real_escape_string($nombre),
         $conn->real_escape_string($apellidos));
         $rs = $conn->query($query);
         $result = false;
@@ -110,6 +110,32 @@ class Usuario
             error_log("Error BD ({$conn->errno}): {$conn->error}");
         }
         return $result;
+    }
+
+    public static function admins(){
+        $admins = [];
+        $ids = [];
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query = sprintf("SELECT idUsuario FROM RolesUsuarios  WHERE rol=%d"
+            , self::ADMIN_ROLE
+        );
+        $rs = $conn->query($query);
+        if ($rs) {
+            $ids = $rs->fetch_all(MYSQLI_ASSOC);
+            $rs->free();
+            if($ids){
+                foreach($ids as $id) {
+                    $admins[] = self::buscaPorId($id['idUsuario']);  
+                }
+                return $admins;
+            }
+            else
+                return false;
+        }
+        else {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+        }
+        return false;
     }
     
     private static function hashPassword($password)
@@ -216,12 +242,12 @@ class Usuario
         return $usuario;
     }
     
-    private static function borra($usuario)
+    public static function borra($usuario)
     {
         return self::borraPorId($usuario->id);
     }
     
-    private static function borraPorId($idUsuario)
+    public static function borraPorId($idUsuario)
     {
         if (!$idUsuario) {
             return false;
@@ -230,7 +256,7 @@ class Usuario
          * $result = self::borraRoles($usuario) !== false;
          */
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("DELETE FROM Usuarios U WHERE U.Id = %d"
+        $query = sprintf("DELETE FROM Usuarios WHERE Id = %d"
             , $idUsuario
         );
         if ( ! $conn->query($query) ) {

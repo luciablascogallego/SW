@@ -8,7 +8,7 @@ use es\ucm\fdi\aw\Formulario;
 class FormularioNuevoUsuario extends Formulario
 {
     public function __construct() {
-        parent::__construct('formNuevoUsuario', ['urlRedireccion' => Aplicacion::getInstance()->resuelve('/index.php')]);
+        parent::__construct('formNuevoUsuario', ['urlRedireccion' => 'usuariosAdmin.php']);
     }
     
     protected function generaCamposFormulario(&$datos)
@@ -76,6 +76,7 @@ class FormularioNuevoUsuario extends Formulario
                 <option value="4">Profe</option>
                 <option value="1">Admin</option>
                 </select>
+                {$erroresCampos['rol']}
             </div>
             <div>
                 <button type="submit" name="registro">Registrar</button>
@@ -89,6 +90,8 @@ class FormularioNuevoUsuario extends Formulario
     protected function procesaFormulario(&$datos)
     {
         $this->errores = [];
+
+        $app = Aplicacion::getInstance();
 
         $emailUsuario = trim($datos['emailUsuario'] ?? '');
         $emailUsuario = filter_var($emailUsuario, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -145,11 +148,15 @@ class FormularioNuevoUsuario extends Formulario
 
         if (count($this->errores) === 0) {
             $usuario = Usuario::crea($emailUsuario, $password, $nombre, $apellidos ,$rol, $telefono, $NIF, $dir);
-            if ($usuario->getRol() == Usuario::ALUMNO_ROL){
-                es\ucm\fdi\aw\Alumnos\Alumno::crea($usuario->getId());
+            if ($usuario->getRol() == Usuario::ALUMNO_ROLE){
+                //es\ucm\fdi\aw\Alumnos\Alumno::crea($usuario->getId());
+                $app->redirige('creaAlumno.php?id='.$usuario->getId());
             }
-            else if ($usuario->getRol() == Usuario::PROFE_ROL){
-                es\ucm\fdi\aw\Profesores\Profesor::crea($usuario->getId());
+            else if ($usuario->getRol() == Usuario::PROFE_ROLE){
+                $app->redirige('creaProfesor.php?id='.$usuario->getId());
+            }
+            else if ($usuario->getRol() == Usuario::PADRE_ROLE){
+                es\ucm\fdi\aw\Padres\Padre::crea($usuario->getId());
             }
             if (!$usuario) {
                 $this->errores[] = "Error al crear el usuario";

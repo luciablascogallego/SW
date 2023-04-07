@@ -2,4 +2,4 @@ CREATE USER 'aw'@'%' IDENTIFIED BY 'aw';
 GRANT ALL PRIVILEGES ON `Campus360`.* TO 'aw'@'%';
 
 CREATE USER 'aw'@'localhost' IDENTIFIED BY 'aw';
-GRANT ALL PRIVILEGES ON `Campus360`.* TO 'aw'@'localhost';
+GRANT ALL PRIVILEGES ON `Campus360`.* TO 'aw'@'localhost' WITH GRANT OPTION;

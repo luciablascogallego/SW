@@ -8,14 +8,33 @@ class Asignatura {
     use MagicProperties;
 
     public static function crea($nombre, $curso, $idProfesor, $ciclo, $grupo){
-        $asignatura = new Asignatura($ciclo, $curso, $grupo, $nombre, $idProfesor);
+        $asignatura = new Asignatura(null, $ciclo, $curso, $grupo, $nombre, $idProfesor);
         return $asignatura->guarda();
+    }
+
+    public static function buscaAsignatura($nombre, $curso, $grupo, $idCiclo)
+    {
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query = sprintf("SELECT * FROM Asignaturas WHERE Nombre='%s' AND Curso='%s' AND Grupo='%s' AND Ciclo='%d'", 
+            $nombre, $curso, $grupo, $idCiclo);
+        $rs = $conn->query($query);
+        $result = false;
+        if ($rs) {
+            $fila = $rs->fetch_assoc();
+            if ($fila) {
+                $result = new Asignatura($fila['Id'], $fila['Ciclo'], $fila['Curso'], $fila['Grupo'], $fila['Nombre'], $fila['Profesor']);
+            }
+            $rs->free();
+        } else {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+        }
+        return $result;
     }
 
     public static function buscaPorCursoGrupo($curso, $grupo)
     {
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("SELECT * FROM Asignaturas WHERE curso=%i AND grupo=%s", $curso, $grupo);
+        $query = sprintf("SELECT * FROM Asignaturas WHERE Curso='%d' AND Grupo='%s'", $curso, $grupo);
         $rs = $conn->query($query);
         $result = false;
         if ($rs) {
@@ -33,7 +52,7 @@ class Asignatura {
     public static function buscaPorCurso($curso)
     {
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("SELECT * FROM Asignaturas WHERE curso=%i", $curso);
+        $query = sprintf("SELECT * FROM Asignaturas WHERE Curso='%d'", $curso);
         $rs = $conn->query($query);
         $result = false;
         if ($rs) {
@@ -51,7 +70,7 @@ class Asignatura {
     public static function buscaPorCiclo($ciclo)
     {
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("SELECT * FROM Asignaturas WHERE ciclo=%s", $ciclo);
+        $query = sprintf("SELECT * FROM Asignaturas WHERE Ciclo=%d", $ciclo);
         $rs = $conn->query($query);
         $result = false;
         if ($rs) {
@@ -64,6 +83,20 @@ class Asignatura {
             error_log("Error BD ({$conn->errno}): {$conn->error}");
         }
         return $result;
+    }
+    public static function buscaPorCicloCurso($ciclo, $curso)
+    {
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query = sprintf("SELECT * FROM Asignaturas WHERE Ciclo=%d AND Curso=%d", $ciclo, $curso);
+        $rs = $conn->query($query);
+        if ($rs) {
+            $asignaturas = $rs->fetch_all(MYSQLI_ASSOC);
+            $rs->free();
+            return $asignaturas;
+        } else {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+        }
+        return false;
     }
 
     public static function buscaPorId($idAsignatura)
@@ -106,7 +139,7 @@ class Asignatura {
     {
         $result = false;
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query=sprintf("INSERT INTO Asignaturas(ciclo, curso, grupo, nombre, profesor) VALUES ('%s', '%i', '%s', '%s', '%i')"
+        $query=sprintf("INSERT INTO Asignaturas(ciclo, curso, grupo, nombre, profesor) VALUES ('%s', '%d', '%s', '%s', '%d')"
             , $conn->real_escape_string($asignatura->getCiclo())
             , $conn->real_escape_string($asignatura->getCurso())
             , $conn->real_escape_string($asignatura->getGrupo())
@@ -121,9 +154,10 @@ class Asignatura {
         return $result;
     }
 
-    private static function borra($asignatura)
+    public static function borra($idAsignatura)
     {
-        return self::borraPorId($asignatura->id);
+        self::borraParticipantes($idAsignatura);
+        return self::borraPorId($idAsignatura);
     }
 
     private static function borraPorId($idAsignatura)
@@ -136,6 +170,25 @@ class Asignatura {
          */
         $conn = Aplicacion::getInstance()->getConexionBd();
         $query = sprintf("DELETE FROM Asignaturas WHERE Id = %d"
+            , $idAsignatura
+        );
+        if ( ! $conn->query($query) ) {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+            return false;
+        }
+        return true;
+    }
+
+    private static function borraParticipantes($idAsignatura)
+    {
+        if (!$idAsignatura) {
+            return false;
+        } 
+        /* Los roles se borran en cascada por la FK
+         * $result = self::borraRoles($usuario) !== false;
+         */
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query = sprintf("DELETE FROM EstudianAsignaturas WHERE IdAsignatura = %d"
             , $idAsignatura
         );
         if ( ! $conn->query($query) ) {

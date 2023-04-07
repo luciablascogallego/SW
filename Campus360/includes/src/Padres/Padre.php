@@ -25,12 +25,19 @@ class Padre {
         return $result;
     }
 
-    private static function inserta($alumno)
+    public static function crea($idPadre){
+        $padre = new Padre($idPadre);
+        self::inserta($padre);
+
+        return $padre;
+    }
+
+    private static function inserta($padre)
     {
         $result = false;
         $conn = Aplicacion::getInstance()->getConexionBd();
         $query=sprintf("INSERT INTO Padres(IdPadre) VALUES ('%d')"
-            , $conn->real_escape_string($alumno->getId())
+            , $conn->real_escape_string($padre->getId())
         );
         if ( $conn->query($query) ) {
             $result = $alumno;
@@ -59,6 +66,25 @@ class Padre {
         return true;
     }
 
+    public static function padres(){
+        $padres=[];
+            
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query = sprintf("SELECT * FROM Padres"
+        );
+        $rs = $conn->query($query);
+        if ($rs) {
+            $padres = $rs->fetch_all(MYSQLI_ASSOC);
+            $rs->free();
+
+            return $padres;
+
+        } else {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+        }
+        return false;
+    }
+
     private static function hijos($padre){
         $hijos=[];
             
@@ -70,8 +96,9 @@ class Padre {
         if ($rs) {
             $hijos = $rs->fetch_all(MYSQLI_ASSOC);
             $rs->free();
-
-            $padre->setHijos($hijos);
+            foreach($hijos as $hijo){
+                $padre->idHijos[] = $hijo['IdAlumno'];
+            }
             return $padre;
 
         } else {

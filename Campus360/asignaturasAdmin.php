@@ -1,36 +1,55 @@
 <?php
 require_once __DIR__.'/includes/config.php';
 
-$tituloPagina = 'Asignaturas admin';
-$contenidoPrincipal = '<h1>Asignaturas disponibles</h1>';
+use es\ucm\fdi\aw\Alumnos\Alumno;
+use es\ucm\fdi\aw\Asignaturas\Asignatura;
+use es\ucm\fdi\aw\Ciclos\Ciclo;
 
-if (isset($_POST['accion'])) {
-    $accion = $_POST['accion'];
-    if ($accion === 'eliminar' && isset($_POST['id'])) {
-        // Aquí deberías agregar el código para eliminar el ciclo con el ID indicado desde la base de datos
-        $id = $_POST['id'];
-        eliminarAsignatura($id);
-    } 
-}
-
-if (isset($_GET['curso'])) {
-    $cursoId = $_GET['curso'];
-        $asignaturas = obtenerAsignaturasPorCurso($cursoId);
-        if ($asignaturas) {
-            $contenidoPrincipal .= '<ul>';
-            foreach ($asignaturas as $asignatura) {
-                $contenidoPrincipal .= '<li>'.$asignatura['nombre'].'<form method="POST" style="display: inline-block;"><input type="hidden" name="id" value="'.$asignatura['id'].'"><input type="hidden" name="accion" value="eliminar"><button type="submit">Eliminar</button></form></li>';
-            }
-            $contenidoPrincipal .= '</ul>';
-        } else {
-            $contenidoPrincipal .= '<p>No se encontraron asignaturas disponibles para el curso '.$curso['nombre'].'.</p>';
-        }
- 
-} 
+$tituloPagina = 'Asignaturas campus';
+$contenidoPrincipal = '<h1>Asignaturas Campus360</h1>';
 
 $contenidoPrincipal .= <<<EOS
-                <a href="crear-asignatura.php">Crear nueva asigantura</a>;
-                EOS;
+                        <div> <a href="crear-asignatura.php"> Crear nueva asignatura </a> </div>
+                    EOS;
 
+$contenidoPrincipal .= <<<EOS
+                    <div> <a href="crear-ciclo.php"> Crear nuevo ciclo </a> </div>
+                    EOS;
+
+$ciclos = Ciclo::ciclosCampus();
+if ($ciclos) {
+    foreach ($ciclos as $ciclo) {
+        $contenidoPrincipal .= '<fieldset>
+        <legend>'.$ciclo['Nombre'].'</legend>';
+        $idCiclo = $ciclo['Id'];
+        for($i = 1; $i < 5; $i++){
+            $contenidoPrincipal .= '<ul>';
+            $asignaturas = Asignatura::buscaPorCicloCurso($idCiclo, $i);
+            foreach($asignaturas as $asignatura){
+                if($asignatura){
+                    $id = $asignatura['Id'];
+                    $nombre = $asignatura['Nombre'];
+                    $curso = $asignatura['Curso'];
+                    $grupo = $asignatura['Grupo'];
+                    $contenidoPrincipal .= <<<EOS
+                        <li>$nombre $curso º $grupo     <a href="eliminaAsignatura.php?id=$id"> Eliminar Asignatura</a>     <a href="añadeAsignatura.php?id=$id"> Gestionar alumnos</a>
+                        </li>
+                    EOS;  
+                }
+            } 
+            $contenidoPrincipal .= '</ul>';
+        }
+        $contenidoPrincipal .= <<<EOS
+        <div>
+        <a href="eliminaCiclo.php?id=$idCiclo"> Eliminar Ciclo</a>
+        </div>
+        </fieldset>
+        EOS;
+    }
+}      
+    
+else {
+    $contenidoPrincipal .= '<p>No se encontraron asignaturas disponibles para el alumno </p>';
+} 
 $params = ['tituloPagina' => $tituloPagina, 'contenidoPrincipal' => $contenidoPrincipal];
 $app->generaVista('/plantillas/plantilla.php', $params);

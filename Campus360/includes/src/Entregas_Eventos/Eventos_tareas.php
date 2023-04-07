@@ -38,7 +38,7 @@ class Eventos_tareas {
         $archivos=[];
             
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("SELECT * FROM eventos_tareas WHERE IdAsignatura=%d"
+        $query = sprintf("SELECT * FROM Eventos_Tareas WHERE IdAsignatura=%d"
             , $asignatura
         );
         $rs = $conn->query($query);
@@ -112,7 +112,7 @@ class Eventos_tareas {
     {
         $result = false;
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query=sprintf("INSERT INTO eventos_tareas(Id, FechaFin, IdAsignatura, esentrega, descripcion, nombre) VALUES ('%d', '%s', '%d', '%d', '%s', '%s')"
+        $query=sprintf("INSERT INTO Eventos_Tareas(Id, FechaFin, IdAsignatura, esentrega, descripcion, nombre) VALUES ('%d', '%s', '%d', '%d', '%s', '%s')"
             , $conn->real_escape_string($nuevo->getId())
             , $conn->real_escape_string($nuevo->getFechaFin())
             , $conn->real_escape_string($nuevo->getIdAsignatura())

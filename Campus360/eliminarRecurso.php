@@ -7,7 +7,7 @@ if (isset($_POST['eliminar'])) {
     $asignatura = $recurso->getIdAsignatura();
     $ruta = $recurso->getRuta();
     unlink($ruta);
-    $recurso->borrate();
+    $recurso = $recurso->borrate();
     //Redirige a la pagina anterior
     $url = 'contenidoAsignatura.php?id='.$asignatura;
     header('Location:'.$url);

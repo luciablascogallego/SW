@@ -18,7 +18,9 @@ class Alumno {
             if ($fila) {
                 $asiganturas = [];
                 $result = new Alumno($fila['IdAlumno'], $fila['IdPadre'], null);
-                $result = self::asignaturasAlumno($result);
+                $alumno = self::asignaturasAlumno($result);
+                if($alumno)
+                    $result = $alumno;
             }
             $rs->free();
         } else {
@@ -27,9 +29,9 @@ class Alumno {
         return $result;
     }
 
-    public static function crea ($idAlumno){
-        $result = new Alumno($idAlumno, null, null);
-        $result = self::asignaturasAlumno($result);
+    public static function crea ($idAlumno, $idPadre){
+        $result = new Alumno($idAlumno, $idPadre, null);
+        //$alumno = self::asignaturasAlumno($result);
         self::inserta($result);
     }
 
@@ -87,15 +89,9 @@ class Alumno {
         return true;
     }
 
-    public static function borraAlumnoAsignatura($idAlumno, $idAsignatura){
-        if (!$idUsuario) {
-            return false;
-        } 
-        /* Los roles se borran en cascada por la FK
-         * $result = self::borraRoles($usuario) !== false;
-         */
+    public static function insertaAlumnoAsignatura($idAlumno, $idAsignatura){
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("DELETE FROM EstudianAsignaturas  WHERE IdAlumno = %d AND IdAsignatura=%d"
+        $query = sprintf("INSERT INTO EstudianAsignaturas(IdAlumno, IdAsignatura) VALUES ('%d', '%d')"
             , $idAlumno, $idAsignatura
         );
         if ( ! $conn->query($query) ) {
@@ -103,6 +99,46 @@ class Alumno {
             return false;
         }
         return true; 
+    }
+
+    public static function borraAlumnoAsignatura($idAlumno, $idAsignatura){
+        if (!$idAlumno) {
+            return false;
+        } 
+        /* Los roles se borran en cascada por la FK
+         * $result = self::borraRoles($usuario) !== false;
+         */
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query = sprintf("DELETE FROM EstudianAsignaturas  WHERE IdAlumno=%d AND IdAsignatura=%d"
+            , $idAlumno, $idAsignatura
+        );
+        if ( ! $conn->query($query) ) {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+            return false;
+        }
+        return true; 
+    }
+
+    public static function tieneAsignatura($idAsignatura, $idAlumno){
+        /* Los roles se borran en cascada por la FK
+         * $result = self::borraRoles($usuario) !== false;
+         */
+        $result = false;
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query = sprintf("SELECT * FROM EstudianAsignaturas  WHERE IdAlumno=%d AND IdAsignatura=%d"
+            , $idAlumno, $idAsignatura
+        );
+        $rs = $conn->query($query);
+        if ($rs){
+            $fila = $rs->fetch_assoc();
+            if($fila)
+                $result = true;
+        }
+        else{
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+            return false;            
+        }
+        return $result; 
     }
    
     public static function asignaturasAlumno($alumno){
@@ -141,6 +177,16 @@ class Alumno {
         $this->idPadre = $idPadre;
         $this->idAsignaturas = $asignaturas;
     }
+
+    public function tieneAsignaturas(){
+        if($this->idAsignaturas == null){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
 
     public function getId(){
         return $this->id;

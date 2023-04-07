@@ -2,14 +2,16 @@
 
 require_once __DIR__.'/includes/config.php';
 
-$formCreaAsignatura = new \es\ucm\fdi\aw\usuarios\FormularioCreaAsignatura();
-$formCreaAsignatura = $formCreaAsignatura->gestiona();
+$id = $_GET['id'];
+
+$formNuevoAlumno = new \es\ucm\fdi\aw\usuarios\FormularioNuevoAlumno($id);
+$formNuevoAlumno = $formNuevoAlumno->gestiona();
 
 
-$tituloPagina = 'Nueva Asignatura';
+$tituloPagina = 'Nuevo Alumno';
 $contenidoPrincipal=<<<EOF
-  	<h1>Crear nueva asignatura</h1>
-    $formCreaAsignatura
+  	<h1>Crear nuevo alumno</h1>
+    $formNuevoAlumno
 EOF;
 
 $params = ['tituloPagina' => $tituloPagina, 'contenidoPrincipal' => $contenidoPrincipal];

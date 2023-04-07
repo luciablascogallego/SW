@@ -20,8 +20,8 @@ $archivos = es\ucm\fdi\aw\Recurso\Recursos::getRecursosAsignatura($id_asignatura
 if (!empty($archivos)) {
     $contenidoPrincipal .= "<ul>";
   foreach ($archivos as $archivo) {
-    $ruta_archivo = __DIR__.'/recursos/'.$archivo['nombre'];
-    $nombre = $archivo['nombre'];
+    $ruta_archivo = __DIR__.'/recursos/'.$archivo['Nombre'];
+    $nombre = $archivo['Nombre'];
     $idRecurso = $archivo['Id'];
     $contenidoPrincipal .= <<<EOS
         <li><a href="file://///$ruta_archivo" target="_blank">$nombre</a></li>
