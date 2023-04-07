@@ -55,7 +55,7 @@ if(!empty($entregas)){
     }
     //Si somos profesor, el link nos mostrara todas las entregas realizadas en la tarea, en un alista alumno por alumno
     elseif($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::PROFE_ROLE)){
-      $contenidoPrincipal.= "<li><a href='listaEntregas.php?id=" . $entrega['Id'] . "&id_asignatura=" . $id_asignatura . "'>" . $entrega['nombre'] . "</a></li>";
+      $contenidoPrincipal.= "<li><a href='listaEntregas.php?id=" . $entrega['Id'] . "&id_asignatura=" . $id_asignatura . "&nombre=" . $entrega['nombre'] ."'>" . $entrega['nombre'] . "</a></li>";
     }
   }
   
