@@ -119,13 +119,35 @@ class Alumno {
         return true; 
     }
 
+    public static function estudianAsignatura($idAsignatura){
+        /* Los roles se borran en cascada por la FK
+         * $result = self::borraRoles($usuario) !== false;
+         */
+        $result = false;
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query = sprintf("SELECT * FROM EstudianAsignaturas  WHERE IdAsignatura=%d"
+            , $idAsignatura
+        );
+        $rs = $conn->query($query);
+        if ($rs){
+            $fila = $rs->fetch_all(MYSQLI_ASSOC);
+            if($fila)
+                $result = $fila;
+        }
+        else{
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+            return false;            
+        }
+        return $result; 
+    }
+
     public static function tieneAsignatura($idAsignatura, $idAlumno){
         /* Los roles se borran en cascada por la FK
          * $result = self::borraRoles($usuario) !== false;
          */
         $result = false;
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("SELECT * FROM EstudianAsignaturas  WHERE IdAlumno=%d AND IdAsignatura=%d"
+        $query = sprintf("SELECT IdAlumno FROM EstudianAsignaturas  WHERE IdAlumno=%d AND IdAsignatura=%d"
             , $idAlumno, $idAsignatura
         );
         $rs = $conn->query($query);

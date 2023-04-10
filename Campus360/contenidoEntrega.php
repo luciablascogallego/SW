@@ -7,11 +7,12 @@ use es\ucm\fdi\aw\Entregas_Eventos\Eventos_tareas;
 $id_asignatura = $_GET['id_asignatura'];
 
 $id_entrega = $_GET['id'];
+$idAlumno = $app->idUsuario();
 
 $tituloPagina = 'Entrega';
 $contenidoPrincipal='';
 
-$entregas = EntregasAlumno::getEntrega($id_entrega);
+$entregas = EntregasAlumno::getEntrega($id_entrega, $idAlumno);
 $tarea = Eventos_tareas::buscaPorId($id_entrega);
 $tiempoRestante = $tarea->getFechaFin();
 $descripcion = $tarea->getDescripcion();
@@ -25,8 +26,11 @@ if (!empty($entregas)) {
   foreach ($entregas as $entrega) {
     $idDelete = $entrega['Id'];
     $ruta_archivo = __DIR__.'/entregas/'.$entrega['nombre'];
+    $nombre = $entrega['nombre'];
     //$ruta_archivo = RUTA_ENTREGAS.$entrega['Ruta'];
-    $contenidoPrincipal .= '<li><a href=' . $ruta_archivo . '>' . $entrega['nombre'] . '</a></li>';
+    $contenidoPrincipal .= <<<EOS
+    <li><a href="file://///$ruta_archivo" target="_blank">$nombre</a></li>
+    EOS;
     $contenidoPrincipal .= <<<EOS
       <form method="POST" action="eliminarEntrega.php">
       <input type="hidden" name="id" value=$idDelete>

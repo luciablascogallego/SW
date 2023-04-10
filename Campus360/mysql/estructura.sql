@@ -18,7 +18,7 @@ DROP TABLE IF EXISTS `Ciclos`;
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 07, 2023 at 01:02 PM
+-- Generation Time: Apr 07, 2023 at 07:09 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -97,7 +97,8 @@ CREATE TABLE `EntregasAlumno` (
   `Id` int(11) NOT NULL,
   `IdAsignatura` int(11) NOT NULL,
   `IdAlumno` int(11) NOT NULL,
-  `Ruta` varchar(40) NOT NULL
+  `Ruta` varchar(40) NOT NULL,
+  `idEntrega` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -120,7 +121,9 @@ CREATE TABLE `EstudianAsignaturas` (
 CREATE TABLE `Eventos_Tareas` (
   `Id` int(11) NOT NULL,
   `FechaFin` date NOT NULL,
-  `IdAsignatura` int(11) NOT NULL
+  `IdAsignatura` int(11) NOT NULL,
+  `nombre` varchar(20) NOT NULL,
+  `descripcion` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -187,6 +190,10 @@ CREATE TABLE `Usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Indexes for dumped tables
+--
+
+--
 -- Indexes for table `Alumnos`
 --
 ALTER TABLE `Alumnos`
@@ -222,7 +229,8 @@ ALTER TABLE `Ciclos`
 ALTER TABLE `EntregasAlumno`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `IdAlumno` (`IdAlumno`),
-  ADD KEY `EntregasAlumno_ibfk_2` (`IdAsignatura`);
+  ADD KEY `EntregasAlumno_ibfk_2` (`IdAsignatura`),
+  ADD KEY `idEntrega` (`idEntrega`);
 
 --
 -- Indexes for table `EstudianAsignaturas`
@@ -297,7 +305,7 @@ ALTER TABLE `EntregasAlumno`
 -- AUTO_INCREMENT for table `Recursos`
 --
 ALTER TABLE `Recursos`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `Usuarios`
@@ -328,7 +336,8 @@ ALTER TABLE `Asignaturas`
 --
 ALTER TABLE `EntregasAlumno`
   ADD CONSTRAINT `EntregasAlumno_ibfk_1` FOREIGN KEY (`IdAlumno`) REFERENCES `Alumnos` (`IdAlumno`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `EntregasAlumno_ibfk_2` FOREIGN KEY (`IdAsignatura`) REFERENCES `Asignaturas` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `EntregasAlumno_ibfk_2` FOREIGN KEY (`IdAsignatura`) REFERENCES `Asignaturas` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `EntregasAlumno_ibfk_3` FOREIGN KEY (`idEntrega`) REFERENCES `Eventos_Tareas` (`Id`);
 
 --
 -- Constraints for table `EstudianAsignaturas`

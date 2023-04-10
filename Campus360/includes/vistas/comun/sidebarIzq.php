@@ -10,10 +10,10 @@ $app = Aplicacion::getInstance();
 		<li><a href="<?= $app->resuelve('/index.php')?>">Inicio</a></li>
 		<li><a href="<?= $app->resuelve('/chat.php')?>">Foro de usuarios</a></li>
 		<?php
-			if($app->tieneRol(Usuario::PADRE_ROLE) || $app->tieneRol(Usuario::ALUMNO_ROLE)){
+			if(!$app->tieneRol(Usuario::ADMIN_ROLE)){
 				$resuelve = $app->resuelve('/vistaCalificaciones.php');
 				$enlace = <<<EOS
-				<li><a href="<?= $resuelve?>">Calificaciones</a></li>
+				<li><a href="$resuelve">Calificaciones</a></li>
 				EOS;
 				echo $enlace;
 			}

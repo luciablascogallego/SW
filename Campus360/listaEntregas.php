@@ -3,6 +3,7 @@
 require_once __DIR__.'/includes/config.php';
 use es\ucm\fdi\aw\EntregasAlumno\EntregasAlumno;
 use es\ucm\fdi\aw\Entregas_Eventos\Eventos_tareas;
+use es\ucm\fdi\aw\Alumnos\Alumno;
 use es\ucm\fdi\aw\usuarios\Usuario;
 
 $id_asignatura = $_GET['id_asignatura'];
@@ -12,22 +13,24 @@ $id_entrega = $_GET['id'];
 $nombreEntrega = $_GET['nombre'];
 
 $tituloPagina = 'Entrega';
-$contenidoPrincipal='<h1>Entega: ' . $nombreEntrega . '</h1>';
+$contenidoPrincipal='<h1>Entrega: ' .$nombreEntrega . '</h1>';
 
-$entregas = EntregasAlumno::getEntregasPorId($id_entrega);
-if(!empty($entregas)){
+$id_alumnos = Alumno::estudianAsignatura($id_asignatura);
+if($id_alumnos){
     $contenidoPrincipal.= "<ul>";
-      
-    foreach($entregas as $entrega) {
-        $alumno = Usuario::buscaPorId($entrega['IdAlumno']);
+    foreach($id_alumnos as $id_alumno) {
+        $alumno = Usuario::buscaPorId($id_alumno['IdAlumno']);
+        $id = $alumno->getId();
         $nombre = $alumno->getNombre() ." ". $alumno->getApellidos();
-        $contenidoPrincipal.= "<li><a href=" . $entrega['Ruta'] . ">" . $entrega['nombre'] . "</a> (" . $nombre . ")</li>";
+        $contenidoPrincipal .= <<<EOS
+        <li><a href="entregaAlumno.php?id=$id_entrega &id_alumno=$id">$nombreEntrega</a>("$nombre")</li>
+        EOS;
     }
     
     $contenidoPrincipal.= "</ul>";
   }
   else{
-    $contenidoPrincipal.='<p>Nadie ha hecho ninguna entega aun.</p>';
+    $contenidoPrincipal.='<p>No hay alumnos cursando la asignatura.</p>';
   }
 
 

@@ -112,12 +112,12 @@ class EntregasAlumno {
         return false;
     }
 
-    public static function getEntrega($entrega){
+    public static function getEntrega($entrega, $idAlumno){
         $archivos=[];
             
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("SELECT * FROM EntregasAlumno WHERE IdEntrega=%d"
-            , $entrega
+        $query = sprintf("SELECT * FROM EntregasAlumno WHERE IdEntrega=%d AND IdAlumno=%d"
+            , $entrega, $idAlumno
         );
         $rs = $conn->query($query);
         if ($rs) {
