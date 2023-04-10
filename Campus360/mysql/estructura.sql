@@ -18,7 +18,7 @@ DROP TABLE IF EXISTS `Ciclos`;
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 07, 2023 at 07:09 PM
+-- Generation Time: Apr 10, 2023 at 05:36 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -97,8 +97,9 @@ CREATE TABLE `EntregasAlumno` (
   `Id` int(11) NOT NULL,
   `IdAsignatura` int(11) NOT NULL,
   `IdAlumno` int(11) NOT NULL,
-  `Ruta` varchar(40) NOT NULL,
-  `idEntrega` int(11) NOT NULL
+  `Ruta` varchar(150) NOT NULL,
+  `idEntrega` int(11) NOT NULL,
+  `nombre` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -123,7 +124,8 @@ CREATE TABLE `Eventos_Tareas` (
   `FechaFin` date NOT NULL,
   `IdAsignatura` int(11) NOT NULL,
   `nombre` varchar(20) NOT NULL,
-  `descripcion` varchar(200) NOT NULL
+  `descripcion` varchar(200) NOT NULL,
+  `esentrega` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -188,7 +190,6 @@ CREATE TABLE `Usuarios` (
   `Apellidos` varchar(60) NOT NULL,
   `password` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 --
 -- Indexes for dumped tables
 --
@@ -299,7 +300,7 @@ ALTER TABLE `Ciclos`
 -- AUTO_INCREMENT for table `EntregasAlumno`
 --
 ALTER TABLE `EntregasAlumno`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `Recursos`
