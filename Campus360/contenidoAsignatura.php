@@ -2,10 +2,10 @@
 require_once __DIR__.'/includes/config.php';
 
 $id_asignatura = $_GET['id'];
-$formEventos = new \es\ucm\fdi\aw\usuarios\FormularioCreaEvento($id_asignatura, null);
+$formEventos = new \es\ucm\fdi\aw\Entregas_Eventos\FormularioCreaEvento($id_asignatura, null);
 $formEventos = $formEventos->gestiona();
 
-$formUpload = new \es\ucm\fdi\aw\usuarios\FormularioSubeArchivo($id_asignatura, null);
+$formUpload = new \es\ucm\fdi\aw\Recurso\FormularioSubeArchivo($id_asignatura, null);
 $formUpload = $formUpload->gestiona();
 
 $tituloPagina = 'Contenido';

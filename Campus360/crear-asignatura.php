@@ -2,7 +2,7 @@
 
 require_once __DIR__.'/includes/config.php';
 
-$formCreaAsignatura = new \es\ucm\fdi\aw\usuarios\FormularioCreaAsignatura();
+$formCreaAsignatura = new \es\ucm\fdi\aw\Asignaturas\FormularioCreaAsignatura();
 $formCreaAsignatura = $formCreaAsignatura->gestiona();
 
 

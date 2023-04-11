@@ -18,7 +18,7 @@ $tiempoRestante = $tarea->getFechaFin();
 $descripcion = $tarea->getDescripcion();
 $idEntrega = $tarea->getId();
 
-$formUpload = new \es\ucm\fdi\aw\usuarios\FormularioSubeArchivo($id_asignatura, $idEntrega);
+$formUpload = new \es\ucm\fdi\aw\Recurso\FormularioSubeArchivo($id_asignatura, $idEntrega);
 $formUpload = $formUpload->gestiona();
 
 if (!empty($entregas)) {

@@ -4,7 +4,7 @@ require_once __DIR__.'/includes/config.php';
 
 $idAsignatura = $_GET['id'];
 
-$formAñadeAsig = new \es\ucm\fdi\aw\usuarios\FormularioParticipantesAsignatura($idAsignatura);
+$formAñadeAsig = new \es\ucm\fdi\aw\Alumnos\FormularioParticipantesAsignatura($idAsignatura);
 $formAñadeAsig = $formAñadeAsig->gestiona();
 
 

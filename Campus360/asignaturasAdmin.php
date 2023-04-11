@@ -32,7 +32,7 @@ if ($ciclos) {
                     $curso = $asignatura['Curso'];
                     $grupo = $asignatura['Grupo'];
                     $contenidoPrincipal .= <<<EOS
-                        <li>$nombre $curso º $grupo     <a href="eliminaAsignatura.php?id=$id"> Eliminar Asignatura</a>     <a href="añadeAsignatura.php?id=$id"> Gestionar alumnos</a>
+                        <li>$nombre $curso º $grupo     <a href="eliminaAsignatura.php?id=$id"> Eliminar Asignatura</a>%20<a href="añadeAsignatura.php?id=$id"> Gestionar alumnos</a>
                         </li>
                     EOS;  
                 }

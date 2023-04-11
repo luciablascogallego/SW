@@ -2,7 +2,7 @@
 
 require_once __DIR__.'/includes/config.php';
 
-$formCreaCiclo = new \es\ucm\fdi\aw\usuarios\FormularioCreaCiclo();
+$formCreaCiclo = new \es\ucm\fdi\aw\Ciclos\FormularioCreaCiclo();
 $formCreaCiclo = $formCreaCiclo->gestiona();
 
 

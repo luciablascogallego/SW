@@ -18,7 +18,7 @@ DROP TABLE IF EXISTS `Ciclos`;
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 10, 2023 at 05:36 PM
+-- Generation Time: Apr 11, 2023 at 08:56 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -288,31 +288,37 @@ ALTER TABLE `Usuarios`
 -- AUTO_INCREMENT for table `Asignaturas`
 --
 ALTER TABLE `Asignaturas`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `Ciclos`
 --
 ALTER TABLE `Ciclos`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `EntregasAlumno`
 --
 ALTER TABLE `EntregasAlumno`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `Eventos_Tareas`
+--
+ALTER TABLE `Eventos_Tareas`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `Recursos`
 --
 ALTER TABLE `Recursos`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `Usuarios`
 --
 ALTER TABLE `Usuarios`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables
@@ -338,7 +344,7 @@ ALTER TABLE `Asignaturas`
 ALTER TABLE `EntregasAlumno`
   ADD CONSTRAINT `EntregasAlumno_ibfk_1` FOREIGN KEY (`IdAlumno`) REFERENCES `Alumnos` (`IdAlumno`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `EntregasAlumno_ibfk_2` FOREIGN KEY (`IdAsignatura`) REFERENCES `Asignaturas` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `EntregasAlumno_ibfk_3` FOREIGN KEY (`idEntrega`) REFERENCES `Eventos_Tareas` (`Id`);
+  ADD CONSTRAINT `EntregasAlumno_ibfk_3` FOREIGN KEY (`idEntrega`) REFERENCES `Eventos_Tareas` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `EstudianAsignaturas`

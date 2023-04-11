@@ -4,7 +4,7 @@ require_once __DIR__.'/includes/config.php';
 
 $id = $_GET['id'];
 
-$formNuevoAlumno = new \es\ucm\fdi\aw\usuarios\FormularioNuevoAlumno($id);
+$formNuevoAlumno = new \es\ucm\fdi\aw\Alumnos\FormularioNuevoAlumno($id);
 $formNuevoAlumno = $formNuevoAlumno->gestiona();
 
 

@@ -1,10 +1,10 @@
 <?php
-namespace es\ucm\fdi\aw\usuarios;
+namespace es\ucm\fdi\aw\Asignaturas;
 
 use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\Formulario;
 use es\ucm\fdi\aw\Ciclos\Ciclo;
-use es\ucm\fdi\aw\Asignaturas\Asignatura;
+use es\ucm\fdi\aw\usuarios\Usuario;
 use es\ucm\fdi\aw\Profesores\Profesor;
 
 class FormularioCreaAsignatura extends Formulario

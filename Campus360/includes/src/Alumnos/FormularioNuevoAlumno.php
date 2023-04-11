@@ -1,10 +1,10 @@
 <?php
-namespace es\ucm\fdi\aw\usuarios;
+namespace es\ucm\fdi\aw\Alumnos;
 
 use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\Formulario;
 use es\ucm\fdi\aw\Padres\Padre;
-use es\ucm\fdi\aw\Alumnos\Alumno;
+use es\ucm\fdi\aw\usuarios\Usuario;
 
 class FormularioNUevoAlumno extends Formulario
 {
