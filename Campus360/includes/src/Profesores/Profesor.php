@@ -24,9 +24,34 @@ class Profesor {
         return $result;
     }
 
+    public static function actualiza($profesor)
+    {
+        $result = false;
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query=sprintf("UPDATE Profesores P SET Despacho='%d', Tutorias='%s' WHERE P.IdProfesor=%d"
+            , $conn->real_escape_string($profesor->getDespacho())
+            , $conn->real_escape_string($profesor->getTutorias())
+            , $profesor->getId()
+        );
+        if ( $conn->query($query) ) {
+            $result = true;
+        } else {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+        }
+        
+        return $result;
+    }
+
     public static function crea($id, $tutorias, $despacho){
-        $profesor = new Profesor($id, $despacho, $tutorias);
-        $profesor = self::inserta($profesor);
+
+        $result = new Profesor($id, $despacho, $tutorias);
+        $profesor = self::buscaPorId($idAlumno);
+        if(!$profesor){
+            $result = self::inserta($result);
+        }
+        else{
+            $result = self::actualiza($result);
+        }
 
         return $profesor;
     }
@@ -50,7 +75,7 @@ class Profesor {
         return false;
     }
 
-    private static function borraPorId($idUsuario)
+    public static function borraPorId($idUsuario)
     {
         if (!$idUsuario) {
             return false;
@@ -59,7 +84,7 @@ class Profesor {
          * $result = self::borraRoles($usuario) !== false;
          */
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("DELETE FROM Profesores  WHERE IdProfesor = %d"
+        $query = sprintf("DELETE FROM Profesores WHERE IdProfesor=%d"
             , $idUsuario
         );
         if ( ! $conn->query($query) ) {

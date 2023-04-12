@@ -14,14 +14,14 @@ $alumno = Usuario::buscaPorId($id_alumno);
 $tituloPagina = 'Entrega Alumno';
 $contenidoPrincipal='<h1>Archivos entregados ' .$alumno->getNombre() .' '. $alumno->getApellidos().'</h1>';
 
-$entregas = EntregasAlumno::getEntregasPorId($id_entrega, $id_alumno);
+$entregas = EntregasAlumno::getEntrega($id_entrega, $id_alumno);
 if(!empty($entregas)){
     $contenidoPrincipal.= "<ul>";
     foreach($entregas as $entrega) {
-        $ruta = $entrega['Ruta'];
         $nombreEntrega = $entrega['nombre'];
+        $ruta = RUTA_APP.'/entregas/'.$nombreEntrega;
         $contenidoPrincipal .= <<<EOS
-        <li><a href="file://///$ruta" target="_blank">$nombreEntrega</a></li>
+        <li><a href="$ruta" target="_blank">$nombreEntrega</a></li>
         EOS;
     }
     

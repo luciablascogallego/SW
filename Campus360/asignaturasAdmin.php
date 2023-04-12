@@ -9,11 +9,11 @@ $tituloPagina = 'Asignaturas campus';
 $contenidoPrincipal = '<h1>Asignaturas Campus360</h1>';
 
 $contenidoPrincipal .= <<<EOS
-                        <div> <a href="crear-asignatura.php"> Crear nueva asignatura </a> </div>
+                        <p> <a href="crear-asignatura.php"> Crear nueva asignatura </a> </p>
                     EOS;
 
 $contenidoPrincipal .= <<<EOS
-                    <div> <a href="crear-ciclo.php"> Crear nuevo ciclo </a> </div>
+                    <p> <a href="crear-ciclo.php"> Crear nuevo ciclo </a> </p>
                     EOS;
 
 $ciclos = Ciclo::ciclosCampus();
@@ -32,7 +32,8 @@ if ($ciclos) {
                     $curso = $asignatura['Curso'];
                     $grupo = $asignatura['Grupo'];
                     $contenidoPrincipal .= <<<EOS
-                        <li>$nombre $curso º $grupo     <a href="eliminaAsignatura.php?id=$id"> Eliminar Asignatura</a>%20<a href="añadeAsignatura.php?id=$id"> Gestionar alumnos</a>
+                        <li>$nombre $curso º $grupo<a href="eliminaAsignatura.php?id=$id"> Eliminar Asignatura</a>||<a href="editaAsignatura.php?id=$id">Editar Asignatura</a>
+                        ||<a href="añadeAsignatura.php?id=$id"> Gestionar alumnos</a>
                         </li>
                     EOS;  
                 }
@@ -41,7 +42,7 @@ if ($ciclos) {
         }
         $contenidoPrincipal .= <<<EOS
         <div>
-        <a href="eliminaCiclo.php?id=$idCiclo"> Eliminar Ciclo</a>
+        <a href="eliminaCiclo.php?id=$idCiclo"> Eliminar Ciclo</a>||<a href="editaCiclo.php?id=$idCiclo"> Editar Ciclo</a>
         </div>
         </fieldset>
         EOS;

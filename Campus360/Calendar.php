@@ -4,7 +4,7 @@ class Calendar {
     private $active_year, $active_month, $active_day;
     private $events = [];
     private $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-    private $dias = [0 => 'Lunes', 1 => 'Martes', 2 => 'Miércoles', 3 => 'Jueves', 4 => 'Viernes', 5 => 'Sábado', 6 => 'Domingo'];
+    private $dias = [0 => 'L', 1 => 'M', 2 => 'X', 3 => 'J', 4 => 'V', 5 => 'S', 6 => 'D'];
 
     public function __construct($date = null) {
         $this->active_year = $date != null ? date('Y', strtotime($date)) : date('Y');

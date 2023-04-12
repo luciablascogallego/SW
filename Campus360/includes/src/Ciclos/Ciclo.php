@@ -45,9 +45,14 @@ class Ciclo{
         return false;
     }
 
-    public static function crea($nombre)
+    public static function crea($nombre, $idCiclo)
     {
-        return self::inserta($nombre);
+        if($idCiclo==null)
+            return self::inserta($nombre);
+        else {
+            $ciclo = self::buscaPorId($idCiclo);
+            return self::actualiza($ciclo, $nombre);
+        }
     }
 
     public static function buscaPorNombre($nombre)
@@ -80,6 +85,23 @@ class Ciclo{
         } else {
             error_log("Error BD ({$conn->errno}): {$conn->error}");
         }
+        return $result;
+    }
+
+    private static function actualiza($ciclo, $nombre)
+    {
+        $result = false;
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query=sprintf("UPDATE Ciclos C SET Nombre='%s' WHERE C.Id=%d"
+            , $conn->real_escape_string($nombre)
+            , $ciclo->getId()
+        );
+        if ( $conn->query($query) ) {
+            $result = true;
+        } else {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+        }
+        
         return $result;
     }
    

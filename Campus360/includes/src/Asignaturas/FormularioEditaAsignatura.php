@@ -7,12 +7,15 @@ use es\ucm\fdi\aw\Ciclos\Ciclo;
 use es\ucm\fdi\aw\usuarios\Usuario;
 use es\ucm\fdi\aw\Profesores\Profesor;
 
-class FormularioCreaAsignatura extends Formulario
+class FormularioEditaAsignatura extends Formulario
 {
 
-    public function __construct()
+    private $idAsignatura;
+
+    public function __construct($idAsignatura)
     {
-        parent::__construct('formAsignatura', ['urlRedireccion' => 'asignaturasAdmin.php']);
+        parent::__construct('formEditAsignatura', ['urlRedireccion' => 'asignaturasAdmin.php']);
+        $this->idAsignatura = $idAsignatura;
     }
 
     protected function generaCamposFormulario(&$datos)
@@ -22,15 +25,24 @@ class FormularioCreaAsignatura extends Formulario
         $erroresCampos = self::generaErroresCampos(['nombre', 'profesor', 'ciclo', 'grupo', 'curso'], $this->errores, 'span', array('class' => 'error'));
         $ciclos = Ciclo::ciclosCampus();
         $profes = Profesor::profesCampus();
+        $asignatura = Asignatura::buscaPorId($this->idAsignatura);
+        $nombreAsig = $asignatura->getNombre();
+        $grupo = $asignatura->getGrupo();
+        $curso = $asignatura->getCurso();
         $selectCiclos = <<<EOS
         <select id="ciclo" name="ciclo"> 
         EOS;
         foreach($ciclos as $ciclo){
             $nombre = $ciclo['Nombre'];
             $id = $ciclo['Id'];
-            $selectCiclos .= <<<EOS
-                <option value="$id">$nombre</option> 
-            EOS;
+            if($asignatura->getCiclo() == $id)
+                $selectCiclos .= <<<EOS
+                    <option value="$id" selected>$nombre</option> 
+                EOS;
+            else
+                $selectCiclos .= <<<EOS
+                    <option value="$id">$nombre</option> 
+                EOS; 
         }
         $selectCiclos .= '</select>';
         $selectProfesores = <<<EOS
@@ -40,32 +52,67 @@ class FormularioCreaAsignatura extends Formulario
             $id = $profe['IdProfesor'];
             $usuario = Usuario::buscaPorId($id);
             $nombre = $usuario->getNombre().' '.$usuario->getApellidos();
-            $selectProfesores .= <<<EOS
-                <option value="$id">$nombre</option> 
-            EOS;
+            if($asignatura->getIdProfesor() == $id)
+                $selectProfesores .= <<<EOS
+                    <option value="$id" selected>$nombre</option> 
+                EOS;
+            else    
+                $selectProfesores .= <<<EOS
+                    <option value="$id">$nombre</option> 
+                EOS;
         }
         $selectProfesores .= '</select>';
         $html = <<<EOS
         $htmlErroresGlobales
         <fieldset>
-            <legend>Nueva asignatura</legend>
+            <legend>Editar asignatura</legend>
             <div>
             <label>Nombre de la asignatura:</label>
-            <input type="text" name="nombre" required>
+            <input type="text" name="nombre" value="$nombreAsig" required>
             {$erroresCampos['nombre']}
             </div>
 
             <div>
             <label>Curso:</label>
             <select id="curso" name="curso">
-                <option value="1" selected>1º</option>
-                <option value="2">2º</option>
-                <option value="3">3º</option>
-                <option value="4">4º</option>
-                </select>
-                {$erroresCampos['curso']}
-            </div>
+        EOS;
+        if($curso == 1)
+                $html .= <<<EOS
+                    <option value="1" selected>1º</option>
+                    EOS;
+        else
+            $html .= <<<EOS
+            <option value="1" >1º</option>
+            EOS;
+        if($curso == 2)
+            $html .= <<<EOS
+            <option value="2" selected>2º</option>
+            EOS;
+        else
+            $html .= <<<EOS
+            <option value="2" >2º</option>
+            EOS;
+        if($curso == 3)
+            $html .= <<<EOS
+            <option value="3" selected>3º</option>
+            EOS;
+        else
+            $html .= <<<EOS
+            <option value="3" >3º</option>
+            EOS;
+        if($curso == 4)
+            $html .= <<<EOS
+                option value="4" selected>4º</option> </select>
+                {$erroresCampos['curso']} </div>
+            EOS;
+        else
+            $html .= <<<EOS
+            <option value="4" >4º</option> </select>
+            {$erroresCampos['curso']} </div>
+            EOS;
 
+
+        $html .= <<<EOS
             <div>
             <label>Profesor:</label>
             $selectProfesores
@@ -80,7 +127,7 @@ class FormularioCreaAsignatura extends Formulario
 
             <div>
             <label>Grupo:</label>
-            <input type="text" name="grupo" required>
+            <input type="text" name="grupo" value="$grupo" required>
             {$erroresCampos['grupo']}
             </div>
 
@@ -113,13 +160,16 @@ class FormularioCreaAsignatura extends Formulario
 
         $id_profesor = trim($datos['profesor'] ?? '');
 
-        if(Asignatura::buscaAsignatura($nombre, $curso, $grupo, $ciclo)){
-            $this->errores['ciclo'] = 'La asignatura ya existe';
-        }
+        $ant = Asignatura::buscaPorId($this->idAsignatura);
+
+        if($ant->getNombre() !== $nombre || $ant->getCiclo() != $cilo || $ant->getGrupo() != $grupo || $ant->getCurso() != $curso)
+            if(Asignatura::buscaAsignatura($nombre, $curso, $grupo, $ciclo)){
+                $this->errores['ciclo'] = 'La asignatura ya existe';
+            }
 
         //Crea un objeto asignatura
         if (count($this->errores) === 0) {
-            $asignatura = Asignatura::crea($nombre, $curso, $id_profesor, $ciclo, $grupo, null);
+            $asignatura = Asignatura::crea($nombre, $curso, $id_profesor, $ciclo, $grupo, $this->idAsignatura);
         }
     }
 }

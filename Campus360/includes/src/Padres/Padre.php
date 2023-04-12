@@ -47,7 +47,7 @@ class Padre {
         return $result;
     }
    
-    private static function borraPorId($idUsuario)
+    public static function borraPorId($idUsuario)
     {
         if (!$idUsuario) {
             return false;
@@ -85,7 +85,7 @@ class Padre {
         return false;
     }
 
-    private static function hijos($padre){
+    public static function hijos($padre){
         $hijos=[];
             
         $conn = Aplicacion::getInstance()->getConexionBd();

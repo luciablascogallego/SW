@@ -25,9 +25,11 @@ class Usuario
         return false;
     }
     
-    public static function crea($emailUsuario, $password, $nombre, $apellidos ,$rol, $telefono, $NIF, $dir)
+    public static function crea($emailUsuario, $password, $nombre, $apellidos ,$rol, $telefono, $NIF, $dir, $id)
     {
-        $user = new Usuario($emailUsuario, self::hashPassword($password), $nombre, null, $dir, $NIF, $apellidos, $telefono, $rol);
+        if($id != null)
+            $user = new Usuario($emailUsuario, self::hashPassword($password), $nombre, $id, $dir, $NIF, $apellidos, $telefono, $rol);
+            $user = new Usuario($emailUsuario, $password, $nombre, $id, $dir, $NIF, $apellidos, $telefono, $rol);
         return $user->guarda();
     }
 

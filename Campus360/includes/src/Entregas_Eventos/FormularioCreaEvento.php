@@ -87,15 +87,15 @@ class FormularioCreaEvento extends Formulario
             return;
         }
         $hora = $_POST['hora'];
-        $fechahora = date('Y-m-d H:i:s', strtotime("$fecha $hora"));
-        
+        $fecha = date('Y-m-d', strtotime("$fecha"));
+        $horaFin = date('H:i:s', strtotime("$hora"));
         $nombre = $_POST['nombre'];
         $descrpicion = $_POST['descripcion'];
         $opciones = $_POST['opciones'];
       
 
         //Crea un objeto evento
-        $evento = Eventos_tareas::crea(null, $fechahora, $this->id_asignatura, $opciones, $descrpicion, $nombre);
+        $evento = Eventos_tareas::crea(null, $fecha, $this->id_asignatura, $opciones, $descrpicion, $nombre, $hora);
         //Guardo el archivo en la BD
         //$evento->guarda();
     }

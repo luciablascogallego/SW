@@ -7,8 +7,8 @@ use es\ucm\fdi\aw\MagicProperties;
 class Asignatura {
     use MagicProperties;
 
-    public static function crea($nombre, $curso, $idProfesor, $ciclo, $grupo){
-        $asignatura = new Asignatura(null, $ciclo, $curso, $grupo, $nombre, $idProfesor);
+    public static function crea($nombre, $curso, $idProfesor, $ciclo, $grupo, $id){
+        $asignatura = new Asignatura($id, $ciclo, $curso, $grupo, $nombre, $idProfesor);
         return $asignatura->guarda();
     }
 
@@ -151,6 +151,30 @@ class Asignatura {
         } else {
             error_log("Error BD ({$conn->errno}): {$conn->error}");
         }
+        return $result;
+    }
+
+    public static function actualiza($asignatura)
+    {
+        $result = false;
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query=sprintf("UPDATE Asignaturas A SET ciclo = '%d', curso='%d', grupo='%s' , 
+        nombre='%s', profesor='%d' WHERE A.Id='%d'"
+            , $conn->real_escape_string($asignatura->getCiclo())
+            , $conn->real_escape_string($asignatura->getCurso())
+            , $conn->real_escape_string($asignatura->getGrupo())
+            , $conn->real_escape_string($asignatura->getNombre())
+            , $conn->real_escape_string($asignatura->getIdProfesor())
+            , $conn->real_escape_string($asignatura->getId())
+        );
+        if ( $conn->query($query) ) {
+            if ($result) {
+                $result = true;
+            }
+        } else {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+        }
+        
         return $result;
     }
 

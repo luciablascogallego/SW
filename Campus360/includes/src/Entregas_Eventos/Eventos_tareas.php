@@ -19,12 +19,14 @@ class Eventos_tareas {
 
     private $nombre;
 
-    public static function crea($id, $fecha, $idAsignatura, $esentrega, $descripcion, $nombre){
-        $evento_tarea = new Eventos_tareas($id, $fecha, $idAsignatura, $esentrega, $descripcion, $nombre);
+    private $horaFin;
+
+    public static function crea($id, $fecha, $idAsignatura, $esentrega, $descripcion, $nombre, $horaFin){
+        $evento_tarea = new Eventos_tareas($id, $fecha, $idAsignatura, $esentrega, $descripcion, $nombre, $horaFin);
         return $evento_tarea->guarda();
     }
 
-    private function __construct($id, $fecha, $idAsignatura, $esentrega, $descripcion, $nombre)
+    private function __construct($id, $fecha, $idAsignatura, $esentrega, $descripcion, $nombre, $horaFin)
     {
         $this->id = $id;
         $this->fecha = $fecha;
@@ -32,13 +34,34 @@ class Eventos_tareas {
         $this->esentrega = $esentrega;
         $this->descripcion = $descripcion;
         $this->nombre = $nombre;
+        $this->horaFin = $horaFin;
     }
 
     public static function getEntregasAsignatura($asignatura){
         $archivos=[];
             
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("SELECT * FROM Eventos_Tareas WHERE IdAsignatura=%d"
+        $query = sprintf("SELECT * FROM Eventos_Tareas WHERE IdAsignatura=%d AND esentrega=true"
+            , $asignatura
+        );
+        $rs = $conn->query($query);
+        if ($rs) {
+            $archivos = $rs->fetch_all(MYSQLI_ASSOC);
+            $rs->free();
+
+            return $archivos;
+
+        } else {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+        }
+        return false;
+    }
+
+    public static function getEventosAsignatura($asignatura){
+        $archivos=[];
+            
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query = sprintf("SELECT * FROM Eventos_Tareas WHERE IdAsignatura=%d AND esentrega=false"
             , $asignatura
         );
         $rs = $conn->query($query);
@@ -63,7 +86,8 @@ class Eventos_tareas {
         if ($rs) {
             $fila = $rs->fetch_assoc();
             if ($fila) {
-                $result = new Eventos_tareas($fila['id'], $fila['idAsignatura'], $fila['fechaFin']);
+                $result = new Eventos_tareas($fila['Id'],$fila['FechaFin'], $fila['IdAsignatura'], $fila['esentrega'], 
+                $fila['descripcion'], $fila['nombre'], $fila['HoraFin']); 
             }
             $rs->free();
         } else {
@@ -81,7 +105,8 @@ class Eventos_tareas {
         if ($rs) {
             $fila = $rs->fetch_assoc();
             if ($fila) {
-                $result = new Eventos_tareas($fila['Id'], $fila['FechaFin'], $fila['IdAsignatura'], $fila['esentrega'], $fila['descripcion'], $fila['nombre']);
+                $result = new Eventos_tareas($fila['Id'],$fila['FechaFin'], $fila['IdAsignatura'], $fila['esentrega'], 
+                $fila['descripcion'], $fila['nombre'], $fila['HoraFin']); 
             }
             $rs->free();
         } else {
@@ -99,7 +124,8 @@ class Eventos_tareas {
         if ($rs) {
             $fila = $rs->fetch_assoc();
             if ($fila) {
-                $result = new Eventos_tareas($fila['Id'], $fila['FechaFin'], $fila['IdAsignatura'], $fila['esentrega'], $fila['descripcion'], $fila['nombre']);
+                $result = new Eventos_tareas($fila['Id'],$fila['FechaFin'], $fila['IdAsignatura'], $fila['esentrega'], 
+                $fila['descripcion'], $fila['nombre'], $fila['HoraFin']);             
             }
             $rs->free();
         } else {
@@ -112,13 +138,14 @@ class Eventos_tareas {
     {
         $result = false;
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query=sprintf("INSERT INTO Eventos_Tareas(Id, FechaFin, IdAsignatura, esentrega, descripcion, nombre) VALUES ('%d', '%s', '%d', '%d', '%s', '%s')"
+        $query=sprintf("INSERT INTO Eventos_Tareas(Id, FechaFin, IdAsignatura, esentrega, descripcion, nombre, HoraFin) VALUES ('%d', '%s', '%d', '%d', '%s', '%s', '%s')"
             , $conn->real_escape_string($nuevo->getId())
             , $conn->real_escape_string($nuevo->getFechaFin())
             , $conn->real_escape_string($nuevo->getIdAsignatura())
             , $conn->real_escape_string($nuevo->getEsEntrega())
             , $conn->real_escape_string($nuevo->getDescripcion())
             , $conn->real_escape_string($nuevo->getNombre())
+            , $conn->real_escape_string($nuevo->getHorafin())
         );
         if ( $conn->query($query) ) {
             $nuevo->id = $conn->insert_id;
@@ -159,6 +186,10 @@ class Eventos_tareas {
 
     public function getFechafin(){
         return $this->fecha;
+    }
+
+    public function getHorafin(){
+        return $this->horaFin;
     }
 
     public function getIdAsignatura(){

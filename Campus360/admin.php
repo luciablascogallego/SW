@@ -7,11 +7,11 @@ $contenidoPrincipal='<h1> Consola de administración Campus360</h1>';
 $contenidoPrincipal .= '<ul>';
 
 $contenidoPrincipal.= <<<EOS
-                    <li><a href="usuariosAdmin.php">gestionar usuarios</a></li>
+                    <li><a href="usuariosAdmin.php">Gestionar Usuarios</a></li>
                     EOS;
 
 $contenidoPrincipal.= <<<EOS
-        <li><a href="asignaturasAdmin.php">gestionar Asignaturas</a></li>
+        <li><a href="asignaturasAdmin.php">Gestionar Asignaturas</a></li>
         EOS;
 
 $params = ['tituloPagina' => $tituloPagina, 'contenidoPrincipal' => $contenidoPrincipal];

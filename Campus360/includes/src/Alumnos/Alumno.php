@@ -30,9 +30,14 @@ class Alumno {
     }
 
     public static function crea ($idAlumno, $idPadre){
+        $alumno = self::buscaPorId($idAlumno);
         $result = new Alumno($idAlumno, $idPadre, null);
-        //$alumno = self::asignaturasAlumno($result);
-        self::inserta($result);
+        if(!$alumno){
+            self::inserta($result);
+        }
+        else{
+            self::actualiza($result);
+        }
     }
 
     public static function listaAlumnos(){
@@ -70,7 +75,24 @@ class Alumno {
         return $result;
     }
 
-    private static function borraPorId($idUsuario)
+    public static function actualiza($alumno)
+    {
+        $result = false;
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query=sprintf("UPDATE Alumnos A SET IdPadre='%d'WHERE A.IdAlumno=%d"
+            , $conn->real_escape_string($alumno->getIdPadre())
+            , $alumno->getId()
+        );
+        if ( $conn->query($query) ) {
+            $result = true;
+        } else {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+        }
+        
+        return $result;
+    }
+
+    public static function borraPorId($idUsuario)
     {
         if (!$idUsuario) {
             return false;

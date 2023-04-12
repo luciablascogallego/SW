@@ -6,7 +6,7 @@ use es\ucm\fdi\aw\Formulario;
 use es\ucm\fdi\aw\Padres\Padre;
 use es\ucm\fdi\aw\usuarios\Usuario;
 
-class FormularioNUevoAlumno extends Formulario
+class FormularioEditaAlumno extends Formulario
 {
 
     private $idUsuario;
@@ -24,28 +24,42 @@ class FormularioNUevoAlumno extends Formulario
         $erroresCampos = self::generaErroresCampos(['padre'], $this->errores, 'span', array('class' => 'error'));
 
         $padres = Padre::padres();
+        $alumno = Alumno::buscaPorId($this->idUsuario);
+        $idAlumno = null;
+        if($alumno)
+            $idAlumno = $alumno->getId();
         $selPadre = <<<EOS
         <select id="padres" name="padre"> 
         EOS;
-        foreach($padres as $padre){
-            $id = $padre['IdPadre'];
-            $usuario = Usuario::buscaPorId($id);
-            $nombre = $usuario->getNombre().' '.$usuario->getApellidos();
-            $selPadre .= <<<EOS
-                <option value="$id">$nombre</option> 
-            EOS;
+        if($padres){
+            foreach($padres as $padre){
+                $id = $padre['IdPadre'];
+                $usuario = Usuario::buscaPorId($id);
+                $nombre = $usuario->getNombre().' '.$usuario->getApellidos();
+                if($id == $idAlumno)
+                $selPadre .= <<<EOS
+                <option value="$id" selected>$nombre</option> 
+                EOS;
+                else
+                    $selPadre .= <<<EOS
+                    <option value="$id">$nombre</option> 
+                    EOS;
+            }
         }
+            $selPadre .= <<<EOS
+            <option value="0" selected>--No Padre</option> 
+            EOS;
         $selPadre .= '</select>';
         $html = <<<EOS
         $htmlErroresGlobales
         <fieldset>
-            <legend>Datos del nuevo alumno</legend>
+            <legend>Datos del alumno</legend>
             <div>
             <label>Padre del alumno:</label>
             $selPadre
             {$erroresCampos['padre']}
             </div>
-            <button type="submit">Añadir alumno</button>
+            <button type="submit">Editar alumno</button>
         </fieldset>
         EOS;
 
