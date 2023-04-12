@@ -162,7 +162,7 @@ class FormularioEditaAsignatura extends Formulario
 
         $ant = Asignatura::buscaPorId($this->idAsignatura);
 
-        if($ant->getNombre() !== $nombre || $ant->getCiclo() != $cilo || $ant->getGrupo() != $grupo || $ant->getCurso() != $curso)
+        if($ant->getNombre() !== $nombre || $ant->getCiclo() != $ciclo || $ant->getGrupo() != $grupo || $ant->getCurso() != $curso)
             if(Asignatura::buscaAsignatura($nombre, $curso, $grupo, $ciclo)){
                 $this->errores['ciclo'] = 'La asignatura ya existe';
             }
