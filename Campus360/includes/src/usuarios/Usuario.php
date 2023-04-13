@@ -29,7 +29,7 @@ class Usuario
     {
         if($id != null)
             $user = new Usuario($emailUsuario, self::hashPassword($password), $nombre, $id, $dir, $NIF, $apellidos, $telefono, $rol);
-            $user = new Usuario($emailUsuario, $password, $nombre, $id, $dir, $NIF, $apellidos, $telefono, $rol);
+        $user = new Usuario($emailUsuario, $password, $nombre, $id, $dir, $NIF, $apellidos, $telefono, $rol);
         return $user->guarda();
     }
 

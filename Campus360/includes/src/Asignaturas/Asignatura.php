@@ -74,11 +74,9 @@ class Asignatura {
         $rs = $conn->query($query);
         $result = false;
         if ($rs) {
-            $fila = $rs->fetch_assoc();
-            if ($fila) {
-                $result = new Asignatura($fila['Id'], $fila['Ciclo'], $fila['Curso'], $fila['Grupo'], $fila['Nombre'], $fila['Profesor']);
-            }
+            $asignaturas = $rs->fetch_all(MYSQLI_ASSOC);
             $rs->free();
+            return $asignaturas;
         } else {
             error_log("Error BD ({$conn->errno}): {$conn->error}");
         }

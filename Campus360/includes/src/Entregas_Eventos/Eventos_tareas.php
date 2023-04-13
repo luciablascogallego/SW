@@ -156,12 +156,7 @@ class Eventos_tareas {
         return $result;
     }
 
-    private static function borra($tarea)
-    {
-        return self::borraPorId($tarea->id);
-    }
-
-    private static function borraPorId($idTarea)
+    public static function borraPorId($idTarea)
     {
         if (!$idTarea) {
             return false;
@@ -170,7 +165,7 @@ class Eventos_tareas {
          * $result = self::borraRoles($usuario) !== false;
          */
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("DELETE FROM Eventos_Tareas U WHERE U.id = %d"
+        $query = sprintf("DELETE FROM Eventos_Tareas WHERE Id = %d"
             , $idTarea
         );
         if ( ! $conn->query($query) ) {
