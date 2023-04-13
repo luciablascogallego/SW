@@ -22,8 +22,10 @@ if ($admins) {
         $id = $admin->getId();
         $nombre = $admin->getNombre().' '.$admin->getApellidos();
         $contenidoPrincipal .= <<<EOS
-        <div>
-        <li>$nombre<a href="eliminaUsuario.php?id=$id"> Eliminar admin</a>||<a href="editaUsuario.php?id=$id"> Editar </a> </li>
+        
+        <li>$nombre
+        <div class="eliminarU">
+        <a href="eliminaUsuario.php?id=$id"> Eliminar admin</a>
         </div>
         EOS;
     }
@@ -46,8 +48,9 @@ if ($profes) {
         $id = $usuario->getId();
         $nombre = $usuario->getNombre().' '.$usuario->getApellidos();
         $contenidoPrincipal .= <<<EOS
-        <div>
-        <li>$nombre<a href="eliminaUsuario.php?id=$id"> Eliminar profesor</a>||<a href="editaUsuario.php?id=$id"> Editar </a> </li>
+        <li>$nombre
+        <div class="eliminarU">
+        <a href="eliminaUsuario.php?id=$id"> Eliminar profesor</a>
         </div>
         EOS;
     }
@@ -69,8 +72,9 @@ if ($padres) {
         $id = $usuario->getId();
         $nombre = $usuario->getNombre().' '.$usuario->getApellidos();
         $contenidoPrincipal .= <<<EOS
-        <div>
-        <li>$nombre<a href="eliminaUsuario.php?id=$id"> Eliminar padre</a>||<a href="editaUsuario.php?id=$id"> Editar </a> </li>
+        <li>$nombre
+        <div class="eliminarU">
+        <a href="eliminaUsuario.php?id=$id"> Eliminar padre</a>
         </div>
         EOS;
     }

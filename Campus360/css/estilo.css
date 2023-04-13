@@ -1,10 +1,17 @@
+* {
+	box-sizing: border-box;
+}
+
 .container {
 	display: flex;
 	flex-direction: row;
 	justify-content: flex-start;
-	/* Establece el ancho máximo deseado */
 	margin: 0 auto;
-	/* Centra el contenedor horizontalmente */
+
+}
+
+.gg {
+	padding: auto;
 }
 
 .asignaturas {
@@ -20,14 +27,26 @@
 	background-color: #ffffff;
 }
 
-img {
+.login-img {
 	display: block;
 	margin: 0 auto;
-	/* Aquí puedes agregar más estilos a la imagen */
+	width: 300px;
+	height: 300px;
+
 }
 
+.header-img {
+	display: block;
+	margin: 0 auto;
+	max-width: 8%;
+	max-height: 8%;
+	position: relative;
+}
+
+
+
 body {
-	background-color: #59a9ff;
+	background-color: rgb(77, 23, 77);
 	min-height: 100vh;
 
 }
@@ -37,27 +56,11 @@ body {
 	min-height: 100vh;
 	background-color: white;
 	width: 100%;
-	/* Ancho del 100% de la pantalla */
-	box-sizing: border-box;
-	/* Incluye el padding dentro del ancho total */
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	overflow: auto;
-
-
-
 }
-
-
-
-/*div#contenedor {
-	width: 900px;
-	margin: auto;
-	border: 1px solid black;
-	background-color: #aaaaaa;
-	margin-top: 30px;
-}*/
 
 div#contenedor {
 	width: auto;
@@ -65,25 +68,18 @@ div#contenedor {
 	border: 1px solid black;
 	background-color: white;
 	margin-top: auto;
-
 	min-height: 100vh;
-
 }
 
-/*header {
-	padding: 30px;
-	height: 100px;
-	background-color: #303030;
-	color: white;
-}*/
 header {
+
 	background-color: #59a9ff;
 	color: #fff;
-	height: 50px;
+	height: auto;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	padding: 0 20px;
+	padding: 10 20px;
 	overflow: hidden;
 	white-space: nowrap;
 }
@@ -105,24 +101,19 @@ header a:hover {
 
 nav {
 	padding: 10px;
-	float: left;
-	width: 170px;
-	height: 400px;
 	background-color: #d6d6fe;
 	width: 15%;
-
-
 }
 
 nav a,
 nav a:visited {
-	color: blue;
+	color: black;
 	font-weight: bold;
 	text-decoration: none;
 }
 
 nav a:hover {
-	color: blue;
+	color: gray;
 	text-decoration: underline;
 }
 
@@ -130,22 +121,35 @@ nav a:hover {
 aside {
 	width: 15%;
 	padding: 10px;
-	height: 500px;
-	background-color: #dddddd;
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
-	align-items: center;
+	background-color: #d6d6fe;
 }
 
 
 main {
 	padding: 10px;
-	float: left;
 	min-height: 600px;
 	width: 70%;
-
 	background-color: white;
+	position: relative;
+	background-image: url(/SW/Campus360/includes/src/img/Logo.png);
+	background-size: cover;
+	background-position: center;
+}
+
+.main ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	justify-content: center;
+	text-align: center;
+}
+
+.main li {
+	padding: 5px;
+	display: flex;
+	justify-content: center;
+	text-align: center;
 }
 
 footer {
@@ -155,7 +159,6 @@ footer {
 	color: white;
 	text-align: center;
 	width: 100%;
-
 }
 
 div.saludo {
@@ -163,22 +166,40 @@ div.saludo {
 	text-align: right;
 }
 
-/*
-fieldset {
-	border: 1px solid black;
-	margin: auto;
+div.eliminar {
+	display: inline;
+	position: absolute;
+	top: 0;
+	right: 0;
+	background-color: red;
+	font-weight: bold;
+	text-decoration: underline;
+	border: 2px solid rgb(126, 2, 2);
+	padding: 2px;
+	margin-right: 5px;
 }
-*/
-fieldset {
+
+*/ fieldset {
 	border: 1px solid #59a9ff;
 	margin: 0 auto;
 	width: 30%;
 	height: 170px;
 }
 
-fieldset div {
-	justify-content: center;
-	margin: 5px auto;
+fieldset {
+	position: relative;
+	border: 2px solid black;
+	margin: auto;
+	background-color: #d6d6fe;
+}
+
+#login-fieldset {
+	border: 1px solid #59a9ff;
+	margin: 0 auto;
+	width: 30%;
+	height: 170px;
+	background-color: whitesmoke;
+
 }
 
 legend {
@@ -186,6 +207,9 @@ legend {
 	background: #303030;
 	border: 1px solid black;
 	padding: 2px 6px;
+	display: block;
+	text-align: center;
+	width: 50%;
 }
 
 label {
@@ -237,7 +261,6 @@ input {
 form {
 	margin: 0 auto;
 	display: block;
-	/* Aquí puedes agregar más estilos al formulario */
 }
 
 form.inline {
@@ -289,4 +312,70 @@ a.boton {
 
 a.deshabilitado {
 	color: rgba(16, 16, 16, 0.3);
+}
+
+
+.containerC {
+	display: flex;
+	align-items: row;
+	border: 2px solid black;
+}
+
+.left {
+	width: 50%;
+	height: 100%;
+
+}
+
+.left ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.left li {
+	padding: 5px;
+}
+
+.right {
+	border-left: 2px solid #000;
+
+	width: 50%;
+	height: auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background-color: rgb(187, 245, 225);
+	;
+}
+
+.chat {
+	padding: 10px;
+
+
+}
+
+.formC {
+	display: flex;
+	flex-direction: column;
+}
+
+.labelC {
+	margin-bottom: 5px;
+}
+
+.textarea {
+	height: 100px;
+	margin-bottom: 10px;
+}
+
+div.eliminarU {
+	display: inline;
+	background-color: red;
+	font-weight: bold;
+	text-decoration: underline;
+	border: 2px solid rgb(126, 2, 2);
+	padding: 2px;
+	margin-right: 5px;
 }

@@ -22,7 +22,9 @@ class FormularioLogin extends Formulario
         // Se genera el HTML asociado a los campos del formulario y los mensajes de error.
         $html = <<<EOF
         $htmlErroresGlobales
-        <fieldset>
+
+        <img class="login-img" src="includes/src/img/Logo.png" alt="Icono Campus"> 
+        <fieldset id="login-fieldset">
             <legend>Usuario y contraseña</legend>
             <div>
                 <label for="email">Email: </label>

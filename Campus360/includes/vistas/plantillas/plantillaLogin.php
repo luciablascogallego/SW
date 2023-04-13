@@ -13,16 +13,15 @@ $mensajes = mensajesPeticionAnterior();
 <div id="contenedor">
 
 <header>
-    <h1> Campus 360 </h1>
+    <h1>  Campus 360 </h1>
     <div class="saludo">
-        <img src="includes/src/img/Logo.png" width="300" height="300" alt="Icono Campus">
     </div>
 </header>
-	<main>
+	<mainlog>
 		<article>
 			<?= $params['contenidoPrincipal'] ?>
 		</article>
-	</main>
+	</mainlog>
 </div>
 </body>
 </html>
