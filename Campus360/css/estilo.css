@@ -6,13 +6,7 @@
 	display: flex;
 	flex-direction: row;
 	justify-content: flex-start;
-	/* Establece el ancho máximo deseado */
 	margin: 0 auto;
-	z-index: 1;
-	background-size: cover;
-	background-image: url(/SW/Campus360/includes/src/img/Logo.png);
-	background-position: top center;
-	/* Centra el contenedor horizontalmente */
 }
 
 .asignaturas {
@@ -28,17 +22,26 @@
 	background-color: #ffffff;
 }
 
-img {
+.login-img {
 	display: block;
 	margin: 0 auto;
-	max-width: 150%;
-	max-height: 150%;
+	width: 300px;
+	height: 300px;
 
-	/* Aquí puedes agregar más estilos a la imagen */
 }
 
+.header-img {
+	display: block;
+	margin: 0 auto;
+	max-width: 8%;
+	max-height: 8%;
+	position: relative;
+}
+
+
+
 body {
-	background-color: #59a9ff;
+	background-color: rgb(77, 23, 77);
 	min-height: 100vh;
 
 }
@@ -48,27 +51,11 @@ body {
 	min-height: 100vh;
 	background-color: white;
 	width: 100%;
-	/* Ancho del 100% de la pantalla */
-	box-sizing: border-box;
-	/* Incluye el padding dentro del ancho total */
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	overflow: auto;
-
-
-
 }
-
-
-
-/*div#contenedor {
-	width: 900px;
-	margin: auto;
-	border: 1px solid black;
-	background-color: #aaaaaa;
-	margin-top: 30px;
-}*/
 
 div#contenedor {
 	width: auto;
@@ -77,20 +64,13 @@ div#contenedor {
 	background-color: white;
 	margin-top: auto;
 	min-height: 100vh;
-
-
 }
 
-/*header {
-	padding: 30px;
-	height: 100px;
-	background-color: #303030;
-	color: white;
-}*/
 header {
+
 	background-color: #59a9ff;
 	color: #fff;
-	height: 50px;
+	height: auto;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -116,20 +96,19 @@ header a:hover {
 
 nav {
 	padding: 10px;
-
 	background-color: #d6d6fe;
 	width: 15%;
 }
 
 nav a,
 nav a:visited {
-	color: blue;
+	color: black;
 	font-weight: bold;
 	text-decoration: none;
 }
 
 nav a:hover {
-	color: blue;
+	color: gray;
 	text-decoration: underline;
 }
 
@@ -138,7 +117,6 @@ aside {
 	width: 15%;
 	padding: 10px;
 	background-color: #d6d6fe;
-
 }
 
 
@@ -147,7 +125,10 @@ main {
 	min-height: 600px;
 	width: 70%;
 	background-color: white;
-
+	position: relative;
+	background-image: url(/SW/Campus360/includes/src/img/Logo.png);
+	background-size: cover;
+	background-position: center;
 }
 
 .main ul {
@@ -173,7 +154,6 @@ footer {
 	color: white;
 	text-align: center;
 	width: 100%;
-
 }
 
 div.saludo {
@@ -182,7 +162,7 @@ div.saludo {
 }
 
 div.eliminar {
-
+	display: inline;
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -192,15 +172,13 @@ div.eliminar {
 	border: 2px solid rgb(126, 2, 2);
 	padding: 2px;
 	margin-right: 5px;
-	color: white;
-
 }
 
 fieldset {
+	position: relative;
 	border: 2px solid black;
 	margin: auto;
-	position: relative;
-	background-color: aquamarine;
+	background-color: #d6d6fe;
 }
 
 #login-fieldset {
@@ -212,19 +190,6 @@ fieldset {
 
 }
 
-/*
-fieldset {
-	border: 1px solid #59a9ff;
-	margin: 0 auto;
-	width: 30%;
-	height: 170px;
-}*/
-/*
-fieldset div {
-	justify-content: center;
-	margin: 5px auto;
-}
-*/
 legend {
 	color: #fff;
 	background: #303030;
@@ -232,8 +197,7 @@ legend {
 	padding: 2px 6px;
 	display: block;
 	text-align: center;
-	width: 100%;
-
+	width: 50%;
 }
 
 label {
@@ -285,7 +249,6 @@ input {
 form {
 	margin: 0 auto;
 	display: block;
-	/* Aquí puedes agregar más estilos al formulario */
 }
 
 form.inline {
@@ -366,13 +329,13 @@ a.deshabilitado {
 	border-left: 2px solid #000;
 
 	width: 50%;
-	height: 100%;
-	float: right;
+	height: auto;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	background-color: aqua;
+	background-color: rgb(187, 245, 225);
+	;
 }
 
 .chat {
@@ -393,4 +356,14 @@ a.deshabilitado {
 .textarea {
 	height: 100px;
 	margin-bottom: 10px;
+}
+
+div.eliminarU {
+	display: inline;
+	background-color: red;
+	font-weight: bold;
+	text-decoration: underline;
+	border: 2px solid rgb(126, 2, 2);
+	padding: 2px;
+	margin-right: 5px;
 }

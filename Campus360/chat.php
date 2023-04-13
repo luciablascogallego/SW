@@ -15,7 +15,11 @@ $contenidoPrincipal=<<<EOS
       <li>Chat 2</li>
       <li>Chat 3</li>
       <li>Chat 4</li>
-     
+      <li>Chat 4</li>
+      <li>Chat 4</li>
+      <li>Chat 4</li>
+      <li>Chat 4</li>
+
 
     </asignaturas>
   </div>
@@ -35,7 +39,7 @@ $contenidoPrincipal=<<<EOS
 
   </div>
 </div>
-</div>
+
 
 EOS;
 

@@ -13,7 +13,7 @@ $mensajes = mensajesPeticionAnterior();
 <div id="contenedor">
 
 <header>
-    <h1> Campus 360 </h1>
+    <h1>  Campus 360 </h1>
     <div class="saludo">
     </div>
 </header>
