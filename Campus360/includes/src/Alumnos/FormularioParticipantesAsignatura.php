@@ -19,7 +19,7 @@ class FormularioParticipantesAsignatura extends Formulario
     protected function generaCamposFormulario(&$datos)
     {
         // Se generan los mensajes de error si existen.
-        $hidden;
+        $hidden = null;
         $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores);
         $erroresCampos = self::generaErroresCampos(['participantes', 'todos'], $this->errores, 'span', array('class' => 'error'));
         $alumnos = Alumno::listaAlumnos();
@@ -30,7 +30,7 @@ class FormularioParticipantesAsignatura extends Formulario
                 $usuario = Usuario::buscaPorId($alumno['IdAlumno']);
                 $idAlumno = $alumno['IdAlumno'];
                 $nombre = $usuario->getNombre().' '.$usuario->getApellidos();
-                $hidden .= <<<EOS
+                $hidden = <<<EOS
                             <input type="hidden" id="todos" name="todos[]" value="$idAlumno">
                             EOS;
                 if(Alumno::tieneAsignatura($this->idAsignatura, $idAlumno)){
