@@ -1,6 +1,8 @@
 /*
   Recuerda que deshabilitar la opción "Enable foreign key checks" para evitar problemas a la hora de importar el script.
 */
+SET FOREIGN_KEY_CHECKS = 0;
+
 TRUNCATE TABLE `Alumnos`;
 TRUNCATE TABLE `Padres`;
 TRUNCATE TABLE `Profesores`;
@@ -78,4 +80,4 @@ INSERT INTO `EstudianAsignaturas` (`IdAsignatura`, `IdAlumno`) VALUES
 (2, 1),
 (3, 1);
 
-
+SET FOREIGN_KEY_CHECKS = 1;

@@ -1,6 +1,8 @@
 /*
   Recuerda que deshabilitar la opción "Enable foreign key checks" para evitar problemas a la hora de importar el script.
 */
+SET FOREIGN_KEY_CHECKS = 0;
+
 DROP TABLE IF EXISTS `Alumnos`;
 DROP TABLE IF EXISTS `Asignaturas`;
 DROP TABLE IF EXISTS `Calificaciones`;
@@ -9,8 +11,8 @@ DROP TABLE IF EXISTS `Padres`;
 DROP TABLE IF EXISTS `Profesores`;
 DROP TABLE IF EXISTS `Usuarios`;
 DROP TABLE IF EXISTS `EstudianAsignaturas`;
-DROP TABLE IF EXISTS `RolesUsuario`;
-DROP TABLE IF EXISTS `EntregasUsuario`;
+DROP TABLE IF EXISTS `RolesUsuarios`;
+DROP TABLE IF EXISTS `EntregasAlumno`;
 DROP TABLE IF EXISTS `Recursos`;
 DROP TABLE IF EXISTS `Ciclos`;
 -- phpMyAdmin SQL Dump
@@ -18,7 +20,7 @@ DROP TABLE IF EXISTS `Ciclos`;
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 11, 2023 at 08:56 PM
+-- Generation Time: Apr 13, 2023 at 09:28 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -125,7 +127,8 @@ CREATE TABLE `Eventos_Tareas` (
   `IdAsignatura` int(11) NOT NULL,
   `nombre` varchar(20) NOT NULL,
   `descripcion` varchar(200) NOT NULL,
-  `esentrega` tinyint(1) NOT NULL
+  `esentrega` tinyint(1) NOT NULL,
+  `HoraFin` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -190,6 +193,7 @@ CREATE TABLE `Usuarios` (
   `Apellidos` varchar(60) NOT NULL,
   `password` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Indexes for dumped tables
 --
@@ -288,37 +292,37 @@ ALTER TABLE `Usuarios`
 -- AUTO_INCREMENT for table `Asignaturas`
 --
 ALTER TABLE `Asignaturas`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `Ciclos`
 --
 ALTER TABLE `Ciclos`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `EntregasAlumno`
 --
 ALTER TABLE `EntregasAlumno`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `Eventos_Tareas`
 --
 ALTER TABLE `Eventos_Tareas`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `Recursos`
 --
 ALTER TABLE `Recursos`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `Usuarios`
 --
 ALTER TABLE `Usuarios`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Constraints for dumped tables
@@ -354,6 +358,12 @@ ALTER TABLE `EstudianAsignaturas`
   ADD CONSTRAINT `EstudianAsignaturas_ibfk_2` FOREIGN KEY (`IdAsignatura`) REFERENCES `Asignaturas` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `Eventos_Tareas`
+--
+ALTER TABLE `Eventos_Tareas`
+  ADD CONSTRAINT `Eventos_Tareas_ibfk_1` FOREIGN KEY (`IdAsignatura`) REFERENCES `Asignaturas` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `Padres`
 --
 ALTER TABLE `Padres`
@@ -366,12 +376,19 @@ ALTER TABLE `Profesores`
   ADD CONSTRAINT `Profesores_ibfk_1` FOREIGN KEY (`IdProfesor`) REFERENCES `Usuarios` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `Recursos`
+--
+ALTER TABLE `Recursos`
+  ADD CONSTRAINT `Recursos_ibfk_1` FOREIGN KEY (`IdAsignatura`) REFERENCES `Asignaturas` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `RolesUsuarios`
 --
 ALTER TABLE `RolesUsuarios`
   ADD CONSTRAINT `RolesUsuarios_ibfk_1` FOREIGN KEY (`idUsuario`) REFERENCES `Usuarios` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
+SET FOREIGN_KEY_CHECKS = 1;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
