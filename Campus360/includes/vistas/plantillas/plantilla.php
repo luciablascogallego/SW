@@ -10,7 +10,6 @@ $params['app']->doInclude('/vistas/helpers/plantilla.php');
 	<link rel="stylesheet" type="text/css" href="<?= $params['app']->resuelve('/css/estilo.css') ?>" />
 </head>
 <body>
-	<?= $mensajes ?>
 	<div id="contenedor">
 		<?php
 			$params['app']->doInclude('/vistas/comun/cabecera.php');
