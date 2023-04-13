@@ -25,7 +25,7 @@ if ($admins) {
         
         <li>$nombre
         <div class="eliminarU">
-        <a href="eliminaUsuario.php?id=$id"> Eliminar admin</a>
+        <a href="eliminaUsuario.php?id=$id"> Eliminar admin</a>||<a href="editaUsuario.php?id=$id"> Editar </a> </li>
         </div>
         EOS;
     }
