@@ -1,3 +1,4 @@
+
 <?php
 
 require_once __DIR__.'/includes/config.php';
@@ -5,15 +6,20 @@ require_once __DIR__.'/includes/config.php';
 $tituloPagina = 'Chat';
 $contenidoPrincipal=<<<EOS
   <h1>Chats</h1>
-  <div class="vistaChats">
-  <div class="listaNombres">
-    <ul>
+  <div class="containerC">
+  
+  <div class="left">
+  
+    <ul class="asignaturas">
       <li>Chat 1</li>
       <li>Chat 2</li>
       <li>Chat 3</li>
       <li>Chat 4</li>
-    </ul>
+     
+
+    </asignaturas>
   </div>
+  <div class="right">
   <div class="chat">
   <form action="enviar-correo.php" method="post">
 
@@ -25,9 +31,12 @@ $contenidoPrincipal=<<<EOS
 
   <button type="submit">Enviar mensaje</button>
 </form>
+</div>
 
   </div>
 </div>
+</div>
+
 EOS;
 
 $params = ['tituloPagina' => $tituloPagina, 'contenidoPrincipal' => $contenidoPrincipal];

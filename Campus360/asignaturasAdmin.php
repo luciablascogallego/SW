@@ -40,7 +40,7 @@ if ($ciclos) {
             $contenidoPrincipal .= '</ul>';
         }
         $contenidoPrincipal .= <<<EOS
-        <div>
+        <div class="eliminar">
         <a href="eliminaCiclo.php?id=$idCiclo"> Eliminar Ciclo</a>
         </div>
         </fieldset>

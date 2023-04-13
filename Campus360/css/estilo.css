@@ -1,77 +1,179 @@
-body {
-	background-color: #CDCDCD;
+* {
+	box-sizing: border-box;
 }
 
-div#contenedor {
+.container {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	/* Establece el ancho máximo deseado */
+	margin: 0 auto;
+	z-index: 1;
+	background-size: cover;
+	background-image: url(/SW/Campus360/includes/src/img/Logo.png);
+	background-position: top center;
+	/* Centra el contenedor horizontalmente */
+}
+
+.asignaturas {
+	list-style: none;
+	padding: 0;
+}
+
+.asignaturas li:nth-child(odd) {
+	background-color: silver;
+}
+
+.asignaturas li:nth-child(even) {
+	background-color: #ffffff;
+}
+
+img {
+	display: block;
+	margin: 0 auto;
+	max-width: 150%;
+	max-height: 150%;
+
+	/* Aquí puedes agregar más estilos a la imagen */
+}
+
+body {
+	background-color: #59a9ff;
+	min-height: 100vh;
+
+}
+
+.mainlog {
+	padding: 10px;
+	min-height: 100vh;
+	background-color: white;
+	width: 100%;
+	/* Ancho del 100% de la pantalla */
+	box-sizing: border-box;
+	/* Incluye el padding dentro del ancho total */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: auto;
+
+
+
+}
+
+
+
+/*div#contenedor {
 	width: 900px;
 	margin: auto;
 	border: 1px solid black;
 	background-color: #aaaaaa;
 	margin-top: 30px;
+}*/
+
+div#contenedor {
+	width: auto;
+	margin: auto;
+	border: 1px solid black;
+	background-color: white;
+	margin-top: auto;
+	min-height: 100vh;
+
+
 }
 
-header {
+/*header {
 	padding: 30px;
 	height: 100px;
 	background-color: #303030;
 	color: white;
+}*/
+header {
+	background-color: #59a9ff;
+	color: #fff;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 10 20px;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
-header a, header a:visited {
+header a,
+header a:visited {
 	color: white;
 	font-weight: bold;
 	text-decoration: none;
-} 
+}
 
 header a:hover {
 	color: red;
 	font-weight: bold;
 	text-decoration: underline;
-} 
+}
+
 
 
 nav {
 	padding: 10px;
-	float: left;
-	width: 170px;
-	height: 400px;
-	background-color: #dddddd;
+
+	background-color: #d6d6fe;
+	width: 15%;
 }
 
-nav a, nav a:visited {
-	color: red;
+nav a,
+nav a:visited {
+	color: blue;
 	font-weight: bold;
 	text-decoration: none;
-} 
+}
 
 nav a:hover {
-	color: red;
+	color: blue;
 	text-decoration: underline;
-} 
+}
 
 
 aside {
+	width: 15%;
 	padding: 10px;
-	float: right;
-	width: 170px;
-	height: 400px;
-	background-color: #dddddd;
+	background-color: #d6d6fe;
+
 }
+
 
 main {
 	padding: 10px;
-	float: left;
 	min-height: 600px;
-	width: 500px;
+	width: 70%;
 	background-color: white;
+
+}
+
+.main ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	justify-content: center;
+	text-align: center;
+}
+
+.main li {
+	padding: 5px;
+	display: flex;
+	justify-content: center;
+	text-align: center;
 }
 
 footer {
 	clear: both;
-	padding: 20px;
-	background-color: #303030;
+	padding: 0;
+	background-color: blue;
 	color: white;
 	text-align: center;
+	width: 100%;
+
 }
 
 div.saludo {
@@ -79,22 +181,60 @@ div.saludo {
 	text-align: right;
 }
 
-fieldset {
-	border: 1px solid black;
-	margin: auto;
+div.eliminar {
+
+	position: absolute;
+	top: 0;
+	right: 0;
+	background-color: red;
+	font-weight: bold;
+	text-decoration: underline;
+	border: 2px solid rgb(126, 2, 2);
+	padding: 2px;
+	margin-right: 5px;
+	color: white;
+
 }
 
+fieldset {
+	border: 2px solid black;
+	margin: auto;
+	position: relative;
+	background-color: aquamarine;
+}
+
+#login-fieldset {
+	border: 1px solid #59a9ff;
+	margin: 0 auto;
+	width: 30%;
+	height: 170px;
+	background-color: whitesmoke;
+
+}
+
+/*
+fieldset {
+	border: 1px solid #59a9ff;
+	margin: 0 auto;
+	width: 30%;
+	height: 170px;
+}*/
+/*
 fieldset div {
 	justify-content: center;
 	margin: 5px auto;
 }
-
+*/
 legend {
 	color: #fff;
 	background: #303030;
 	border: 1px solid black;
 	padding: 2px 6px;
-} 
+	display: block;
+	text-align: center;
+	width: 100%;
+
+}
 
 label {
 	margin-right: 0.5em;
@@ -112,8 +252,8 @@ input {
 .mensajes {
 	position: fixed;
 	width: 100%;
-  }
-  
+}
+
 .mensaje {
 	border: 2px solid black;
 	border-radius: 5px;
@@ -138,15 +278,22 @@ input {
 	text-align: center;
 }
 
-.mensajes input:checked + .mensaje {
+.mensajes input:checked+.mensaje {
 	display: none;
+}
+
+form {
+	margin: 0 auto;
+	display: block;
+	/* Aquí puedes agregar más estilos al formulario */
 }
 
 form.inline {
 	display: inline;
 }
 
-form button.enlace, form button.enlace:visited {
+form button.enlace,
+form button.enlace:visited {
 	color: white;
 	font-weight: bold;
 	text-decoration: none;
@@ -160,7 +307,8 @@ form button.enlace:hover {
 	text-decoration: underline;
 }
 
-button, a.boton {
+button,
+a.boton {
 	border: 1px solid black;
 	font-size: 0.9em;
 	font-family: Arial;
@@ -175,7 +323,8 @@ a.boton {
 	margin: 1px 5px;
 }
 
-button, a.boton {
+button,
+a.boton {
 	border: 1px solid black;
 	font-size: 0.9em;
 	font-family: Arial;
@@ -188,4 +337,60 @@ button, a.boton {
 
 a.deshabilitado {
 	color: rgba(16, 16, 16, 0.3);
+}
+
+
+.containerC {
+	display: flex;
+	align-items: row;
+	border: 2px solid black;
+}
+
+.left {
+	width: 50%;
+	height: 100%;
+
+}
+
+.left ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.left li {
+	padding: 5px;
+}
+
+.right {
+	border-left: 2px solid #000;
+
+	width: 50%;
+	height: 100%;
+	float: right;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background-color: aqua;
+}
+
+.chat {
+	padding: 10px;
+
+
+}
+
+.formC {
+	display: flex;
+	flex-direction: column;
+}
+
+.labelC {
+	margin-bottom: 5px;
+}
+
+.textarea {
+	height: 100px;
+	margin-bottom: 10px;
 }

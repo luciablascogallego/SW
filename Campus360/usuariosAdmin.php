@@ -22,9 +22,11 @@ if ($admins) {
         $id = $admin->getId();
         $nombre = $admin->getNombre().' '.$admin->getApellidos();
         $contenidoPrincipal .= <<<EOS
-        <div>
-        <li>$nombre<a href="eliminaUsuario.php?id=$id"> Eliminar admin</a>
+        <div class="eliminar">
+        <a href="eliminaUsuario.php?id=$id"> Eliminar admin</a>
         </div>
+        <li>$nombre
+        
         EOS;
     }
     $contenidoPrincipal .= '</ul>';
@@ -46,9 +48,10 @@ if ($profes) {
         $id = $usuario->getId();
         $nombre = $usuario->getNombre().' '.$usuario->getApellidos();
         $contenidoPrincipal .= <<<EOS
-        <div>
-        <li>$nombre<a href="eliminaUsuario.php?id=$id"> Eliminar profesor</a>
+        <div class="eliminar">
+        <a href="eliminaUsuario.php?id=$id"> Eliminar admin</a>
         </div>
+        <li>$nombre
         EOS;
     }
     $contenidoPrincipal .= '</ul>';
@@ -69,9 +72,10 @@ if ($padres) {
         $id = $usuario->getId();
         $nombre = $usuario->getNombre().' '.$usuario->getApellidos();
         $contenidoPrincipal .= <<<EOS
-        <div>
-        <li>$nombre<a href="eliminaUsuario.php?id=$id"> Eliminar padre</a>
+        <div class="eliminar">
+        <a href="eliminaUsuario.php?id=$id"> Eliminar padre</a>
         </div>
+        <li>$nombre
         EOS;
     }
     $contenidoPrincipal .= '</ul>';
@@ -92,9 +96,10 @@ if ($alumno) {
         $id = $usuario->getId();
         $nombre = $usuario->getNombre().' '.$usuario->getApellidos();
         $contenidoPrincipal .= <<<EOS
-        <div>
-        <li>$nombre<a href="eliminaUsuario.php?id=$id"> Eliminar alumno</a>
+        <div class="eliminar">
+        <a href="eliminaUsuario.php?id=$id"> Eliminar alumno</a>
         </div>
+        <li>$nombre
         EOS;
     }
     $contenidoPrincipal .= '</ul>';
