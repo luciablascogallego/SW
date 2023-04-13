@@ -156,12 +156,29 @@ class Eventos_tareas {
         return $result;
     }
 
-    private static function borra($tarea)
+    public static function actualiza($evento_tarea)
     {
-        return self::borraPorId($tarea->id);
+        $result = false;
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query=sprintf("UPDATE Eventos_Tareas U SET FechaFin = '%s', esentrega='%d' , 
+        descripcion='%s', nombre='%s', HoraFin='%s' WHERE U.Id=%d"
+            , $conn->real_escape_string($evento_tarea->getFechafin())
+            , $conn->real_escape_string($evento_tarea->getEsEntrega())
+            , $conn->real_escape_string($evento_tarea->getDescripcion())
+            , $conn->real_escape_string($evento_tarea->getNombre())
+            , $conn->real_escape_string($evento_tarea->getHorafin())
+            , $evento_tarea->getId()
+        );
+        if ( $conn->query($query) ) {
+            $result = true;
+        } else {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+        }
+        
+        return $result;
     }
 
-    private static function borraPorId($idTarea)
+    public static function borraPorId($idTarea)
     {
         if (!$idTarea) {
             return false;
@@ -170,7 +187,7 @@ class Eventos_tareas {
          * $result = self::borraRoles($usuario) !== false;
          */
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("DELETE FROM Eventos_Tareas U WHERE U.id = %d"
+        $query = sprintf("DELETE FROM Eventos_Tareas WHERE Id = %d"
             , $idTarea
         );
         if ( ! $conn->query($query) ) {

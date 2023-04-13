@@ -50,8 +50,9 @@ if($esEntrega){
   }
   $contenidoPrincipal.='<p>La fecha limite es: ' . $fechaFin .' a las '.$horaFin. '</p>';
   $fecha = date('Y-m-d H:i:s');
-  $today_time = strtotime($fecha);
-  $expire_time = date('Y-m-d H:i:s', strtotime("$fechaFin, $horaFin"));
+  $today_time = strtotime("$fecha");
+  $expire_time = strtotime("$fechaFin, $horaFin");
+  
   if($today_time > $expire_time)  
     $contenidoPrincipal .= '<p> El plazo de entrega ha terminado, no se aceptan más entregas</p>';
   else

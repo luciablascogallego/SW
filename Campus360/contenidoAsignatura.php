@@ -58,7 +58,9 @@ if(!empty($entregas)){
     }
     //Si somos profesor, el link nos mostrara todas las entregas realizadas en la tarea, en un alista alumno por alumno
     elseif($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::PROFE_ROLE)){
-      $contenidoPrincipal.= "<li><a href='listaEntregas.php?id=" . $entrega['Id'] . "&id_asignatura=" . $id_asignatura . "&nombre=" . $entrega['nombre'] ."'>" . $entrega['nombre'] . "</a></li>";
+      $contenidoPrincipal.= "<li><a href='listaEntregas.php?id=" . $entrega['Id'] . "&id_asignatura=" . $id_asignatura . "&nombre=" . $entrega['nombre'] ."'>" . $entrega['nombre'] . "</a>||
+      <a href='eliminaTarea.php?id=".$entrega['Id']."'>Eliminar Tarea</a>||
+      <a href='editaEntregaEvento.php?id=".$entrega['Id']."'>Editar</a></li>";
     }
   }
   
@@ -82,7 +84,9 @@ if(!empty($entregas)){
     }
     //Si somos profesor, el link nos mostrara todas las entregas realizadas en la tarea, en un alista alumno por alumno
     elseif($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::PROFE_ROLE)){
-      $contenidoPrincipal.= "<li><a href='listaEntregas.php?id=" . $entrega['Id'] . "&id_asignatura=" . $id_asignatura . "&nombre=" . $entrega['nombre'] ."'>" . $entrega['nombre'] . "</a></li>";
+      $contenidoPrincipal.= "<li><a href='listaEntregas.php?id=" . $entrega['Id'] . "&id_asignatura=" . $id_asignatura . "&nombre=" . $entrega['nombre'] ."'>" . $entrega['nombre'] . "</a>||
+      <a href='eliminaEvento.php?id=".$entrega['Id']."'>Eliminar Evento</a>||
+      <a href='editaEntregaEvento.php?id=".$entrega['Id']."'>Editar</a></li>";
     }
   }
   
