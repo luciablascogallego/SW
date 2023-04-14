@@ -17,6 +17,7 @@ if ($asignaturas) {
         foreach ($asignaturas as $idAsignatura) {
             $asignatura = Asignatura::buscaPorId($idAsignatura);
             $id = $asignatura->getId();
+            echo $id;
             $nombre = $asignatura->getNombre();
             $curso = $asignatura->getCurso();
             $Idciclo = $asignatura->getCiclo();

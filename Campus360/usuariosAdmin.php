@@ -48,7 +48,7 @@ if ($profes) {
         $id = $usuario->getId();
         $nombre = $usuario->getNombre().' '.$usuario->getApellidos();
         $contenidoPrincipal .= <<<EOS
-        <<div>
+        <div>
         <li>$nombre<div class="eliminarU"><a href="eliminaUsuario.php?id=$id"> Eliminar profesor</a>       </div>
         ||<a href="editaUsuario.php?id=$id"> Editar </a> </li>
         </div>

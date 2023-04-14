@@ -8,6 +8,10 @@ use es\ucm\fdi\aw\usuarios\Usuario;
 
 $id_tarea = $_GET['id'];
 
+$tarea = Eventos_tareas::buscaPorId($id_tarea);
+
+$id_asignatura = $tarea->getIdAsignatura();
+
 $entregas = EntregasAlumno::getEntregasPorId($id_tarea);
 
 if($entregas){
@@ -19,4 +23,4 @@ if($entregas){
 
 Eventos_Tareas::borraPorId($id_tarea);
 
-Aplicacion::redirige('contenidoAsignatura.php');
+Aplicacion::redirige('contenidoAsignatura.php?id='.$id_asignatura);

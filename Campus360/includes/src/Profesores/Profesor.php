@@ -45,7 +45,7 @@ class Profesor {
     public static function crea($id, $tutorias, $despacho){
 
         $result = new Profesor($id, $despacho, $tutorias);
-        $profesor = self::buscaPorId($idAlumno);
+        $profesor = self::buscaPorId($id);
         if(!$profesor){
             $result = self::inserta($result);
         }

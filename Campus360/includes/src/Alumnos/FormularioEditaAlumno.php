@@ -26,8 +26,12 @@ class FormularioEditaAlumno extends Formulario
         $padres = Padre::padres();
         $alumno = Alumno::buscaPorId($this->idUsuario);
         $idAlumno = null;
-        if($alumno)
+        $idPadre = null;
+        $tienePadre = false;
+        if($alumno){
             $idAlumno = $alumno->getId();
+            $idPadre = $alumno->getIdPadre();
+        }
         $selPadre = <<<EOS
         <select id="padres" name="padre"> 
         EOS;
@@ -36,18 +40,25 @@ class FormularioEditaAlumno extends Formulario
                 $id = $padre['IdPadre'];
                 $usuario = Usuario::buscaPorId($id);
                 $nombre = $usuario->getNombre().' '.$usuario->getApellidos();
-                if($id == $idAlumno)
+                if($id == $idPadre){
                 $selPadre .= <<<EOS
                 <option value="$id" selected>$nombre</option> 
                 EOS;
+                $tienePadre = true;
+                }
                 else
                     $selPadre .= <<<EOS
                     <option value="$id">$nombre</option> 
                     EOS;
             }
         }
+        if(!$tienePadre)
             $selPadre .= <<<EOS
             <option value="0" selected>--No Padre</option> 
+            EOS;
+        else
+            $selPadre .= <<<EOS
+            <option value="0">--No Padre</option> 
             EOS;
         $selPadre .= '</select>';
         $html = <<<EOS
