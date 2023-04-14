@@ -40,7 +40,7 @@ class Padre {
             , $conn->real_escape_string($padre->getId())
         );
         if ( $conn->query($query) ) {
-            $result = $alumno;
+            $result = $padre;
         } else {
             error_log("Error BD ({$conn->errno}): {$conn->error}");
         }

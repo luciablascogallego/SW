@@ -2,7 +2,7 @@
 require_once __DIR__.'/includes/config.php';
 
 $id_asignatura = $_GET['id'];
-$formEventos = new \es\ucm\fdi\aw\Entregas_Eventos\FormularioCreaEvento($id_asignatura, null);
+$formEventos = new \es\ucm\fdi\aw\Entregas_Eventos\FormularioCreaEvento($id_asignatura);
 $formEventos = $formEventos->gestiona();
 
 $formUpload = new \es\ucm\fdi\aw\Recurso\FormularioSubeArchivo($id_asignatura, null);

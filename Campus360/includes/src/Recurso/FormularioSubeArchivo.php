@@ -29,7 +29,7 @@ class FormularioSubeArchivo extends Formulario
         $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores);
         $erroresCampos = self::generaErroresCampos(['archivo', 'tipo'], $this->errores, 'span', array('class' => 'error'));
 
-        $id = $_GET['id'];
+        //$id = $_GET['id'];
         $html = <<<EOS
         $htmlErroresGlobales
         <fieldset>

@@ -23,6 +23,7 @@ class FormularioEditaUsuario extends Formulario
         $emailUsuario = $usuario->getEmail();
         $nombre = $usuario->getNombre();
         $apellidos = $usuario->getApellidos();
+        $password = $usuario->getPassword();
         $dir = $usuario->getDir();
         $telefono = $usuario->getTelefono();
         $NIF = $usuario->getNIF();
@@ -30,7 +31,7 @@ class FormularioEditaUsuario extends Formulario
 
         // Se generan los mensajes de error si existen.
         $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores);
-        $erroresCampos = self::generaErroresCampos(['emailUsuario','nombre', 'apellidos', 'direccion', 'telefono', 'NIF', 'rol'], 
+        $erroresCampos = self::generaErroresCampos(['emailUsuario','nombre', 'apellidos', 'password','direccion', 'telefono', 'NIF', 'rol'], 
         $this->errores, 'span', array('class' => 'error'));
 
         $html = <<<EOF
@@ -51,7 +52,11 @@ class FormularioEditaUsuario extends Formulario
                 <label for="apellidos">Apellidos:</label>
                 <input id="apellidos" type="text" name="apellidos" value="$apellidos" />
                 {$erroresCampos['apellidos']}
-            </div>      
+            </div>   
+            <div>
+            <input id="password" type="hidden" name="password" value="$password" />
+            {$erroresCampos['password']}
+        </div>       
             <div>
                 <label for="direccion">direccion:</label>
                 <input id="direccion" type="text" name="direccion" value="$dir" />
@@ -164,10 +169,12 @@ class FormularioEditaUsuario extends Formulario
             $this->errores['rol'] = 'El rol del usuario no es válido.';
         }
 
+        $password = $password = trim($datos['password'] ?? '');
+
         if (count($this->errores) === 0) {
             $usuario = Usuario::buscaPorId($this->idUsuario);
             $antiguoRol = $usuario->getRol();
-            $usuario = Usuario::crea($emailUsuario, $usuario->getPassword(), $nombre, $apellidos ,$rol, $telefono, $NIF, $dir, $this->idUsuario);
+            $usuario = Usuario::crea($emailUsuario, $password, $nombre, $apellidos ,$rol, $telefono, $NIF, $dir, $this->idUsuario);
 
             if ($antiguoRol == Usuario::ALUMNO_ROLE && $antiguoRol != $rol){
                 Alumno::borraPorId($this->idUsuario);
@@ -186,7 +193,7 @@ class FormularioEditaUsuario extends Formulario
                 $app->redirige('editaProfesor.php?id='.$usuario->getId());
             }
             else if ($usuario->getRol() == Usuario::PADRE_ROLE){
-                es\ucm\fdi\aw\Padres\Padre::crea($usuario->getId());
+                Padre::crea($usuario->getId());
             }
             if (!$usuario) {
                 $this->errores[] = "Error al crear el usuario";
