@@ -131,7 +131,7 @@ main {
 	width: 70%;
 	background-color: white;
 	position: relative;
-	background-image: url(/SW/Campus360/includes/src/img/Logo.png);
+	background-image: url(/SW/Campus360/includes/src/img/Logofondo.png);
 	background-size: cover;
 	background-position: center;
 }
@@ -166,7 +166,7 @@ div.saludo {
 	text-align: right;
 }
 
-div.eliminar {
+div.eliminarC {
 	display: inline;
 	position: absolute;
 	top: 0;
@@ -179,18 +179,36 @@ div.eliminar {
 	margin-right: 5px;
 }
 
-*/ fieldset {
+div.editarC {
+	display: inline;
+	position: absolute;
+
+	left: 0;
+	top: 0;
+	background-color: rgb(247, 252, 156);
+	font-weight: bold;
+	text-decoration: underline;
+	border: 2px solid rgb(225, 253, 123);
+	padding: 2px;
+	margin-left: 5px;
+}
+
+/*fieldset {
 	border: 1px solid #59a9ff;
 	margin: 0 auto;
 	width: 30%;
 	height: 170px;
-}
+}*/
 
 fieldset {
 	position: relative;
 	border: 2px solid black;
 	margin: auto;
 	background-color: #d6d6fe;
+}
+
+fieldset li {
+	padding: 5px;
 }
 
 #login-fieldset {
@@ -376,6 +394,26 @@ div.eliminarU {
 	font-weight: bold;
 	text-decoration: underline;
 	border: 2px solid rgb(126, 2, 2);
+	padding: 2px;
+	margin-right: 5px;
+}
+
+div.editarU {
+	display: inline;
+	background-color: rgb(247, 252, 156);
+	font-weight: bold;
+	text-decoration: underline;
+	border: 2px solid rgb(225, 253, 123);
+	padding: 2px;
+	margin-right: 5px;
+}
+
+div.gestionar {
+	display: inline;
+	background-color: rgb(167, 140, 1);
+	font-weight: bold;
+	text-decoration: underline;
+	border: 2px solid rgb(61, 54, 2);
 	padding: 2px;
 	margin-right: 5px;
 }

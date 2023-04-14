@@ -32,8 +32,8 @@ if ($ciclos) {
                     $curso = $asignatura['Curso'];
                     $grupo = $asignatura['Grupo'];
                     $contenidoPrincipal .= <<<EOS
-                        <li>$nombre $curso º $grupo<a href="eliminaAsignatura.php?id=$id"> Eliminar Asignatura</a>||<a href="editaAsignatura.php?id=$id">Editar Asignatura</a>
-                        ||<a href="añadeAsignatura.php?id=$id"> Gestionar alumnos</a>
+                        <li>$nombre $curso º $grupo<div class="eliminarU"<a href="eliminaAsignatura.php?id=$id"> Eliminar Asignatura</a></div><div class="editarU"<a href="editaAsignatura.php?id=$id">Editar Asignatura</a></div>
+                        <div class="gestionar"><a href="añadeAsignatura.php?id=$id"> Gestionar alumnos</a></div>
                         </li>
                     EOS;  
                 }
@@ -42,7 +42,8 @@ if ($ciclos) {
         }
         $contenidoPrincipal .= <<<EOS
         <div>
-        <a href="eliminaCiclo.php?id=$idCiclo"> Eliminar Ciclo</a>||<a href="editaCiclo.php?id=$idCiclo"> Editar Ciclo</a>
+        <div class="eliminarC"><a href="eliminaCiclo.php?id=$idCiclo"> Eliminar Ciclo</a> </div>
+        <div class="editarC"><a href="editaCiclo.php?id=$idCiclo"> Editar Ciclo</a></div>
         </div>
         </fieldset>
         EOS;

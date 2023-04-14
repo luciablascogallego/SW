@@ -25,7 +25,7 @@ if ($admins) {
         
         <div>
         <li>$nombre<div class="eliminarU"><a href="eliminaUsuario.php?id=$id"> Eliminar admin</a>        </div>
-        ||<a href="editaUsuario.php?id=$id"> Editar </a> </li>
+        <div class="editarU"><a href="editaUsuario.php?id=$id"> Editar </a> </li>
         </div>
         EOS;
     }
@@ -48,10 +48,11 @@ if ($profes) {
         $id = $usuario->getId();
         $nombre = $usuario->getNombre().' '.$usuario->getApellidos();
         $contenidoPrincipal .= <<<EOS
-        <<div>
-        <li>$nombre<div class="eliminarU"><a href="eliminaUsuario.php?id=$id"> Eliminar admin</a>        </div>
-        ||<a href="editaUsuario.php?id=$id"> Editar </a> </li>
+        <div>
+        <li>$nombre<div class="eliminarU"><a href="eliminaUsuario.php?id=$id"> Eliminar profesor</a>        </div>
+        <div class="editarU"><a href="editaUsuario.php?id=$id"> Editar </a> </li>
         </div>
+
         EOS;
     }
     $contenidoPrincipal .= '</ul>';
@@ -74,7 +75,7 @@ if ($padres) {
         $contenidoPrincipal .= <<<EOS
         <div>
         <li>$nombre<div class="eliminarU"><a href="eliminaUsuario.php?id=$id"> Eliminar padre</a>        </div>
-        ||<a href="editaUsuario.php?id=$id"> Editar </a> </li>
+        <div class="editarU"><a href="editaUsuario.php?id=$id"> Editar </a> </li>
         </div>
         EOS;
     }
@@ -98,7 +99,7 @@ if ($alumno) {
         $contenidoPrincipal .= <<<EOS
         <div>
         <li>$nombre<div class="eliminarU"><a href="eliminaUsuario.php?id=$id"> Eliminar alumno</a>        </div>
-        ||<a href="editaUsuario.php?id=$id"> Editar </a> </li>
+        <div class="editarU"><a href="editaUsuario.php?id=$id"> Editar </a> </li>
         </div>
         EOS;
     }
