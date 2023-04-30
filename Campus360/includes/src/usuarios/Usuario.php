@@ -116,6 +116,23 @@ class Usuario
         return $result;
     }
 
+    public static function getUsuarios(){
+        $usuarios = [];
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query = sprintf("SELECT * FROM Usuarios");
+        $rs = $conn->query($query);
+        if ($rs) {
+            $usuarios = $rs->fetch_all(MYSQLI_ASSOC);
+            $rs->free();
+
+            return $usuarios;
+
+        } else {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+        }
+        return false;
+    }
+
     public static function admins(){
         $admins = [];
         $ids = [];
