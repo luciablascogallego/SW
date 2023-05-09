@@ -32,37 +32,44 @@ class FormularioNuevoUsuario extends Formulario
             <legend>Datos del usuario</legend>
             <div>
                 <label for="emailUsuario">email del usuario:</label>
-                <input id="emailUsuario" type="email" name="emailUsuario" value="$emailUsuario" />
+                <input id="emailUsuario" type="email" name="emailUsuario"  required="required" value="$emailUsuario" />
+                <img src="" id="estado"/>
+                <span class="error" id="correo-error"></span>
                 {$erroresCampos['emailUsuario']}
             </div>
             <div>
                 <label for="nombre">Nombre:</label>
-                <input id="nombre" type="text" name="nombre" value="$nombre" />
+                <input id="nombre" type="text" name="nombre"  required="required" value="$nombre" />
+                <span class="error" id="nombre-error"></span>
                 {$erroresCampos['nombre']}
             </div>
             <div>
                 <label for="apellidos">Apellidos:</label>
-                <input id="apellidos" type="text" name="apellidos" value="$apellidos" />
+                <input id="apellidos" type="text" name="apellidos" required="required" value="$apellidos" />
+                <span class="error" id="apellidos-error"></span>
                 {$erroresCampos['apellidos']}
             </div>      
             <div>
                 <label for="direccion">direccion:</label>
-                <input id="direccion" type="text" name="direccion" value="$dir" />
+                <input id="direccion" type="text" name="direccion" required="required" value="$dir" />
                 {$erroresCampos['direccion']}
             </div>      
             <div>
                 <label for="telefono">telefono:</label>
-                <input id="telefono" type="tel" name="telefono" value="$telefono" />
+                <input id="telefono" type="tel" name="telefono" required="required" value="$telefono" />
+                <span class="error" id="telefono-error"></span>
                 {$erroresCampos['NIF']}
             </div>    
             <div>
                 <label for="NIF">NIF:</label>
-                <input id="NIF" type="text" name="NIF" value="$NIF" />
+                <input id="NIF" type="text" name="NIF" required="required" value="$NIF" />
+                <span class="error" id="nif-error"></span>
                 {$erroresCampos['NIF']}
             </div>    
             <div>
                 <label for="password">Contraseña:</label>
-                <input id="password" type="password" name="password" />
+                <input id="password" type="password" required="required" name="password" />
+                <span class="error" id="password-error"></span>
                 {$erroresCampos['password']}
             </div>
             <div>

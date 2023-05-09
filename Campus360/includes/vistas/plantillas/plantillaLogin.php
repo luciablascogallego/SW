@@ -8,6 +8,8 @@ $mensajes = mensajesPeticionAnterior();
 	<meta charset="UTF-8">
     <title><?= $params['tituloPagina'] ?></title>
 	<link rel="stylesheet" type="text/css" href="<?= $params['app']->resuelve('/css/estilo.css') ?>" /></head>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="formularios.js/comprobar.js"></script>
 <body>
 <?= $mensajes ?>
 <div id="contenedor">

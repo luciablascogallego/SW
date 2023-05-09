@@ -8,6 +8,8 @@ $params['app']->doInclude('/vistas/helpers/plantilla.php');
 	<meta charset="UTF-8">
     <title><?= $params['tituloPagina'] ?></title>
 	<link rel="stylesheet" type="text/css" href="<?= $params['app']->resuelve('/css/estilo.css') ?>" />
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="formularios.js/comprobar.js"></script>
 </head>
 <body>
 	<div id="contenedor">
