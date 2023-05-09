@@ -357,40 +357,52 @@ a.deshabilitado {
 
 .right, .right2 {
 	border-left: 2px solid #000;
-
 	width: 50%;
 	height: auto;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	background-color: rgb(187, 245, 225);
-	;
+	background-color: #d6d6fe;
 }
 
 .mensaje {
-	/* Agrega estilos generales para los mensajes */
 	margin-bottom: 10px;
   }
   
-  .mensaje-propio {
-	/* Alinea los mensajes del usuario actual a la izquierda */
+  .mensaje-propio p {
 	text-align: left;
+	align-items: left;
+	font-weight: bold;
+	color:#ffffff;
+	background-color: #59a9ff;
+	font-size: 14px;
+	width: 45%;
   }
-  
-  .mensaje-externo {
-	/* Alinea los mensajes de otros usuarios a la derecha */
-	text-align: right;
-  }
+
+.mensaje-externo {
+	margin-left: 50%;
+	text-align: left;
+	align-items: flex-end;
+}
+
+.mensaje-externo p {
+	font-weight: bold;
+	color:#59a9ff;
+	background-color: #ffffff;
+	font-size: 14px;
+	display: inline-block;
+	max-width: 100%;
+} 
 
 #chat, #chat2 {
 	padding: 10px;
 	width: 400px;
 	height: 300px;
-	max-height: 300px; /* Limita la altura máxima del div del chat */
+	max-height: 300px;
 	padding: 10px;
-	overflow-y: auto; /* Habilita el scroll vertical cuando hay más contenido del que puede mostrar */
-	word-wrap: break-word; /* Ajusta los mensajes largos en varias líneas */
+	overflow-y: auto;
+	word-wrap: break-word;
 }
 
 #chat p, #chat2 p{
@@ -405,8 +417,8 @@ a.deshabilitado {
 }
 
 .botonAsignaturas:active, .botonUsuarios:active {
-	transform: scale(0.95); /* Aplicar escala al 95% cuando se presiona */
-	background-color: rgb(43, 200, 205); /* Cambiar el color de fondo al rojo */
+	transform: scale(0.95);
+	background-color: rgb(43, 200, 205);
   }
 
 .formC {

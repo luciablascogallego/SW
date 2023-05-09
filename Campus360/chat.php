@@ -70,6 +70,7 @@ if ($asignaturas) {
 
 $contenidoPrincipal=<<<EOS
   <h1>Foros</h1>
+  <h3 id="foroActual"></h3>
   <div class="containerC">
   
   <div class="left">
@@ -96,6 +97,7 @@ $listaUsuarios = Usuario::getUsuarios();
 if($listaUsuarios){
   foreach ($listaUsuarios as $user) {
     $idRemitente = $user['Id'];
+
     $idAutor = $alumnoId;
     $nombreAutor = $nombreUsuario;
     $nombreRemitente = $user['Nombre'];
@@ -117,8 +119,8 @@ $alumnosCampus .= '</ul>';
 
   $contenidoPrincipal.=<<<EOS
   <h1>Chats privados</h1>
+  <h3 id="chatActual"></h3>
   <div class="containerC2">
-  
   <div class="left2">
 
     $alumnosCampus
@@ -180,6 +182,7 @@ $app->generaVista('/plantillas/plantilla.php', $params);
         var nombreRemitente = this.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.value;
 
         var chat = document.getElementById('chat2');
+        var chatActul = document.getElementById('chatActual');
         var url = "cargarMensajesP.php?idA="+idAutor+"&idR="+idRemitente;
 
         $.get(url, function(respuesta){
@@ -198,16 +201,19 @@ $app->generaVista('/plantillas/plantilla.php', $params);
             mensajeElemento.textContent = datos[i].mensaje;
             mensajeElemento.classList.add("mensaje");
             if(datos[i].idAutor == idAutor){
-              contenidoHTML += nombreAutor + "(" + horaFormateada + ")" + ": " + datos[i].mensaje + "<br><br>";
+              contenidoHTML += "<div class='mensaje-propio'><p>" + nombreAutor + "(" + horaFormateada + ")" + ": " + datos[i].mensaje + "</p></div>";
             }
             else{
-              contenidoHTML += nombreRemitente + "(" + horaFormateada + ")" + ": " + datos[i].mensaje + "<br><br>";
+              contenidoHTML += "<div class='mensaje-externo'><p>" + nombreRemitente + "(" + horaFormateada + ")" + ": " + datos[i].mensaje + "</p></div>";
             }
             mensajeElemento.innerHTML = contenidoHTML;
           }
-
+          if(datos.length == 0){
+            contenidoHTML += "Aun no hay mensajes en este chat...";
+          }
             // Establecer el contenido HTML del <div> con el contenido generado
             chatDiv.innerHTML = contenidoHTML;
+            chatActul.innerHTML = nombreRemitente;
             //Para ir a los mensajes mas recientes
             chat.scrollTop = chat.scrollHeight - chat.clientHeight;
         });
@@ -222,6 +228,7 @@ $app->generaVista('/plantillas/plantilla.php', $params);
         const nombre = this.nextElementSibling.nextElementSibling.nextElementSibling.value;
 
         var chat = document.getElementById('chat');
+        var foroActual = document.getElementById('foroActual');
         var url = "cargarMensajesF.php?idAsignatura=" + idAsignatura;
 
         $.get(url, function(respuesta){
@@ -235,11 +242,17 @@ $app->generaVista('/plantillas/plantilla.php', $params);
               var fecha = new Date(datos[i].fecha);
               var horaFormateada = fecha.toLocaleTimeString();
 
-              contenidoHTML += datos[i].autor + "(" + horaFormateada + ")" + ": " + datos[i].mensaje + "<br><br>";
+              if(datos[i].idAutor == alumnoId){
+              contenidoHTML += "<div class='mensaje-propio'><p>" + datos[i].autor + "(" + horaFormateada + ")" + ": " + datos[i].mensaje + "</p></div>";
+              }
+              else{
+                contenidoHTML += "<div class='mensaje-externo'><p>" + datos[i].autor + "(" + horaFormateada + ")" + ": " + datos[i].mensaje + "</p></div>";
+              }
             }
 
             // Establecer el contenido HTML del <div> con el contenido generado
             chatDiv.innerHTML = contenidoHTML;
+            foroActual.innerHTML = nombre;
             //Para ir a los mensajes mas recientes
             chat.scrollTop = chat.scrollHeight - chat.clientHeight;
         });
