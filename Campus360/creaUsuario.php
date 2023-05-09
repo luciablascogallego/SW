@@ -5,8 +5,8 @@ require_once __DIR__.'/includes/config.php';
 $formNuevoUsuario = new \es\ucm\fdi\aw\usuarios\FormularioNuevoUsuario();
 $formNuevoUsuario = $formNuevoUsuario->gestiona();
 
+$tituloPagina = 'Crear usuario';
 
-$tituloPagina = 'Nuevo Usuario';
 $contenidoPrincipal=<<<EOF
   	<h1>Crear nuevo usuario</h1>
     $formNuevoUsuario

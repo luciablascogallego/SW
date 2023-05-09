@@ -6,11 +6,11 @@ use es\ucm\fdi\aw\Formulario;
 
 class FormularioEditaEvento extends Formulario
 {
-    private $id_evento;
-    public function __construct($id_evento, $asignatura)
+    private $evento;
+    public function __construct($evento)
     {
-        parent::__construct('formEditaEvento', ['urlRedireccion' => 'contenidoAsignatura.php?id='.$asignatura]);
-        $this->id_evento = $id_evento;
+        parent::__construct('formEditaEvento', ['urlRedireccion' => 'contenidoAsignatura.php?id='.$evento->getIdAsignatura()]);
+        $this->evento = $evento;
     }
 
     protected function generaCamposFormulario(&$datos)
@@ -18,13 +18,12 @@ class FormularioEditaEvento extends Formulario
         // Se generan los mensajes de error si existen.
         $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores);
         $erroresCampos = self::generaErroresCampos(['nombre', 'descripcion', 'opciones', 'asignatura','fecha', 'hora'], $this->errores, 'span', array('class' => 'error'));
-        $evento = Eventos_tareas::buscaPorId($this->id_evento);
-        $nombre = $evento->getNombre();
-        $descripcion = $evento->getDescripcion();
-        $fechaFin = $evento->getFechafin();
-        $horaFin = $evento->getHoraFin();
-        $esentrega = $evento->getEsEntrega();
-        $asignatura = $evento->getIdAsignatura();
+        $nombre = $this->evento->getNombre();
+        $descripcion = $this->evento->getDescripcion();
+        $fechaFin = $this->evento->getFechafin();
+        $horaFin = $this->evento->getHoraFin();
+        $esentrega = $this->evento->getEsEntrega();
+        $asignatura = $this->evento->getIdAsignatura();
         $html = <<<EOS
         $htmlErroresGlobales
         <fieldset>
@@ -54,6 +53,7 @@ class FormularioEditaEvento extends Formulario
             <input type="time" name="hora" value="$horaFin" required>
             {$erroresCampos['hora']}
             </div>
+            <input type="hidden" name="id" value="{$this->evento->getId()}">
             <button type="submit">Subir</button>
         </fieldset>
         EOS;
@@ -65,36 +65,40 @@ class FormularioEditaEvento extends Formulario
     {
         $this->errores = [];
 
-        if (empty($_POST['nombre'])) {
+        $nombre = trim($datos['nombre'] ?? '');
+        $nombre = filter_var($nombre, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        if (!$nombre) {
             $this->errores['nombre'] = 'Es necesario un nombre para el evento';
             return;
         }
-        if (empty($_POST['fecha'])) {
+        $fecha = trim($datos['fecha'] ?? '');
+        $fecha = filter_var($fecha, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        if (!$fecha) {
             $this->errores['fecha'] = 'Es necesario una fecha para el evento';
             return;
         }
-        if (empty($_POST['hora'])) {
-            $this->errores['nombre'] = 'Es necesario una hora para el evento';
+        $hora = trim($datos['hora'] ?? '');
+        $hora = filter_var($hora, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        if (!$hora) {
+            $this->errores['hora'] = 'Es necesario una hora para el evento';
             return;
         }
 
-        $fecha = $_POST['fecha'];
         // validar el formato de la fecha
         $fecha_valida = date_create_from_format('Y-m-d', $fecha);
         if (!$fecha_valida) {
             $this->errores['fecha'] = 'El formato de la fecha es incorrecto';
             return;
         }
-        $hora = $_POST['hora'];
+        $descripcion = trim($datos['descripcion'] ?? '');
+        $descripcion = filter_var($descripcion, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
         $fecha = date('Y-m-d', strtotime("$fecha"));
         $horaFin = date('H:i:s', strtotime("$hora"));
-        $nombre = $_POST['nombre'];
-        $descrpicion = $_POST['descripcion'];
         $opciones = $_POST['opciones'];
-        $asignatura = $_POST['asignatura'];
 
         //Crea un objeto evento
-        $evento = Eventos_tareas::crea($this->id_evento, $fecha, $asignatura, $opciones, $descrpicion, $nombre, $hora);
+        Eventos_tareas::crea($this->evento->getId(), $fecha, $this->evento->getIdAsignatura(), $opciones, $descripcion, $nombre, $hora);
         //Guardo el archivo en la BD
         //$evento->guarda();
     }

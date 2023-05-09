@@ -10,12 +10,12 @@ use es\ucm\fdi\aw\Profesores\Profesor;
 class FormularioEditaAsignatura extends Formulario
 {
 
-    private $idAsignatura;
+    private $asignatura;
 
-    public function __construct($idAsignatura)
+    public function __construct($asignatura)
     {
         parent::__construct('formEditAsignatura', ['urlRedireccion' => 'asignaturasAdmin.php']);
-        $this->idAsignatura = $idAsignatura;
+        $this->asignatura = $asignatura;
     }
 
     protected function generaCamposFormulario(&$datos)
@@ -25,17 +25,16 @@ class FormularioEditaAsignatura extends Formulario
         $erroresCampos = self::generaErroresCampos(['nombre', 'profesor', 'ciclo', 'grupo', 'curso'], $this->errores, 'span', array('class' => 'error'));
         $ciclos = Ciclo::ciclosCampus();
         $profes = Profesor::profesCampus();
-        $asignatura = Asignatura::buscaPorId($this->idAsignatura);
-        $nombreAsig = $asignatura->getNombre();
-        $grupo = $asignatura->getGrupo();
-        $curso = $asignatura->getCurso();
+        $nombreAsig = $this->asignatura->getNombre();
+        $grupo = $this->asignatura->getGrupo();
+        $curso = $this->asignatura->getCurso();
         $selectCiclos = <<<EOS
         <select id="ciclo" name="ciclo"> 
         EOS;
         foreach($ciclos as $ciclo){
             $nombre = $ciclo['Nombre'];
             $id = $ciclo['Id'];
-            if($asignatura->getCiclo() == $id)
+            if($this->asignatura->getCiclo() == $id)
                 $selectCiclos .= <<<EOS
                     <option value="$id" selected>$nombre</option> 
                 EOS;
@@ -52,7 +51,7 @@ class FormularioEditaAsignatura extends Formulario
             $id = $profe['IdProfesor'];
             $usuario = Usuario::buscaPorId($id);
             $nombre = $usuario->getNombre().' '.$usuario->getApellidos();
-            if($asignatura->getIdProfesor() == $id)
+            if($this->asignatura->getIdProfesor() == $id)
                 $selectProfesores .= <<<EOS
                     <option value="$id" selected>$nombre</option> 
                 EOS;
@@ -130,7 +129,7 @@ class FormularioEditaAsignatura extends Formulario
             <input type="text" name="grupo" value="$grupo" required>
             {$erroresCampos['grupo']}
             </div>
-
+            <input type="hidden" name="id" value="{$this->asignatura->getId()}">
             <button type="submit">Subir</button>
         </fieldset>
         EOS;
@@ -160,16 +159,16 @@ class FormularioEditaAsignatura extends Formulario
 
         $id_profesor = trim($datos['profesor'] ?? '');
 
-        $ant = Asignatura::buscaPorId($this->idAsignatura);
 
-        if($ant->getNombre() !== $nombre || $ant->getCiclo() != $ciclo || $ant->getGrupo() != $grupo || $ant->getCurso() != $curso)
+        if($this->asignatura->getNombre() !== $nombre || $this->asignatura->getCiclo() != $ciclo || $this->asignatura->getGrupo() != $grupo || $this->asignatura->getCurso() != $curso)
             if(Asignatura::buscaAsignatura($nombre, $curso, $grupo, $ciclo)){
                 $this->errores['ciclo'] = 'La asignatura ya existe';
             }
 
         //Crea un objeto asignatura
         if (count($this->errores) === 0) {
-            $asignatura = Asignatura::crea($nombre, $curso, $id_profesor, $ciclo, $grupo, $this->idAsignatura);
+            $asignatura = Asignatura::crea($nombre, $curso, $id_profesor, $ciclo, $grupo, $this->asignatura->getId(), 
+            $this->asignatura->getPrimero(), $this->asignatura->getSegundo(), $this->asignatura->getTercero());
         }
     }
 }

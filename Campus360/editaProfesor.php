@@ -2,7 +2,7 @@
 
 require_once __DIR__.'/includes/config.php';
 
-$id = $_GET['id'];
+$id = $_POST['id'];
 
 $formEditaProfesor = new \es\ucm\fdi\aw\Profesores\FormularioEditaProfe($id);
 $formEditaProfesor = $formEditaProfesor->gestiona();

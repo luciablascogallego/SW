@@ -36,6 +36,7 @@ class FormularioNuevoProfe extends Formulario
             <input type="time" name="tutoria" id="tutoria" required>
             {$erroresCampos['tutoria']}
             </div>
+            <input type="hidden" name="id" id="id"  value="$this->idProfesor">
             <button type="submit">Añadir profesor</button>
         </fieldset>
         EOS;

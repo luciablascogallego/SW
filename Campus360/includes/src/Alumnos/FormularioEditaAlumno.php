@@ -13,7 +13,7 @@ class FormularioEditaAlumno extends Formulario
 
     public function __construct($idUsuario)
     {
-        parent::__construct('formCiclo', ['urlRedireccion' => 'usuariosAdmin.php']);
+        parent::__construct('formEditAlum', ['urlRedireccion' => 'usuariosAdmin.php']);
         $this->idUsuario = $idUsuario;
     }
 
@@ -52,14 +52,6 @@ class FormularioEditaAlumno extends Formulario
                     EOS;
             }
         }
-        if(!$tienePadre)
-            $selPadre .= <<<EOS
-            <option value="0" selected>--No Padre</option> 
-            EOS;
-        else
-            $selPadre .= <<<EOS
-            <option value="0">--No Padre</option> 
-            EOS;
         $selPadre .= '</select>';
         $html = <<<EOS
         $htmlErroresGlobales
@@ -70,6 +62,7 @@ class FormularioEditaAlumno extends Formulario
             $selPadre
             {$erroresCampos['padre']}
             </div>
+            <input type="hidden" name="id" value="$this->idUsuario">
             <button type="submit">Editar alumno</button>
         </fieldset>
         EOS;
@@ -84,6 +77,5 @@ class FormularioEditaAlumno extends Formulario
         $padre = trim($datos['padre'] ?? '');
         
         Alumno::crea($this->idUsuario, $padre);
-
     }
 }

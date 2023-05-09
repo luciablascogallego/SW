@@ -119,7 +119,7 @@ class FormularioCreaAsignatura extends Formulario
 
         //Crea un objeto asignatura
         if (count($this->errores) === 0) {
-            $asignatura = Asignatura::crea($nombre, $curso, $id_profesor, $ciclo, $grupo, null);
+            $asignatura = Asignatura::crea($nombre, $curso, $id_profesor, $ciclo, $grupo, null, 30, 30, 40);
         }
     }
 }

@@ -13,11 +13,10 @@ $profesorId = $app->idUsuario();
 $profesor = Profesor::buscaPorId($profesorId);
 $asignaturas = $profesor->getIdAsignaturas();
 if ($asignaturas) {
-    $contenidoPrincipal .= '<ul>';
+    $contenidoPrincipal .= '<div class="asignaturas"><ul>';
         foreach ($asignaturas as $idAsignatura) {
             $asignatura = Asignatura::buscaPorId($idAsignatura);
             $id = $asignatura->getId();
-            echo $id;
             $nombre = $asignatura->getNombre();
             $curso = $asignatura->getCurso();
             $Idciclo = $asignatura->getCiclo();
@@ -29,7 +28,7 @@ if ($asignaturas) {
                     <li><a href="contenidoAsignatura.php?id=$id">$nombre $nombreCiclo $curso º $grupo</a> </li>
                 EOS;  
         } 
-    $contenidoPrincipal .= '</ul>';
+    $contenidoPrincipal .= '</ul></div>';
 } else {
     $contenidoPrincipal .= '<p>No se encontraron asignaturas impartidas para el profesor </p>';
 }

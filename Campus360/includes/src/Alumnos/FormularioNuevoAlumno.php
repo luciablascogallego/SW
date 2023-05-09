@@ -13,7 +13,7 @@ class FormularioNUevoAlumno extends Formulario
 
     public function __construct($idUsuario)
     {
-        parent::__construct('formCiclo', ['urlRedireccion' => 'usuariosAdmin.php']);
+        parent::__construct('formNuevoAlu', ['urlRedireccion' => 'usuariosAdmin.php']);
         $this->idUsuario = $idUsuario;
     }
 
@@ -25,6 +25,7 @@ class FormularioNUevoAlumno extends Formulario
 
         $padres = Padre::padres();
         $selPadre = <<<EOS
+          
         <select id="padres" name="padre"> 
         EOS;
         foreach($padres as $padre){
@@ -45,6 +46,7 @@ class FormularioNUevoAlumno extends Formulario
             $selPadre
             {$erroresCampos['padre']}
             </div>
+            <input type="hidden" name="id" id="id"  value="$this->idUsuario">
             <button type="submit">Añadir alumno</button>
         </fieldset>
         EOS;

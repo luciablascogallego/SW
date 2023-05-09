@@ -23,7 +23,7 @@ $contenidoPrincipal = '<h1>Asignaturas disponibles para los hijos</h1>';
           $alumno = Alumno::buscaPorId($idHijo);
           $asignaturas = $alumno->getIdAsignaturas();
             if ($asignaturas) {
-                $contenidoPrincipal .= '<ul>';
+                $contenidoPrincipal .= '<div class="asignaturas"> <ul>';
                 foreach ($asignaturas as $idAsignatura) {
                     $asignatura = Asignatura::buscaPorId($idAsignatura);
                     $id = $asignatura->getId();
@@ -38,7 +38,7 @@ $contenidoPrincipal = '<h1>Asignaturas disponibles para los hijos</h1>';
                             <li><a href="contenidoAsignatura.php?id=$id">$nombre $nombreCiclo $curso º $grupo</a> </li>
                         EOS;  
                 }          
-                $contenidoPrincipal .= '</ul>';
+                $contenidoPrincipal .= '</ul></div>';
                 } else {
                     $contenidoPrincipal .= '<p>No se encontraron asignaturas disponibles para el alumno </p>';
                 }  

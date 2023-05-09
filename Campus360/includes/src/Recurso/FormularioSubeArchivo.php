@@ -35,6 +35,8 @@ class FormularioSubeArchivo extends Formulario
         <fieldset>
             <legend>Subida de archivo</legend>
             <div><label for="archivo">Archivo: <input type="file" name="archivo" id="archivo" /></label>{$erroresCampos['archivo']}</div>
+            <input type="hidden" name="id" value="$this->id_asignatura">
+            <input type="hidden" name="id2" value="$this->id_entrega">
             <button type="submit">Subir</button>
         </fieldset>
         EOS;

@@ -3,6 +3,7 @@
 require_once __DIR__.'/includes/config.php';
 use es\ucm\fdi\aw\EntregasAlumno\EntregasAlumno;
 use es\ucm\fdi\aw\Entregas_Eventos\Eventos_tareas;
+use es\ucm\fdi\aw\Calificaciones\Calificacion;
 
 $id_asignatura = $_GET['id_asignatura'];
 
@@ -23,8 +24,6 @@ $contenidoPrincipal='<h1> '.$tarea->getNombre().'</h1>';
 
 
 if($esEntrega){
-  $formUpload = new \es\ucm\fdi\aw\Recurso\FormularioSubeArchivo($id_asignatura, $idEntrega);
-  $formUpload = $formUpload->gestiona();
 
   if (!empty($entregas)) {
       $contenidoPrincipal .= "<ul>";
@@ -52,11 +51,29 @@ if($esEntrega){
   $fecha = date('Y-m-d H:i:s');
   $today_time = strtotime("$fecha");
   $expire_time = strtotime("$fechaFin, $horaFin");
+  $seconds = $expire_time - $today_time;
+  $Haterminado = 0;
   
-  if($today_time > $expire_time)  
+  if($today_time > $expire_time){
     $contenidoPrincipal .= '<p> El plazo de entrega ha terminado, no se aceptan más entregas</p>';
+    $Haterminado = true;
+  }
   else
-    $contenidoPrincipal.= $formUpload;
+    $contenidoPrincipal.= '<div id="subidaEntrega">
+    <input type="hidden" id="id2" value="'.$idEntrega.'">
+    <button id="subirEntrega" value="'.$id_asignatura.'">Subir Entrega</button></div>';
+
+  $calificacion = Calificacion::getCalificacionEntrega($id_entrega);
+  if($calificacion){
+    $contenidoPrincipal .= '<p> Entrega puntuada con '.$calificacion->getNota().'</p>';
+    $contenidoPrincipal .= '<h3> Comentarios </h3>';
+    $contenidoPrincipal .= '<p>'.$calificacion->getComentario().'</p>';
+  }
+  else{
+    $contenidoPrincipal .= '<p> La entrega todavía no ha sido puntuada por el profesor </p>';
+  }
+
+
 }
 
 else{
@@ -66,3 +83,21 @@ else{
 
 $params = ['tituloPagina' => $tituloPagina, 'contenidoPrincipal' => $contenidoPrincipal];
 $app->generaVista('/plantillas/plantilla.php', $params);
+?>
+
+<script>
+  function closeEntrega(){
+    var seconds = <?= $seconds ?>;
+    var Haterminado = <?= $Haterminado ?>;
+    if(Haterminado == 0){
+      var functionCierra = function(){
+        Haterminado = 1;
+        document.getElementById("subidaEntrega").innerHTML = '<p> El plazo de entrega ha terminado, no se aceptan más entregas</p>';
+      }
+      var miliseconds = seconds * 1000;
+      setTimeout(functionCierra, miliseconds);
+    }
+  }
+  closeEntrega();
+
+</script>

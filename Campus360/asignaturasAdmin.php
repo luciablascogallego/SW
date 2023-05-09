@@ -6,14 +6,14 @@ use es\ucm\fdi\aw\Asignaturas\Asignatura;
 use es\ucm\fdi\aw\Ciclos\Ciclo;
 
 $tituloPagina = 'Asignaturas campus';
-$contenidoPrincipal = '<h1>Asignaturas Campus360</h1>';
+$contenidoPrincipal = '<div id="GestionAsignaturas"><h1>Asignaturas Campus360</h1>';
 
 $contenidoPrincipal .= <<<EOS
-                        <p> <a href="crear-asignatura.php"> Crear nueva asignatura </a> </p>
+                    <p> <button id="CrearCiclo"> Crear ciclo </button> </p>
                     EOS;
 
 $contenidoPrincipal .= <<<EOS
-                    <p> <a href="crear-ciclo.php"> Crear nuevo ciclo </a> </p>
+                    <p> <button id="CrearAsig"> Crear asignatura </button> </p>
                     EOS;
 
 $ciclos = Ciclo::ciclosCampus();
@@ -23,7 +23,7 @@ if ($ciclos) {
         <legend>'.$ciclo['Nombre'].'</legend>';
         $idCiclo = $ciclo['Id'];
         for($i = 1; $i < 5; $i++){
-            $contenidoPrincipal .= '<ul>';
+            $contenidoPrincipal .= '<div class="asignaturasAdmin"><ul>';
             $asignaturas = Asignatura::buscaPorCicloCurso($idCiclo, $i);
             foreach($asignaturas as $asignatura){
                 if($asignatura){
@@ -32,26 +32,28 @@ if ($ciclos) {
                     $curso = $asignatura['Curso'];
                     $grupo = $asignatura['Grupo'];
                     $contenidoPrincipal .= <<<EOS
-                        <li>$nombre $curso º $grupo<div class="eliminarU"><a href="eliminaAsignatura.php?id=$id"> Eliminar Asignatura</a></div><div class="editarU"><a href="editaAsignatura.php?id=$id">Editar Asignatura</a></div>
-                        <div class="gestionar"><a href="añadeAsignatura.php?id=$id"> Gestionar alumnos</a></div>
+                        <li>$nombre $curso º $grupo<button class="eliminarU" value="$id">Eliminar Asignatura</button>
+                        <button class="editarU" value="$id">Editar Asignatura</button>
+                        <button class="gestionar" value="$id"> Gestionar alumnos</button>
                         </li>
                     EOS;  
                 }
             } 
-            $contenidoPrincipal .= '</ul>';
+            $contenidoPrincipal .= '</ul></div>';
         }
         $contenidoPrincipal .= <<<EOS
-        <div>
-        <div class="eliminarC"><a href="eliminaCiclo.php?id=$idCiclo"> Eliminar Ciclo</a> </div>
-        <div class="editarC"><a href="editaCiclo.php?id=$idCiclo"> Editar Ciclo</a></div>
+        <div id="GestionCiclo">
+        <button class="eliminarC" value="$idCiclo">Eliminar Ciclo</button>
+        <button class="editarC" value="$idCiclo">Editar Ciclo</button>
         </div>
         </fieldset>
         EOS;
     }
-}      
+}
+
     
 else {
-    $contenidoPrincipal .= '<p>No se encontraron asignaturas disponibles para el alumno </p>';
+    $contenidoPrincipal .= '<p>No se encontraron asignaturas disponibles para el alumno </p></div>';
 } 
 $params = ['tituloPagina' => $tituloPagina, 'contenidoPrincipal' => $contenidoPrincipal];
 $app->generaVista('/plantillas/plantilla.php', $params);

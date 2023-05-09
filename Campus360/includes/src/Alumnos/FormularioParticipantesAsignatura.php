@@ -8,12 +8,12 @@ use es\ucm\fdi\aw\usuarios\Usuario;
 class FormularioParticipantesAsignatura extends Formulario
 {
 
-    private $idAsignatura;
+    private $asignatura;
 
-    public function __construct($idAsignatura)
+    public function __construct($asignatura)
     {
         parent::__construct('formPartic', ['urlRedireccion' => 'asignaturasAdmin.php']);
-        $this->idAsignatura = $idAsignatura;
+        $this->asignatura = $asignatura;
     }
 
     protected function generaCamposFormulario(&$datos)
@@ -33,7 +33,7 @@ class FormularioParticipantesAsignatura extends Formulario
                 $hidden = <<<EOS
                             <input type="hidden" id="todos" name="todos[]" value="$idAlumno">
                             EOS;
-                if(Alumno::tieneAsignatura($this->idAsignatura, $idAlumno)){
+                if(Alumno::tieneAsignatura($this->asignatura->getId(), $idAlumno)){
                     $html .= <<<EOS
                     <div>
                     <label for="$idAlumno">$nombre 
@@ -51,6 +51,7 @@ class FormularioParticipantesAsignatura extends Formulario
                 }
             }
             $html .= $hidden;
+            $html .= '<input type="hidden" name="id" value="'.$this->asignatura->getId().'">';
             $html .= '<button type="submit" name="añadir"> Añadir participantes</button>';
         }
 
@@ -71,8 +72,8 @@ class FormularioParticipantesAsignatura extends Formulario
             $valuesToDelete = array_diff($allValues, $valuesToAdd);
             //Añadimos los nuevos participantes
             foreach($valuesToAdd as $add){
-                if(!Alumno::tieneAsignatura($this->idAsignatura, $add)){
-                    Alumno::insertaAlumnoAsignatura($add, $this->idAsignatura);
+                if(!Alumno::tieneAsignatura($this->asignatura->getId(), $add)){
+                    Alumno::insertaAlumnoAsignatura($add, $this->asignatura->getId());
                 }
             }
         }
@@ -81,8 +82,8 @@ class FormularioParticipantesAsignatura extends Formulario
         }
         //Eliminamos los participantes que han sido quitados de la asignatura
         foreach($valuesToDelete as $delete){
-            if(Alumno::tieneAsignatura($this->idAsignatura, $delete)){
-                Alumno::borraAlumnoAsignatura($delete, $this->idAsignatura);
+            if(Alumno::tieneAsignatura($this->asignatura->getId(), $delete)){
+                Alumno::borraAlumnoAsignatura($delete, $this->asignatura->getId());
             }
         }
     }

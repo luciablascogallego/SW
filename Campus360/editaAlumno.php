@@ -2,7 +2,11 @@
 
 require_once __DIR__.'/includes/config.php';
 
-$id = $_GET['id'];
+use es\ucm\fdi\aw\Alumnos\Alumno;
+
+//$id = $_SESSION['idAlumnoEditado'];
+
+$id = $_POST['id'];
 
 $formEditaAlumno = new \es\ucm\fdi\aw\Alumnos\FormularioEditaAlumno($id);
 $formEditaAlumno = $formEditaAlumno->gestiona();

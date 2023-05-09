@@ -2,13 +2,17 @@
 
 require_once __DIR__.'/includes/config.php';
 
-$id = $_GET['id'];
+use es\ucm\fdi\aw\Asignaturas\Asignatura;
 
-$formEditaAsignatura = new \es\ucm\fdi\aw\Asignaturas\FormularioEditaAsignatura($id);
+$id = $_POST['id'];
+
+$asignatura = Asignatura::buscaPorId($id);
+
+$formEditaAsignatura = new \es\ucm\fdi\aw\Asignaturas\FormularioEditaAsignatura($asignatura);
 $formEditaAsignatura = $formEditaAsignatura->gestiona();
 
+$tituloPagina = 'Editar asignatura';
 
-$tituloPagina = 'Edita Asignatura';
 $contenidoPrincipal=<<<EOF
   	<h1>Edita asignatura</h1>
     $formEditaAsignatura

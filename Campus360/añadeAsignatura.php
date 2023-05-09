@@ -2,13 +2,17 @@
 
 require_once __DIR__.'/includes/config.php';
 
-$idAsignatura = $_GET['id'];
+use es\ucm\fdi\aw\Asignaturas\Asignatura;
 
-$formAñadeAsig = new \es\ucm\fdi\aw\Alumnos\FormularioParticipantesAsignatura($idAsignatura);
+$id = $_POST['id'];
+
+$asignatura = Asignatura::buscaPorId($id);
+
+$formAñadeAsig = new \es\ucm\fdi\aw\Alumnos\FormularioParticipantesAsignatura($asignatura);
 $formAñadeAsig = $formAñadeAsig->gestiona();
 
+$tituloPagina = 'Añadir alumnos';
 
-$tituloPagina = 'Gestionar alumnos asignatura';
 $contenidoPrincipal=<<<EOF
   	<h1>Gestionar alumnos de la asignatura</h1>
     $formAñadeAsig

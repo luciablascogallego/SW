@@ -16,7 +16,7 @@ if (($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::ALUMNO_ROLE))) {
     $alumno = Alumno::buscaPorId($alumnoId);
     $asignaturas = $alumno->getIdAsignaturas();
     if ($asignaturas) {
-        $contenidoPrincipal .= '<ul>';
+        $contenidoPrincipal .= '<div class="asignaturas"><ul>';
         foreach ($asignaturas as $Idasignatura) {
             $asignatura = Asignatura::buscaPorId($Idasignatura);
             $id = $asignatura->getId();
@@ -28,10 +28,10 @@ if (($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::ALUMNO_ROLE))) {
             $grupo = $asignatura->getGrupo();
             if($asignatura)
             $contenidoPrincipal .= <<<EOS
-            <li><a href="calificacionAsignatura.php?id=$Idasignatura">$nombre $nombreCiclo $curso º $grupo</a> </li>
+            <li><a href="calificacionAsignatura.php?id=$Idasignatura&id2=$alumnoId">$nombre $nombreCiclo $curso º $grupo</a> </li>
             EOS;              
           }          
-        $contenidoPrincipal .= '</ul>';
+        $contenidoPrincipal .= '</ul></div>';
     } else {
         $contenidoPrincipal .= '<p>No se encontraron asignaturas disponibles para el alumno </p>';
     }
@@ -40,12 +40,12 @@ if (($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::ALUMNO_ROLE))) {
 
 if (($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::PROFE_ROLE))) {
     $profesorId = $app->idUsuario();
-    $profe = Profesor::buscaPorId($profesorId);
-    $asignaturas = Profesor::asignaturasProfesor($profe);
+    $profesor = Profesor::buscaPorId($profesorId);
+    $asignaturas = $profesor->getIdAsignaturas();
     if ($asignaturas) {
-        $contenidoPrincipal .= '<ul>';
-        foreach ($asignaturas as $Idasignatura) {
-            $asignatura = Asignatura::buscaPorId($Idasignatura);
+        $contenidoPrincipal .= '<div class="asignaturas"><ul>';
+        foreach ($asignaturas as $idAsignatura) {
+            $asignatura = Asignatura::buscaPorId($idAsignatura);
             $id = $asignatura->getId();
             $nombre = $asignatura->getNombre();
             $curso = $asignatura->getCurso();
@@ -53,12 +53,12 @@ if (($app->tieneRol(es\ucm\fdi\aw\usuarios\Usuario::PROFE_ROLE))) {
             $ciclo = Ciclo::buscaPorId($Idciclo);
             $nombreCiclo = $ciclo->getNombre();
             $grupo = $asignatura->getGrupo();
-            if($asignatura)
+
             $contenidoPrincipal .= <<<EOS
-            <li><a href="calificacionAsignatura.php?id=$Idasignatura">$nombre $nombreCiclo $curso º $grupo</a> </li>
+            <li><a href="alumnosCalificaciones.php?id=$id">$nombre $nombreCiclo $curso º $grupo</a> </li>
             EOS;              
           }          
-        $contenidoPrincipal .= '</ul>';
+        $contenidoPrincipal .= '</ul></div>';
     } else {
         $contenidoPrincipal .= '<p>No se encontraron asignaturas disponibles para el profesor </p>';
     }

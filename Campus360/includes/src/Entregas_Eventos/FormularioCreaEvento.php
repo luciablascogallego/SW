@@ -55,6 +55,7 @@ class FormularioCreaEvento extends Formulario
             <input type="time" name="hora" required>
             {$erroresCampos['hora']}
             </div>
+            <input type="hidden" name="id" value="$this->id_asignatura">
             <button type="submit">Subir</button>
         </fieldset>
         EOS;
@@ -66,36 +67,41 @@ class FormularioCreaEvento extends Formulario
     {
         $this->errores = [];
 
-        if (empty($_POST['nombre'])) {
+        $nombre = trim($datos['nombre'] ?? '');
+        $nombre = filter_var($nombre, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        if (!$nombre) {
             $this->errores['nombre'] = 'Es necesario un nombre para el evento';
             return;
         }
-        if (empty($_POST['fecha'])) {
+        $fecha = trim($datos['fecha'] ?? '');
+        $fecha = filter_var($fecha, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        if (!$fecha) {
             $this->errores['fecha'] = 'Es necesario una fecha para el evento';
             return;
         }
-        if (empty($_POST['hora'])) {
-            $this->errores['nombre'] = 'Es necesario una hora para el evento';
+        $hora = trim($datos['hora'] ?? '');
+        $hora = filter_var($hora, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        if (!$hora) {
+            $this->errores['hora'] = 'Es necesario una hora para el evento';
             return;
         }
 
-        $fecha = $_POST['fecha'];
         // validar el formato de la fecha
         $fecha_valida = date_create_from_format('Y-m-d', $fecha);
         if (!$fecha_valida) {
             $this->errores['fecha'] = 'El formato de la fecha es incorrecto';
             return;
         }
-        $hora = $_POST['hora'];
+        $descripcion = trim($datos['descripcion'] ?? '');
+        $descripcion = filter_var($descripcion, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
         $fecha = date('Y-m-d', strtotime("$fecha"));
         $horaFin = date('H:i:s', strtotime("$hora"));
-        $nombre = $_POST['nombre'];
-        $descrpicion = $_POST['descripcion'];
         $opciones = $_POST['opciones'];
       
 
         //Crea un objeto evento
-        $evento = Eventos_tareas::crea(null, $fecha, $this->id_asignatura, $opciones, $descrpicion, $nombre, $hora);
+        $evento = Eventos_tareas::crea(null, $fecha, $this->id_asignatura, $opciones, $descripcion, $nombre, $hora);
         //Guardo el archivo en la BD
         //$evento->guarda();
     }

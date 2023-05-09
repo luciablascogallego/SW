@@ -5,8 +5,8 @@ require_once __DIR__.'/includes/config.php';
 $formCreaCiclo = new \es\ucm\fdi\aw\Ciclos\FormularioCreaCiclo();
 $formCreaCiclo = $formCreaCiclo->gestiona();
 
+$tituloPagina = 'Crear ciclo';
 
-$tituloPagina = 'Nuevo Ciclo';
 $contenidoPrincipal=<<<EOF
   	<h1>Crear nuevo ciclo</h1>
     $formCreaCiclo

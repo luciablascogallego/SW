@@ -7,12 +7,12 @@ use es\ucm\fdi\aw\Formulario;
 class FormularioEditaProfe extends Formulario
 {
 
-    private $idProfesor;
+    private $profesorId;
 
-    public function __construct($idProfesor)
+    public function __construct($profesorId)
     {
         parent::__construct('formEditProfe', ['urlRedireccion' => 'usuariosAdmin.php']);
-        $this->idProfesor = $idProfesor;
+        $this->profesorId = $profesorId;
     }
 
     protected function generaCamposFormulario(&$datos)
@@ -20,12 +20,12 @@ class FormularioEditaProfe extends Formulario
         // Se generan los mensajes de error si existen.
         $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores);
         $erroresCampos = self::generaErroresCampos(['id', 'tutoria', 'despacho'], $this->errores, 'span', array('class' => 'error'));
-        $profesor = Profesor::buscaPorId($this->idProfesor);
         $despacho = null;
         $tutoria = null;
+        $profesor = Profesor::buscaPorId($this->profesorId);
         if($profesor){
             $despacho = $profesor->getDespacho();
-            $tutoria = $profesor->getTutoria();
+            $tutoria = $profesor->getTutorias();
         }
         $html = <<<EOS
         $htmlErroresGlobales
@@ -42,6 +42,7 @@ class FormularioEditaProfe extends Formulario
             <input type="time" name="tutoria" id="tutoria" value="$tutoria" required>
             {$erroresCampos['tutoria']}
             </div>
+            <input type="hidden" name="id" id="id"  value="$this->profesorId">
             <button type="submit">Editar profesor</button>
         </fieldset>
         EOS;
@@ -62,7 +63,7 @@ class FormularioEditaProfe extends Formulario
         $tutoria = trim($datos['tutoria'] ?? '');
         
         if (count($this->errores) === 0) {
-            Profesor::crea($this->idProfesor, $tutoria, $despacho);
+            Profesor::crea($this->profesorId, $tutoria, $despacho);
         }
     }
 }

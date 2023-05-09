@@ -51,7 +51,7 @@ class FormularioCreaCiclo extends Formulario
 
         //Crea un objeto ciclo
         if (count($this->errores) === 0) {
-            Ciclo::crea($nombre, $this->idCiclo);
+            Ciclo::crea($nombre, null);
         }
     }
 }

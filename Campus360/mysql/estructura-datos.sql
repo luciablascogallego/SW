@@ -154,7 +154,7 @@ CREATE TABLE `eventos_tareas` (
 -- Estructura de tabla para la tabla `mensajeforo`
 --
 
-CREATE TABLE `mensajeforo` (
+CREATE TABLE `MensajeForo` (
   `id` int(11) NOT NULL,
   `idAutor` int(11) NOT NULL,
   `idAsignatura` int(11) NOT NULL,
@@ -177,7 +177,7 @@ INSERT INTO `mensajeforo` (`id`, `idAutor`, `idAsignatura`, `mensaje`, `autor`, 
 -- Estructura de tabla para la tabla `mensajeprivado`
 --
 
-CREATE TABLE `mensajeprivado` (
+CREATE TABLE `MensajePrivado` (
   `id` int(11) NOT NULL,
   `idAutor` int(11) NOT NULL,
   `idRemitente` int(11) NOT NULL,
@@ -357,7 +357,7 @@ ALTER TABLE `eventos_tareas`
 --
 -- Indices de la tabla `mensajeforo`
 --
-ALTER TABLE `mensajeforo`
+ALTER TABLE `MensajeForo`
   ADD PRIMARY KEY (`id`),
   ADD KEY `idAutor` (`idAutor`),
   ADD KEY `idAsignatura` (`idAsignatura`);
@@ -365,7 +365,7 @@ ALTER TABLE `mensajeforo`
 --
 -- Indices de la tabla `mensajeprivado`
 --
-ALTER TABLE `mensajeprivado`
+ALTER TABLE `MensajePrivado`
   ADD PRIMARY KEY (`id`),
   ADD KEY `idAutor` (`idAutor`),
   ADD KEY `idRemitente` (`idRemitente`);
@@ -434,13 +434,13 @@ ALTER TABLE `eventos_tareas`
 --
 -- AUTO_INCREMENT de la tabla `mensajeforo`
 --
-ALTER TABLE `mensajeforo`
+ALTER TABLE `MensajeForo`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `mensajeprivado`
 --
-ALTER TABLE `mensajeprivado`
+ALTER TABLE `MensajePrivado`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --

@@ -7,10 +7,10 @@ use es\ucm\fdi\aw\Padres\Padre;
 use es\ucm\fdi\aw\usuarios\Usuario;
 
 $tituloPagina = 'Usuarios campus';
-$contenidoPrincipal = '<h1>Usuarios Campus360</h1>';
+$contenidoPrincipal = '<div id="gestionUsuarios"> <h1>Usuarios Campus360</h1>';
 
 $contenidoPrincipal .= <<<EOS
-                        <div> <a href="creaUsuario.php"> Crear un nuevo usuario </a> </div>
+                        <button id="crearU">Crear un nuevo usuario</button>
                     EOS;
 
 $admins = Usuario::admins();
@@ -20,13 +20,10 @@ if ($admins) {
     $contenidoPrincipal .= '<ul>';
     foreach ($admins as $admin) {
         $id = $admin->getId();
-        $nombre = $admin->getNombre().' '.$admin->getApellidos();
+        $nombre = $admin->getNombre().' '.$admin->getApellidos().' ';
         $contenidoPrincipal .= <<<EOS
-        
-        <div>
-        <li>$nombre<div class="eliminarU"><a href="eliminaUsuario.php?id=$id"> Eliminar admin</a>        </div>
-        <div class="editarU"><a href="editaUsuario.php?id=$id"> Editar </a> </li>
-        </div>
+        <li>$nombre<button class="eliminarU" value="$id">Eliminar admin</button>
+        <button class="editarU" value="$id">Editar</button></li>
         EOS;
     }
     $contenidoPrincipal .= '</ul>';
@@ -46,13 +43,10 @@ if ($profes) {
     foreach ($profes as $profe) {
         $usuario = Usuario::buscaPorId($profe['IdProfesor']);
         $id = $usuario->getId();
-        $nombre = $usuario->getNombre().' '.$usuario->getApellidos();
+        $nombre = $usuario->getNombre().' '.$usuario->getApellidos().' ';
         $contenidoPrincipal .= <<<EOS
-        <div>
-        <li>$nombre<div class="eliminarU"><a href="eliminaUsuario.php?id=$id"> Eliminar profesor</a>        </div>
-        <div class="editarU"><a href="editaUsuario.php?id=$id"> Editar </a> </li>
-        </div>
-
+        <li>$nombre<button class="eliminarU" value="$id">Eliminar profesor</button>
+        <button class="editarU" value="$id">Editar</button></li>
         EOS;
     }
     $contenidoPrincipal .= '</ul>';
@@ -71,12 +65,10 @@ if ($padres) {
     foreach ($padres as $padre) {
         $usuario = Usuario::buscaPorId($padre['IdPadre']);
         $id = $usuario->getId();
-        $nombre = $usuario->getNombre().' '.$usuario->getApellidos();
+        $nombre = $usuario->getNombre().' '.$usuario->getApellidos().' ';
         $contenidoPrincipal .= <<<EOS
-        <div>
-        <li>$nombre<div class="eliminarU"><a href="eliminaUsuario.php?id=$id"> Eliminar padre</a>        </div>
-        <div class="editarU"><a href="editaUsuario.php?id=$id"> Editar </a> </li>
-        </div>
+        <li>$nombre<button class="eliminarU" value="$id">Eliminar padre</button>
+        <button class="editarU" value="$id">Editar</button>
         EOS;
     }
     $contenidoPrincipal .= '</ul>';
@@ -95,12 +87,10 @@ if ($alumno) {
     foreach ($alumno as $alumno) {
         $usuario = Usuario::buscaPorId($alumno['IdAlumno']);
         $id = $usuario->getId();
-        $nombre = $usuario->getNombre().' '.$usuario->getApellidos();
+        $nombre = $usuario->getNombre().' '.$usuario->getApellidos().' ';
         $contenidoPrincipal .= <<<EOS
-        <div>
-        <li>$nombre<div class="eliminarU"><a href="eliminaUsuario.php?id=$id"> Eliminar alumno</a>        </div>
-        <div class="editarU"><a href="editaUsuario.php?id=$id"> Editar </a> </li>
-        </div>
+        <li>$nombre<button class="eliminarU" value="$id">Eliminar alumno</button>
+        <button class="editarU" value="$id">Editar</button></li>
         EOS;
     }
     $contenidoPrincipal .= '</ul>';
@@ -109,7 +99,7 @@ if ($alumno) {
 else {
     $contenidoPrincipal .= '<p>No se encontraron alumnos</p>';
 } 
-$contenidoPrincipal .= '</fieldset>';
+$contenidoPrincipal .= '</fieldset></div>';
 
 
 $params = ['tituloPagina' => $tituloPagina, 'contenidoPrincipal' => $contenidoPrincipal];

@@ -37,7 +37,7 @@ class EntregasAlumno {
     {
         $result = false;
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query=sprintf("INSERT INTO EntregasAlumno(id, idAsignatura, idAlumno, ruta, nombre, idEntrega) VALUES ('%d', '%d', '%d', '%s', '%s', '%d')"
+        $query=sprintf("INSERT INTO EntregasAlumno(Id, IdAsignatura, IdAlumno, Ruta, nombre, idEntrega) VALUES ('%d', '%d', '%d', '%s', '%s', '%d')"
             , $conn->real_escape_string($entrega->getId())
             , $conn->real_escape_string($entrega->getIdAsignatura())
             , $conn->real_escape_string($entrega->getIdAlumno())
@@ -136,7 +136,7 @@ class EntregasAlumno {
     {
         $result = false;
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query=sprintf("UPDATE EntregasAlumno SET IdAsignatura='%d', IdAlumno='%d', Ruta='%s', nombre='%s', IdEntrega='%d' WHERE id=%d"
+        $query=sprintf("UPDATE EntregasAlumno SET IdAsignatura='%d', IdAlumno='%d', Ruta='%s', nombre='%s', IdEntrega='%d' WHERE Id=%d"
             , $conn->real_escape_string($entrega->getIdAsignatura())
             , $conn->real_escape_string($entrega->getIdAlumno())
             , $conn->real_escape_string($entrega->getRuta())

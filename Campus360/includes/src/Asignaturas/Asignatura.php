@@ -7,8 +7,8 @@ use es\ucm\fdi\aw\MagicProperties;
 class Asignatura {
     use MagicProperties;
 
-    public static function crea($nombre, $curso, $idProfesor, $ciclo, $grupo, $id){
-        $asignatura = new Asignatura($id, $ciclo, $curso, $grupo, $nombre, $idProfesor);
+    public static function crea($nombre, $curso, $idProfesor, $ciclo, $grupo, $id, $primero, $segundo, $tercero){
+        $asignatura = new Asignatura($id, $ciclo, $curso, $grupo, $nombre, $idProfesor, $primero, $segundo, $tercero);
         return $asignatura->guarda();
     }
 
@@ -22,7 +22,8 @@ class Asignatura {
         if ($rs) {
             $fila = $rs->fetch_assoc();
             if ($fila) {
-                $result = new Asignatura($fila['Id'], $fila['Ciclo'], $fila['Curso'], $fila['Grupo'], $fila['Nombre'], $fila['Profesor']);
+                $result = new Asignatura($fila['Id'], $fila['Ciclo'], $fila['Curso'], $fila['Grupo'], $fila['Nombre'], $fila['Profesor']
+                        , $fila['Primero'], $fila['Segundo'], $fila['Tercero']);
             }
             $rs->free();
         } else {
@@ -40,7 +41,8 @@ class Asignatura {
         if ($rs) {
             $fila = $rs->fetch_assoc();
             if ($fila) {
-                $result = new Asignatura($fila['Id'], $fila['Ciclo'], $fila['Curso'], $fila['Grupo'], $fila['Nombre'], $fila['Profesor']);
+                $result = new Asignatura($fila['Id'], $fila['Ciclo'], $fila['Curso'], $fila['Grupo'], $fila['Nombre'], $fila['Profesor']
+                        , $fila['Primero'], $fila['Segundo'], $fila['Tercero']);
             }
             $rs->free();
         } else {
@@ -58,7 +60,8 @@ class Asignatura {
         if ($rs) {
             $fila = $rs->fetch_assoc();
             if ($fila) {
-                $result = new Asignatura($fila['Id'], $fila['Ciclo'], $fila['Curso'], $fila['Grupo'], $fila['Nombre'], $fila['Profesor']);
+                $result = new Asignatura($fila['Id'], $fila['Ciclo'], $fila['Curso'], $fila['Grupo'], $fila['Nombre'], $fila['Profesor']
+                        , $fila['Primero'], $fila['Segundo'], $fila['Tercero']);
             }
             $rs->free();
         } else {
@@ -106,7 +109,8 @@ class Asignatura {
         if ($rs) {
             $fila = $rs->fetch_assoc();
             if ($fila) {
-                $result = new Asignatura($fila['Id'], $fila['Ciclo'], $fila['Curso'], $fila['Grupo'], $fila['Nombre'], $fila['Profesor']);
+                $result = new Asignatura($fila['Id'], $fila['Ciclo'], $fila['Curso'], $fila['Grupo'], $fila['Nombre'], $fila['Profesor']
+                        , $fila['Primero'], $fila['Segundo'], $fila['Tercero']);
             }
             $rs->free();
         } else {
@@ -124,7 +128,8 @@ class Asignatura {
         if ($rs) {
             $fila = $rs->fetch_assoc();
             if ($fila) {
-                $result = new Asignatura($fila['Id'], $fila['Ciclo'], $fila['Curso'], $fila['Grupo'], $fila['Nombre'], $fila['Profesor']);
+                $result = new Asignatura($fila['Id'], $fila['Ciclo'], $fila['Curso'], $fila['Grupo'], $fila['Nombre'], $fila['Profesor']
+                        , $fila['Primero'], $fila['Segundo'], $fila['Tercero']);
             }
             $rs->free();
         } else {
@@ -137,12 +142,15 @@ class Asignatura {
     {
         $result = false;
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query=sprintf("INSERT INTO Asignaturas(ciclo, curso, grupo, nombre, profesor) VALUES ('%s', '%d', '%s', '%s', '%d')"
+        $query=sprintf("INSERT INTO Asignaturas(ciclo, curso, grupo, nombre, profesor, primero, segundo, tercero) VALUES ('%s', '%d', '%s', '%s', '%d', '%d', '%d', '%d')"
             , $conn->real_escape_string($asignatura->getCiclo())
             , $conn->real_escape_string($asignatura->getCurso())
             , $conn->real_escape_string($asignatura->getGrupo())
             , $conn->real_escape_string($asignatura->getNombre())
             , $conn->real_escape_string($asignatura->getIdProfesor())
+            , $conn->real_escape_string($asignatura->getPrimero())
+            , $conn->real_escape_string($asignatura->getSegundo())
+            , $conn->real_escape_string($asignatura->getTercero())
         );
         if ( $conn->query($query) ) {
             $asignatura->id = $conn->insert_id;
@@ -156,13 +164,16 @@ class Asignatura {
     {
         $result = false;
         $conn = Aplicacion::getInstance()->getConexionBd();
-        $query=sprintf("UPDATE Asignaturas A SET ciclo = '%d', curso='%d', grupo='%s' , 
-        nombre='%s', profesor='%d' WHERE A.Id='%d'"
+        $query=sprintf("UPDATE Asignaturas A SET Ciclo = '%d', Curso='%d', Grupo='%s' , 
+        Nombre='%s', Profesor='%d', Primero='%d', Segundo='%d', Tercero='%d' WHERE A.Id='%d'"
             , $conn->real_escape_string($asignatura->getCiclo())
             , $conn->real_escape_string($asignatura->getCurso())
             , $conn->real_escape_string($asignatura->getGrupo())
             , $conn->real_escape_string($asignatura->getNombre())
             , $conn->real_escape_string($asignatura->getIdProfesor())
+            , $conn->real_escape_string($asignatura->getPrimero())
+            , $conn->real_escape_string($asignatura->getSegundo())
+            , $conn->real_escape_string($asignatura->getTercero())
             , $conn->real_escape_string($asignatura->getId())
         );
         if ( $conn->query($query) ) {
@@ -220,26 +231,6 @@ class Asignatura {
         return true;
     }
 
-    public static function getAsignaturasCampus(){
-        $asignaturas=[];
-            
-        $conn = Aplicacion::getInstance()->getConexionBd();
-        $query = sprintf("SELECT Id FROM Asignaturas");
-        $rs = $conn->query($query);
-        if ($rs) {
-            $asignaturas = $rs->fetch_all(MYSQLI_ASSOC);
-            $rs->free();
-            if($asignaturas){
-                return $asignaturas;
-            }
-            else
-                return false;
-
-        } else {
-            error_log("Error BD ({$conn->errno}): {$conn->error}");
-        }
-        return false;
-    }
 
     private $id;
 
@@ -253,7 +244,13 @@ class Asignatura {
 
     private $idProfesor;
 
-    private function __construct($id=null, $ciclo, $curso, $grupo, $nombre, $idProfesor)
+    private $primero;
+
+    private $segundo;
+
+    private $tercero;
+
+    private function __construct($id=null, $ciclo, $curso, $grupo, $nombre, $idProfesor, $primero, $segundo, $tercero)
     {
         $this->id = $id;
         $this->ciclo = $ciclo;
@@ -261,6 +258,9 @@ class Asignatura {
         $this->grupo = $grupo;
         $this->nombre = $nombre;
         $this->idProfesor = $idProfesor;
+        $this->primero = $primero;
+        $this->segundo = $segundo;
+        $this->tercero = $tercero;
     }
 
     public function getId(){
@@ -285,6 +285,18 @@ class Asignatura {
 
     public function getIdProfesor(){
         return $this->idProfesor;
+    }
+
+    public function getPrimero(){
+        return $this->primero;
+    }
+
+    public function getSegundo(){
+        return $this->segundo;
+    }
+
+    public function getTercero(){
+        return $this->tercero;
     }
 
     public function guarda()

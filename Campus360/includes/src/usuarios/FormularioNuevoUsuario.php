@@ -8,7 +8,7 @@ use es\ucm\fdi\aw\Formulario;
 class FormularioNuevoUsuario extends Formulario
 {
     public function __construct() {
-        parent::__construct('formNuevoUsuario', ['urlRedireccion' => 'usuariosAdmin.php']);
+        parent::__construct('formNuevoUsuario');
     }
     
     protected function generaCamposFormulario(&$datos)
@@ -53,7 +53,7 @@ class FormularioNuevoUsuario extends Formulario
             <div>
                 <label for="telefono">telefono:</label>
                 <input id="telefono" type="tel" name="telefono" value="$telefono" />
-                {$erroresCampos['NIF']}
+                {$erroresCampos['telefono']}
             </div>    
             <div>
                 <label for="NIF">NIF:</label>
@@ -69,6 +69,7 @@ class FormularioNuevoUsuario extends Formulario
                 <label for="password2">Reintroduce la contraseña:</label>
                 <input id="password2" type="password" name="password2" />
                 {$erroresCampos['password2']}
+
                 <label for="selRol">Rol de usuario:</label>
                 <select id="selRol" name="rol">
                 <option value="2" selected>Alumno</option>
@@ -79,7 +80,7 @@ class FormularioNuevoUsuario extends Formulario
                 {$erroresCampos['rol']}
             </div>
             <div>
-                <button type="submit" name="registro">Registrar</button>
+                <button type="submit" name="registro" id="CrearUsuario">Registrar</button>
             </div>
         </fieldset>
         EOF;
@@ -148,20 +149,42 @@ class FormularioNuevoUsuario extends Formulario
 
         if (count($this->errores) === 0) {
             $usuario = Usuario::crea($emailUsuario, $password, $nombre, $apellidos ,$rol, $telefono, $NIF, $dir, null);
-            if ($usuario->getRol() == Usuario::ALUMNO_ROLE){
-                $app->redirige('creaAlumno.php?id='.$usuario->getId());
-            }
-            else if ($usuario->getRol() == Usuario::PROFE_ROLE){
-                $app->redirige('creaProfesor.php?id='.$usuario->getId());
-            }
-            else if ($usuario->getRol() == Usuario::PADRE_ROLE){
-                Padre::crea($usuario->getId());
-            }
-            else
-                $this->errores[] = "Error al crear el usuario";
             if (!$usuario) {
                 $this->errores[] = "Error al crear el usuario";
-            } 
+            }
+            else{
+                if ($usuario->getRol() == Usuario::ALUMNO_ROLE){
+                    //$_SESSION['idNuevoAlumno'] = $usuario->getId();
+                    ?>
+                    <form action="creaAlumno.php" method="post" id="datosCrearAlumno">
+                        <input type="hidden" name="id" value="<?=$usuario->getId()?>">
+                        <button type="submit"></button>
+                    </form>
+                    <script>
+                        document.getElementById('datosCrearAlumno').submit();
+                    </script>
+                    <?php
+                    //$app->redirige('creaAlumno.php');
+                }
+                else if ($usuario->getRol() == Usuario::PROFE_ROLE){
+                    ?>
+                    <form action="creaProfesor.php" method="post" id="datosCrearProfesor">
+                        <input type="hidden" name="id" value="<?=$usuario->getId()?>">
+                        <button type="submit"></button>
+                    </form>
+                    <script>
+                        document.getElementById('datosCrearProfesor').submit();
+                    </script>
+                    <?php
+                }
+                else if ($usuario->getRol() == Usuario::PADRE_ROLE){
+                    Padre::crea($usuario->getId());
+                    $app->redirige('usuariosAdmin.php');
+                }
+                else{
+                    $app->redirige('usuariosAdmin.php');
+                }
+            }
         }
     }
 }

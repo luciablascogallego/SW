@@ -7,12 +7,12 @@ use es\ucm\fdi\aw\Formulario;
 class FormularioEditaCiclo extends Formulario
 {
 
-    private $idCiclo;
+    private $ciclo;
 
-    public function __construct($idCiclo)
+    public function __construct($ciclo)
     {
         parent::__construct('formEditCiclo', ['urlRedireccion' => 'asignaturasAdmin.php']);
-        $this->idCiclo = $idCiclo;
+        $this->ciclo = $ciclo;
     }
 
     protected function generaCamposFormulario(&$datos)
@@ -21,8 +21,7 @@ class FormularioEditaCiclo extends Formulario
         $htmlErroresGlobales = self::generaListaErroresGlobales($this->errores);
         $erroresCampos = self::generaErroresCampos(['nombre'], $this->errores, 'span', array('class' => 'error'));
 
-        $ciclo = Ciclo::buscaPorId($this->idCiclo);
-        $nombre = $ciclo->getNombre();
+        $nombre = $this->ciclo->getNombre();
         
         $html = <<<EOS
         $htmlErroresGlobales
@@ -33,6 +32,7 @@ class FormularioEditaCiclo extends Formulario
             <input type="text" name="nombre" value="$nombre" required>
             {$erroresCampos['nombre']}
             </div>
+            <input type="hidden" name="id" value="{$this->ciclo->getId()}">
             <button type="submit">Editar</button>
         </fieldset>
         EOS;
@@ -52,7 +52,7 @@ class FormularioEditaCiclo extends Formulario
 
         //Crea un objeto ciclo
         if (count($this->errores) === 0) {
-            Ciclo::crea($nombre, $this->idCiclo);
+            Ciclo::crea($nombre, $this->ciclo->getId());
         }
     }
 }

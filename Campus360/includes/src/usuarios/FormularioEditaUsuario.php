@@ -13,7 +13,7 @@ class FormularioEditaUsuario extends Formulario
     private $idUsuario;
 
     public function __construct($idUsuario) {
-        parent::__construct('formEditaUsuario', ['urlRedireccion' => 'usuariosAdmin.php']);
+        parent::__construct('formEditaUsuario');
         $this->idUsuario = $idUsuario;
     }
     
@@ -119,6 +119,7 @@ class FormularioEditaUsuario extends Formulario
                     </select>
                     {$erroresCampos['rol']}
                     <div>
+                    <input type="hidden" name="id" value="$this->idUsuario">
                     <button type="submit" name="registro">Editar</button>
                     </div>
                     </fieldset>
@@ -176,28 +177,49 @@ class FormularioEditaUsuario extends Formulario
             $antiguoRol = $usuario->getRol();
             $usuario = Usuario::crea($emailUsuario, $password, $nombre, $apellidos ,$rol, $telefono, $NIF, $dir, $this->idUsuario);
 
-            if ($antiguoRol == Usuario::ALUMNO_ROLE && $antiguoRol != $rol){
-                Alumno::borraPorId($this->idUsuario);
-            }
-            else if ($antiguoRol == Usuario::PADRE_ROLE && $antiguoRol != $rol){
-                Padre::borraPorId($this->idUsuario);
-            }
-            else if ($antiguoRol == Usuario::PROFE_ROLE && $antiguoRol != $rol){
-                Profesor::borraPorId($this->idUsuario);
-            }
-
-            if ($usuario->getRol() == Usuario::ALUMNO_ROLE){
-                $app->redirige('editaAlumno.php?id='.$usuario->getId());
-            }
-            else if ($usuario->getRol() == Usuario::PROFE_ROLE){
-                $app->redirige('editaProfesor.php?id='.$usuario->getId());
-            }
-            else if ($usuario->getRol() == Usuario::PADRE_ROLE){
-                Padre::crea($usuario->getId());
-            }
             if (!$usuario) {
                 $this->errores[] = "Error al crear el usuario";
             } 
+            else{
+                if ($antiguoRol == Usuario::ALUMNO_ROLE && $antiguoRol != $rol){
+                    Alumno::borraPorId($this->idUsuario);
+                }
+                else if ($antiguoRol == Usuario::PADRE_ROLE && $antiguoRol != $rol){
+                    Padre::borraPorId($this->idUsuario);
+                }
+                else if ($antiguoRol == Usuario::PROFE_ROLE && $antiguoRol != $rol){
+                    Profesor::borraPorId($this->idUsuario);
+                }
+
+                if ($usuario->getRol() == Usuario::ALUMNO_ROLE){
+                    ?>
+                    <form action="editaAlumno.php" method="post" id="datosEditarAlumno">
+                        <input type="hidden" name="id" value="<?=$usuario->getId()?>">
+                        <button type="submit"></button>
+                    </form>
+                    <script>
+                        document.getElementById('datosEditarAlumno').submit();
+                    </script>
+                    <?php
+                }
+                else if ($usuario->getRol() == Usuario::PROFE_ROLE){
+                    ?>
+                    <form action="editaProfesor.php" method="post" id="datosEditarProfesor">
+                        <input type="hidden" name="id" value="<?=$usuario->getId()?>">
+                        <button type="submit"></button>
+                    </form>
+                    <script>
+                        document.getElementById('datosEditarProfesor').submit();
+                    </script>
+                    <?php
+                }
+                else if ($usuario->getRol() == Usuario::PADRE_ROLE){
+                    Padre::crea($usuario->getId());
+                    $app->redirige('usuariosAdmin.php');
+                }
+                else
+                    $app->redirige('usuariosAdmin.php');
+            }
         }
     }
 }
