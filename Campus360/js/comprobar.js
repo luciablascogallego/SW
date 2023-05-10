@@ -15,7 +15,7 @@ $(document).ready(function () {
         }
         else {
             $("#correo-error").text("");
-            $("#estado").remove();
+            $("#estado").replaceWith('<img src="includes/src/img/ok.png" alt="estado" id="estado"/>');;
             $("#emailUsuario").removeClass('error');
 
         }
@@ -35,7 +35,7 @@ $(document).ready(function () {
     $("#nombre").change(function () {
         if ($("#nombre").val().length < 2) {
             $("#nombre").addClass('error');
-            $("#nombre-error").text("*nombre debe tener longitud mayor de 2");
+            $("#nombre-error").text("*nombre debe tener longitud igual o mayor de 2");
         }
         else {
             $("#nombre-error").text("");
@@ -46,7 +46,7 @@ $(document).ready(function () {
     $("#apellidos").change(function () {
         if ($("#apellidos").val().length < 7) {
             $("#apellidos").addClass('error');
-            $("#apellidos-error").text("*apellidos longitud mayor de 7");
+            $("#apellidos-error").text("*apellidos longitud mayor o igual de 7");
 
         }
         else {
@@ -57,11 +57,11 @@ $(document).ready(function () {
     });
     $("#telefono").change(function () {
         var telefono = $("#telefono").val();
-        var regex = /^\+34/;
+        var regex = /^\+(?:[\d]{2}) (?:[\d]{9})$/;
 
         if (!regex.test(telefono)) {
             $("#telefono").addClass('error');
-            $("#telefono-error").text("*El teléfono debe comenzar con +34");
+            $("#telefono-error").text("*El teléfono debe comenzar con + prefijo de su país seguido de 9 números");
 
         } else {
             $("#telefono-error").text("");
@@ -72,7 +72,7 @@ $(document).ready(function () {
     ///////////////////////////////////////
     $("#formLogin").submit(function (event) {
         if ($("#password").val().length < 5) {
-            $("#password-error").text("La contraseña debe tener al menos 3 digitos");
+            $("#password-error").text("La contraseña debe tener al menos 5 digitos");
             $("#password").val("");
             $("#password").focus();
             event.preventDefault();
@@ -85,8 +85,18 @@ $(document).ready(function () {
     });
 
     $("#formNuevoUsuario").submit(function (event) {
-        var regex = /^\+34/;
-        if ($("#password").val().length < 3) {
+        var regex = /^\+(?:[\d]{2}) (?:[\d]{9})$/;
+        var telefono = $("#telefono").val();
+        if ($("#password").val() !== $("#password2").val()) {
+            $("#password").addClass('error');
+            $("#password2").addClass('error');
+            $("#password-error").text("*Las contraseñas no coinciden");
+            $("#password").val("");
+            $("#password2").val("");
+            $("#password").focus();
+            event.preventDefault();
+        }
+        else if ($("#password").val().length < 5) {
             $("#password-error").text("La contraseña debe tener al menos 3 digitos");
             $("#password").val("");
             $("#password2").val("");
@@ -103,7 +113,7 @@ $(document).ready(function () {
             $("#emailUsuario").focus();
             event.preventDefault();
         }
-        if (!regex.test("#telefono")) {
+        if (!regex.test(telefono)) {
             $("#telefono-error").text("*El teléfono debe comenzar con +34");
             $("#telefono").val("");
             $("#telefono").focus();
@@ -113,30 +123,22 @@ $(document).ready(function () {
             $("#nif-error").text("*NIF debe tener longitud mayor de 7");
             $("#NIF").val("");
             $("#NIF").focus();
+            event.preventDefault();
         } else if ($("#apellidos").val().length < 7) {
-            $("#apellidos-error").text("*apellidos longitud mayor de 7");
+            $("#apellidos-error").text("*apellidos longitud de al menos 7");
             $("#apellidos").val("");
             $("#apellidos").focus();
+            event.preventDefault();
         } else if ($("#nombre").val().length < 2) {
-            $("#nombre-error").text("*nombre debe tener longitud mayor de 2");
+            $("#nombre-error").text("*nombre debe tener longitud mayor o igual a 2");
             $("#nombre").val("");
             $("#nombre").focus();
-        } else if ($(".required").val().length === 0) {
-            alert("No puede haber ningun campo vacio");
             event.preventDefault();
         }
     });
     $("#formEditaUsuario").submit(function (event) {
-        var regex = /^\+34/;
-        if ($("#password").val().length < 3) {
-            $("#password-error").text("La contraseña debe tener al menos 5 digitos");
-            $("#password").val("");
-            $("#password2").val("");
-            $("#password").focus();
-            event.preventDefault();
-        } else {
-            $("#password-error").text("");
-        }
+        var regex = /^\+(?:[\d]{2}) (?:[\d]{9})$/;
+        var telefono = $("#telefono").val();
         if (correoValido($("#emailUsuario").val())) {
             $("#correo-error").text("");
         } else {
@@ -145,7 +147,7 @@ $(document).ready(function () {
             $("#emailUsuario").focus();
             event.preventDefault();
         }
-        if (!regex.test("#telefono")) {
+        if (!regex.test(telefono)) {
             $("#telefono-error").text("*El teléfono debe comenzar con +34");
             $("#telefono").val("");
             $("#telefono").focus();
@@ -155,18 +157,30 @@ $(document).ready(function () {
             $("#nif-error").text("*NIF debe tener longitud mayor de 7");
             $("#NIF").val("");
             $("#NIF").focus();
+            event.preventDefault();
         } else if ($("#apellidos").val().length < 7) {
-            $("#apellidos-error").text("*apellidos longitud mayor de 7");
+            $("#apellidos-error").text("*apellidos longitud de al menos 7");
             $("#apellidos").val("");
             $("#apellidos").focus();
+            event.preventDefault();
         } else if ($("#nombre").val().length < 2) {
-            $("#nombre-error").text("*nombre debe tener longitud mayor de 2");
+            $("#nombre-error").text("*nombre debe tener longitud mayor o igual a 2");
             $("#nombre").val("");
             $("#nombre").focus();
+            event.preventDefault();
         }
     });
     $("#formNewPass").submit(function (event) {
-        if ($("#password").val().length < 5) {
+        if ($("#password").val() !== $("#password2").val()) {
+            $("#password").addClass('error');
+            $("#password2").addClass('error');
+            $("#password-error").text("*Las contraseñas no coinciden");
+            $("#password").val("");
+            $("#password2").val("");
+            $("#password").focus();
+            event.preventDefault();
+        }
+        else if ($("#password").val().length < 5) {
             $("#password-error").text("La contraseña debe tener al menos 5 dígitos");
             $("#password").val("");
             $("#password2").val("");
@@ -176,7 +190,6 @@ $(document).ready(function () {
         } else {
             $("#password-error").text("");
             $("#password").removeClass('error');
-
         }
     });
 });

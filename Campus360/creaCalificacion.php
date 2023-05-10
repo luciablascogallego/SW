@@ -4,8 +4,8 @@ require_once __DIR__.'/includes/config.php';
 
 use \es\ucm\fdi\aw\Calificaciones\Calificacion;
 
-$idAlu = $_POST['id'];
-$idAsig = $_POST['id2'];
+$idAsig = $_POST['id'];
+$idAlu = $_POST['id2'];
 
 
 $formNuevaCalificacion = new \es\ucm\fdi\aw\Calificaciones\FormularioNuevaCalificacion($idAsig, $idAlu);

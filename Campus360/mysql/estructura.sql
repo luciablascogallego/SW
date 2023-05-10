@@ -15,12 +15,14 @@ DROP TABLE IF EXISTS `RolesUsuarios`;
 DROP TABLE IF EXISTS `EntregasAlumno`;
 DROP TABLE IF EXISTS `Recursos`;
 DROP TABLE IF EXISTS `Ciclos`;
+DROP TABLE IF EXISTS `MensajeForo`;
+DROP TABLE IF EXISTS `MensajePrivado`;
 -- phpMyAdmin SQL Dump
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 13, 2023 at 09:28 AM
+-- Generation Time: May 10, 2023 at 04:51 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -61,7 +63,10 @@ CREATE TABLE `Asignaturas` (
   `Profesor` int(11) NOT NULL,
   `Ciclo` int(11) NOT NULL,
   `Curso` tinyint(4) NOT NULL,
-  `Id` int(11) NOT NULL
+  `Id` int(11) NOT NULL,
+  `Primero` int(11) NOT NULL,
+  `Segundo` int(11) NOT NULL,
+  `Tercero` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -73,9 +78,13 @@ CREATE TABLE `Asignaturas` (
 CREATE TABLE `Calificaciones` (
   `IdAlumno` int(11) NOT NULL,
   `IdAsignatura` int(11) NOT NULL,
-  `Nota` decimal(10,0) DEFAULT NULL,
-  `IdEntrega` int(11) NOT NULL,
-  `Porcentaje` decimal(10,0) NOT NULL
+  `Nota` decimal(10,2) DEFAULT NULL,
+  `IdEntrega` int(11) DEFAULT NULL,
+  `Porcentaje` decimal(10,0) NOT NULL,
+  `Id` int(11) NOT NULL,
+  `Trimestre` tinyint(4) NOT NULL,
+  `Nombre` varchar(40) NOT NULL,
+  `Comentario` varchar(400) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -101,7 +110,7 @@ CREATE TABLE `EntregasAlumno` (
   `IdAlumno` int(11) NOT NULL,
   `Ruta` varchar(150) NOT NULL,
   `idEntrega` int(11) NOT NULL,
-  `nombre` varchar(20) NOT NULL
+  `nombre` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -125,10 +134,39 @@ CREATE TABLE `Eventos_Tareas` (
   `Id` int(11) NOT NULL,
   `FechaFin` date NOT NULL,
   `IdAsignatura` int(11) NOT NULL,
-  `nombre` varchar(20) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
   `descripcion` varchar(200) NOT NULL,
   `esentrega` tinyint(1) NOT NULL,
   `HoraFin` time NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `MensajeForo`
+--
+
+CREATE TABLE `MensajeForo` (
+  `id` int(11) NOT NULL,
+  `idAutor` int(11) NOT NULL,
+  `idAsignatura` int(11) NOT NULL,
+  `mensaje` varchar(1024) NOT NULL,
+  `autor` varchar(40) NOT NULL,
+  `fecha` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `MensajePrivado`
+--
+
+CREATE TABLE `MensajePrivado` (
+  `id` int(11) NOT NULL,
+  `idAutor` int(11) NOT NULL,
+  `idRemitente` int(11) NOT NULL,
+  `mensaje` varchar(1024) NOT NULL,
+  `fecha` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -194,9 +232,6 @@ CREATE TABLE `Usuarios` (
   `password` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Indexes for dumped tables
---
 
 --
 -- Indexes for table `Alumnos`
@@ -217,9 +252,10 @@ ALTER TABLE `Asignaturas`
 -- Indexes for table `Calificaciones`
 --
 ALTER TABLE `Calificaciones`
-  ADD PRIMARY KEY (`IdEntrega`,`IdAlumno`) USING BTREE,
+  ADD PRIMARY KEY (`Id`),
   ADD KEY `IdAlumno` (`IdAlumno`),
-  ADD KEY `IdAsignatura` (`IdAsignatura`);
+  ADD KEY `IdAsignatura` (`IdAsignatura`),
+  ADD KEY `Calificaciones_ibfk_3` (`IdEntrega`);
 
 --
 -- Indexes for table `Ciclos`
@@ -250,6 +286,22 @@ ALTER TABLE `EstudianAsignaturas`
 ALTER TABLE `Eventos_Tareas`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `IdAsignatura` (`IdAsignatura`);
+
+--
+-- Indexes for table `MensajeForo`
+--
+ALTER TABLE `MensajeForo`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idAutor` (`idAutor`),
+  ADD KEY `idAsignatura` (`idAsignatura`);
+
+--
+-- Indexes for table `MensajePrivado`
+--
+ALTER TABLE `MensajePrivado`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idAutor` (`idAutor`),
+  ADD KEY `idRemitente` (`idRemitente`);
 
 --
 -- Indexes for table `Padres`
@@ -292,37 +344,55 @@ ALTER TABLE `Usuarios`
 -- AUTO_INCREMENT for table `Asignaturas`
 --
 ALTER TABLE `Asignaturas`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT for table `Calificaciones`
+--
+ALTER TABLE `Calificaciones`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `Ciclos`
 --
 ALTER TABLE `Ciclos`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `EntregasAlumno`
 --
 ALTER TABLE `EntregasAlumno`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `Eventos_Tareas`
 --
 ALTER TABLE `Eventos_Tareas`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `MensajeForo`
+--
+ALTER TABLE `MensajeForo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `MensajePrivado`
+--
+ALTER TABLE `MensajePrivado`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `Recursos`
 --
 ALTER TABLE `Recursos`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `Usuarios`
 --
 ALTER TABLE `Usuarios`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
 -- Constraints for dumped tables
@@ -332,8 +402,8 @@ ALTER TABLE `Usuarios`
 -- Constraints for table `Alumnos`
 --
 ALTER TABLE `Alumnos`
-  ADD CONSTRAINT `Alumnos_ibfk_1` FOREIGN KEY (`IdAlumno`) REFERENCES `Usuarios` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `Alumnos_ibfk_2` FOREIGN KEY (`IdPadre`) REFERENCES `Padres` (`IdPadre`) ON DELETE SET NULL ON UPDATE SET NULL;
+  ADD CONSTRAINT `Alumnos_ibfk_1` FOREIGN KEY (`IdAlumno`) REFERENCES `Usuarios` (`Id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `Alumnos_ibfk_2` FOREIGN KEY (`IdPadre`) REFERENCES `Padres` (`IdPadre`) ON DELETE SET NULL ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `Asignaturas`
@@ -341,6 +411,14 @@ ALTER TABLE `Alumnos`
 ALTER TABLE `Asignaturas`
   ADD CONSTRAINT `Asignaturas_ibfk_1` FOREIGN KEY (`Profesor`) REFERENCES `Profesores` (`IdProfesor`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `Asignaturas_ibfk_2` FOREIGN KEY (`Ciclo`) REFERENCES `Ciclos` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `Calificaciones`
+--
+ALTER TABLE `Calificaciones`
+  ADD CONSTRAINT `Calificaciones_ibfk_1` FOREIGN KEY (`IdAlumno`) REFERENCES `Alumnos` (`IdAlumno`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `Calificaciones_ibfk_2` FOREIGN KEY (`IdAsignatura`) REFERENCES `Asignaturas` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `Calificaciones_ibfk_3` FOREIGN KEY (`IdEntrega`) REFERENCES `Eventos_Tareas` (`Id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `EntregasAlumno`
@@ -362,6 +440,20 @@ ALTER TABLE `EstudianAsignaturas`
 --
 ALTER TABLE `Eventos_Tareas`
   ADD CONSTRAINT `Eventos_Tareas_ibfk_1` FOREIGN KEY (`IdAsignatura`) REFERENCES `Asignaturas` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `MensajeForo`
+--
+ALTER TABLE `MensajeForo`
+  ADD CONSTRAINT `MensajeForo_ibfk_1` FOREIGN KEY (`idAutor`) REFERENCES `Usuarios` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `MensajeForo_ibfk_2` FOREIGN KEY (`idAsignatura`) REFERENCES `Asignaturas` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `MensajePrivado`
+--
+ALTER TABLE `MensajePrivado`
+  ADD CONSTRAINT `MensajePrivado_ibfk_1` FOREIGN KEY (`idAutor`) REFERENCES `Usuarios` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `MensajePrivado_ibfk_2` FOREIGN KEY (`idRemitente`) REFERENCES `Usuarios` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Padres`

@@ -29,7 +29,7 @@ $(document).ready(function(){
             }
         }
         else if ($(this).is("#crearCalificacion")){
-            $.redirectPost("creaCalificacion.php",  { "id": idAlu, "id2": idAsig});
+            $.redirectPost("creaCalificacion.php",  { "id": idAsig, "id2": idAlu});
         }
     });
 

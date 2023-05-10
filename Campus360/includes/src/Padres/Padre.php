@@ -29,6 +29,7 @@ class Padre {
         $padre = new Padre($idPadre);
         self::inserta($padre);
 
+
         return $padre;
     }
 
@@ -46,6 +47,7 @@ class Padre {
         }
         return $result;
     }
+
    
     public static function borraPorId($idUsuario)
     {

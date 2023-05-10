@@ -13,7 +13,7 @@ class FormularioNuevaCalificacion extends Formulario
 
     public function __construct($idAsignatura, $idAlumno)
     {
-        parent::__construct('formNewCalif', ['urlRedireccion' => 'calificacionAsignatura.php?id='.$idAsignatura.'&id_alu='.$idAlumno]);
+        parent::__construct('formNewCalif', ['urlRedireccion' => 'calificacionAsignatura.php?id='.$idAsignatura.'&id2='.$idAlumno]);
         $this->idAsignatura = $idAsignatura;
         $this->idAlumno = $idAlumno;
     }

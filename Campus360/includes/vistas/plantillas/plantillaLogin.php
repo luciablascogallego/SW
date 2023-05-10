@@ -1,6 +1,5 @@
 <?php
 $params['app']->doInclude('/vistas/helpers/plantilla.php');
-$mensajes = mensajesPeticionAnterior();
 ?>
 <!DOCTYPE html>
 <html>
@@ -12,7 +11,6 @@ $mensajes = mensajesPeticionAnterior();
 	<script type="text/javascript" src="<?= $params['app']->resuelve('/js/comprobar.js')?>" > </script></head>
 	
 <body>
-<?= $mensajes ?>
 <div id="contenedor">
 
 <header>

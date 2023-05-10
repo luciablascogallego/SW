@@ -27,7 +27,7 @@ function mostrarSaludo()
  
 ?>
 <header>
-<img class="header-img" src="includes/src/img/Logo.png" alt="Icono Campus"> 
+<img class="header-img" src="img/Logo.png" alt="Icono Campus"> 
     <h1> 
         Campus 360 
     </h1>

@@ -138,6 +138,27 @@ class Asignatura {
         return $result;
     }
 
+    public static function getAsignaturasCampus(){
+        $asignaturas=[];
+
+        $conn = Aplicacion::getInstance()->getConexionBd();
+        $query = sprintf("SELECT Id FROM Asignaturas");
+        $rs = $conn->query($query);
+        if ($rs) {
+            $asignaturas = $rs->fetch_all(MYSQLI_ASSOC);
+            $rs->free();
+            if($asignaturas){
+                return $asignaturas;
+            }
+            else
+                return false;
+
+        } else {
+            error_log("Error BD ({$conn->errno}): {$conn->error}");
+        }
+        return false;
+    }
+
     private static function inserta($asignatura)
     {
         $result = false;

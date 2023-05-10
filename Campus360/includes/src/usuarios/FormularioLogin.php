@@ -23,17 +23,21 @@ class FormularioLogin extends Formulario
         $html = <<<EOF
         $htmlErroresGlobales
 
-        <img class="login-img" src="includes/src/img/Logo.png" alt="Icono Campus"> 
+        <img class="login-img" src="img/Logo.png" alt="Icono Campus"> 
         <fieldset id="login-fieldset">
             <legend>Usuario y contraseña</legend>
             <div>
                 <label for="email">Email: </label>
                 <input id="emailUsuario" type="email" name="emailUsuario" value="$emailUsuario" />
+                <img src="" id="estado"/>
+                <span class="error" id="correo-error"></span>
                 {$erroresCampos['emailUsuario']}
             </div>
             <div>
                 <label for="password">Contraseña:</label>
                 <input id="password" type="password" name="password" />
+                <img src="" id="estado1"/>
+                <span class="error" id="password-error"></span>
                 {$erroresCampos['password']}
             </div>
             <div>

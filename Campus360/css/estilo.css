@@ -2,6 +2,16 @@
 	box-sizing: border-box;
 }
 
+[id$="-error"] {
+	color: red;
+
+}
+
+input.error {
+	border: 2px solid red;
+	background-color: #ffc9c9;
+}
+
 .container {
 	display: flex;
 	flex-direction: row;
@@ -118,7 +128,7 @@ main {
 	width: 70%;
 	background-color: white;
 	position: relative;
-	background-image: url(/SW/Campus360/includes/src/img/Logofondo.png);
+	background-image: url(/SW/Campus360/img/Logofondo.png);
 	background-size: cover;
 	background-position: center;
 }
@@ -186,7 +196,7 @@ fieldset li {
 	border: 1px solid #59a9ff;
 	margin: 0 auto;
 	width: 30%;
-	height: 170px;
+	
 	background-color: whitesmoke;
 
 }
@@ -381,10 +391,13 @@ a.deshabilitado {
 	transition: background-color 0.2s ease;
 }
 
-.botonAsignaturas:active, .botonUsuarios:active {
+.botonAsignaturas:active,
+.botonUsuarios:active {
 	transform: scale(0.95);
+	/* Aplicar escala al 95% cuando se presiona */
 	background-color: rgb(43, 200, 205);
-  }
+	/* Cambiar el color de fondo al rojo */
+}
 
 .formC {
 	display: flex;

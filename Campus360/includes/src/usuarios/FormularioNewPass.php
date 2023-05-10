@@ -25,11 +25,13 @@ class FormularioNewPass extends Formulario
             <div>
                 <label for="emailUsuario">email del usuario:</label>
                 <input id="emailUsuario" type="email" name="emailUsuario" value="$emailUsuario" />
+                <span class="error" id="correo-error"></span>
                 {$erroresCampos['emailUsuario']}
             </div>
             <div>
                 <label for="password">Nueva contraseña:</label>
-                <input id="password" type="password" name="password" />
+                <input id="password" type="password" name="password"/>
+                <span class="error" id="password-error"></span>
                 {$erroresCampos['password']}
             </div>
             <div>
