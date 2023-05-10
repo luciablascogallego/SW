@@ -75,6 +75,7 @@ class FormularioEditaUsuario extends Formulario
             <div>
                 <label for="NIF">NIF:</label>
                 <input id="NIF" type="text" name="NIF" value="$NIF" />
+                <span class="error" id="nif-error"></span>
                 {$erroresCampos['NIF']}
             </div>
                 <label for="selRol">Rol de usuario:</label>
