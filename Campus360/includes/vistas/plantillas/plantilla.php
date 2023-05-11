@@ -9,6 +9,7 @@ $params['app']->doInclude('/vistas/helpers/plantilla.php');
     <title><?= $params['tituloPagina'] ?></title>
 	<link rel="stylesheet" href="css/calendar.css">
 	<link rel="stylesheet" type="text/css" href="<?= $params['app']->resuelve('/css/estilo.css') ?>" />
+	<link rel="icon" type="image/x-icon" href="img/Favicon.png">
 	<script type="text/javascript" src="<?= $params['app']->resuelve('/js/jquery-3.6.4.min.js')?>" > </script>
 	<script type="text/javascript" src="<?= $params['app']->resuelve('/js/enviosPostFormularios.js')?>" > </script>
 	<script type="text/javascript" src="<?= $params['app']->resuelve('/js/comprobar.js')?>" > </script>

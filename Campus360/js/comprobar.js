@@ -8,14 +8,14 @@ $(document).ready(function () {
 
         if (!correoValido($("#emailUsuario").val())) {
             const $img2 = $("#estado");
-            $img2.replaceWith('<img src="includes/src/img/no.png" alt="estado" id="estado"/>');
+            $img2.replaceWith('<img src="img/no.png" alt="estado" id="estado"/>');
             $("#correo-error").text("*@campus.es");
             $("#emailUsuario").addClass('error');
 
         }
         else {
             $("#correo-error").text("");
-            $("#estado").replaceWith('<img src="includes/src/img/ok.png" alt="estado" id="estado"/>');;
+            $("#estado").replaceWith('<img src="img/ok.png" alt="estado" id="estado"/>');;
             $("#emailUsuario").removeClass('error');
 
         }
