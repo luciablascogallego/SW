@@ -22,8 +22,8 @@ $(document).ready(function () {
     });
     $("#NIF").change(function () {
 
-        if ($("#NIF").val().length < 7) {
-            $("#nif-error").text("*NIF debe tener longitud mayor de 7");
+        if ($("#NIF").val().length != 9) {
+            $("#nif-error").text("*NIF debe tener longitud de 9");
             $("#NIF").addClass('error');
 
         }
@@ -61,7 +61,7 @@ $(document).ready(function () {
 
         if (!regex.test(telefono)) {
             $("#telefono").addClass('error');
-            $("#telefono-error").text("*El teléfono debe comenzar con + prefijo de su país seguido de 9 números");
+            $("#telefono-error").text("*El teléfono debe comenzar con + prefijo de su país un espacio seguido de 9 números");
 
         } else {
             $("#telefono-error").text("");
@@ -114,13 +114,13 @@ $(document).ready(function () {
             event.preventDefault();
         }
         if (!regex.test(telefono)) {
-            $("#telefono-error").text("*El teléfono debe comenzar con +34");
+            $("#telefono-error").text("*El teléfono debe comenzar con + prefijo de su país un espacio seguido de 9 números");
             $("#telefono").val("");
             $("#telefono").focus();
             event.preventDefault();
         }
-        else if ($("#NIF").val().length < 7) {
-            $("#nif-error").text("*NIF debe tener longitud mayor de 7");
+        else if ($("#NIF").val().length != 9) {
+            $("#nif-error").text("*NIF debe tener longitud de 9");
             $("#NIF").val("");
             $("#NIF").focus();
             event.preventDefault();
@@ -148,13 +148,13 @@ $(document).ready(function () {
             event.preventDefault();
         }
         if (!regex.test(telefono)) {
-            $("#telefono-error").text("*El teléfono debe comenzar con +34");
+            $("#telefono-error").text("*El teléfono debe comenzar con + prefijo de su país un espacio seguido de 9 números");
             $("#telefono").val("");
             $("#telefono").focus();
             event.preventDefault();
         }
-        else if ($("#NIF").val().length < 7) {
-            $("#nif-error").text("*NIF debe tener longitud mayor de 7");
+        else if ($("#NIF").val().length != 9) {
+            $("#nif-error").text("*NIF debe tener longitud de 9");
             $("#NIF").val("");
             $("#NIF").focus();
             event.preventDefault();

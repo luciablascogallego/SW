@@ -43,7 +43,10 @@ $(document).ready(function(){
             if(ok){
                 $.post('eliminaUsuario.php', 
                 { "id": value}, function(response, status){
-                            $("#gestionUsuarios").html(response);
+                            if(response == 'logout')
+                                window.location.replace("login.php");
+                            else
+                                $("#gestionUsuarios").html(response);
                 })
             }
         }

@@ -160,7 +160,6 @@ class FormularioNuevoUsuario extends Formulario
             }
             else{
                 if ($usuario->getRol() == Usuario::ALUMNO_ROLE){
-                    //$_SESSION['idNuevoAlumno'] = $usuario->getId();
                     ?>
                     <form action="creaAlumno.php" method="post" id="datosCrearAlumno">
                         <input type="hidden" name="id" value="<?=$usuario->getId()?>">
@@ -170,7 +169,6 @@ class FormularioNuevoUsuario extends Formulario
                         document.getElementById('datosCrearAlumno').submit();
                     </script>
                     <?php
-                    //$app->redirige('creaAlumno.php');
                 }
                 else if ($usuario->getRol() == Usuario::PROFE_ROLE){
                     ?>
