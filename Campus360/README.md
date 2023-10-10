@@ -1,2 +1,2 @@
-# LEEME #
-Se han implementado unicamente las dos primeras funcionalidades, gestion de recursos y la gestion de recursos en un curso. Tambien se ha incluido CSS.
+# README #
+Proyecto para la asignatura de SW, campus virtual con funciones de calificaciones, entregas y subida de material, gestión de usuarios asignaturas y cursos; y mensajes con otros usuarios.
